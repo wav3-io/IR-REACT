@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IR Navigator — PICERL</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── THEME TOKENS ── */
+    :root[data-theme="dark"] {
+      --bg:          #0e0e18;
+      --bg2:         #141424;
+      --bg3:         #1a1a2e;
+      --surface:     #1e1e32;
+      --surface2:    #252540;
+      --border:      #2e2e50;
+      --border2:     #3a3a60;
+      --text:        #e8e8f0;
+      --text2:       #a0a0c0;
+      --text3:       #666688;
+      --text4:       #444460;
+      --accent:      #7c6ff7;
+      --accent2:     #a29bfe;
+      --danger:      #e94560;
+      --header-bg:   #111120;
+      --modal-bg:    #141428;
+      --modal-border:#2e2e5e;
+      --input-bg:    #0c0c1e;
+      --input-border:#252545;
+      --scrollbar:   #2e2e50;
+      --cell-bg:     #161628;
+      --cell-border: #252545;
+      --dim-opacity: 0.18;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,.4);
+      --shadow-md:   0 4px 20px rgba(0,0,0,.5);
+    }
+    :root[data-theme="light"] {
+      --bg:          #f0f0f8;
+      --bg2:         #e8e8f4;
+      --bg3:         #dfe0ef;
+      --surface:     #ffffff;
+      --surface2:    #f5f5fc;
+      --border:      #c8c8e0;
+      --border2:     #b0b0d0;
+      --text:        #1a1a2e;
+      --text2:       #4a4a6a;
+      --text3:       #7070a0;
+      --text4:       #a0a0c0;
+      --accent:      #5b4fd4;
+      --accent2:     #7c6ff7;
+      --danger:      #d63050;
+      --header-bg:   #ffffff;
+      --modal-bg:    #ffffff;
+      --modal-border:#c8c8e0;
+      --input-bg:    #f5f5fc;
+      --input-border:#c0c0da;
+      --scrollbar:   #c0c0da;
+      --cell-bg:     #ffffff;
+      --cell-border: #d0d0e8;
+      --dim-opacity: 0.22;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,.08);
+      --shadow-md:   0 4px 20px rgba(0,0,0,.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body { background: var(--bg); font-family: 'DM Mono', monospace; color: var(--text); overflow: hidden; transition: background .25s, color .25s; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 3px; }
+
+    /* Action cells */
+    .tech-cell { transition: transform .12s ease, box-shadow .12s ease, opacity .2s ease !important; }
+    .tech-cell:hover { transform: translateY(-2px) !important; }
+    .tech-cell.dimmed { opacity: var(--dim-opacity) !important; }
+    .tech-cell.dimmed.view-mode-dim { pointer-events: none; }
+    .tech-cell.in-playbook { outline: 2px solid var(--pb-color,#7c6ff7) !important; outline-offset: 2px; }
+    .tech-cell.in-playbook.view-mode { cursor: pointer !important; }
+    .tech-cell.edit-mode-cell { cursor: crosshair !important; }
+
+    .tactic-del { opacity: 0 !important; transition: opacity .18s !important; }
+    .tactic-wrap:hover .tactic-del { opacity: 1 !important; }
+    .tactic-header { transition: filter .15s !important; cursor: pointer; }
+    .tactic-header:hover { filter: brightness(1.15) !important; }
+
+    .tool-btn { transition: all .15s !important; }
+    .tool-btn:hover { background: var(--surface2) !important; border-color: var(--accent) !important; color: var(--accent2) !important; }
+
+    .cat-pill-wrap { transition: opacity .15s; }
+    .add-action-btn { transition: border-color .15s, color .15s; }
+
+    /* Playbook panel */
+    .pb-card { transition: border-color .18s ease, background .18s ease; }
+    .pb-tech-row { transition: background .12s; border-radius: 4px; }
+    .pb-tech-row:hover { background: var(--surface2) !important; }
+    .pb-tech-row.clickable:hover { background: var(--surface) !important; cursor: pointer; }
+    .mode-btn { transition: all .15s; }
+
+    /* Drag and drop */
+    .drag-row { user-select: none; border-top: 2px solid transparent; border-bottom: 2px solid transparent; transition: border-color .1s, opacity .15s; border-radius: 4px; }
+    .drag-row.dragging { opacity: 0.25; }
+    .drag-row.drop-above { border-top-color: var(--drop-color,#7c6ff7) !important; }
+    .drag-row.drop-below { border-bottom-color: var(--drop-color,#7c6ff7) !important; }
+    .drag-handle { cursor: grab; opacity: 0; transition: opacity .15s; flex-shrink: 0; display: flex; align-items: center; padding: 0 2px; }
+    .drag-row:hover .drag-handle { opacity: 0.45; }
+    .drag-handle:hover { opacity: 1 !important; }
+    .drag-handle:active { cursor: grabbing; }
+
+    /* Theme toggle */
+    .theme-toggle { transition: all .2s; }
+    .theme-toggle:hover { transform: scale(1.1); }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(6px); }
+    /* Details/summary chevron rotate on open */
+    details[open] summary svg { transform: rotate(90deg) !important; }
+    details summary::-webkit-details-marker { display: none; }
+    details summary { outline: none; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .rec-dot { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { animation: fadeIn .2s ease forwards; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+// Data is loaded from the GitHub folder structure via loadData() below
+
+const PB_COLORS = ["#e94560","#f6ad55","#68d391","#63b3ed","#b794f4","#81e6d9","#fc8181","#a29bfe","#fbd38d","#90cdf4"];
+
+// Dark-mode category colors (rich, saturated)
+const DEFAULT_CATEGORIES = [
+  { id:"",               label:"Uncategorized",  color:"#3a3a60", bg:"#1e1e38", text:"#8080b0"  },
+  { id:"general",       label:"General",         color:"#5a6478", bg:"#2a303e", text:"#a0b0c8"  },
+  { id:"network",       label:"Network",         color:"#2b6cb0", bg:"#1a365d", text:"#63b3ed"  },
+  { id:"email",         label:"Email",           color:"#6b46c1", bg:"#2d1f5e", text:"#b794f4"  },
+  { id:"file",          label:"File",            color:"#b7791f", bg:"#4a2e08", text:"#f6ad55"  },
+  { id:"process",       label:"Process",         color:"#276749", bg:"#143325", text:"#68d391"  },
+  { id:"configuration", label:"Configuration",   color:"#2c7a7b", bg:"#163838", text:"#81e6d9"  },
+  { id:"identity",      label:"Identity",        color:"#c53030", bg:"#4a1010", text:"#fc8181"  },
+];
+
+const TACTIC_ACCENTS_DARK = {
+  t1:{ from:"#0f2744", to:"#0a1828", border:"#1e4a7a", text:"#63b3ed" },
+  t2:{ from:"#1f1040", to:"#130a28", border:"#4a2a8c", text:"#b794f4" },
+  t3:{ from:"#3a1a08", to:"#220e03", border:"#7a3a10", text:"#f6ad55" },
+  t4:{ from:"#0f2a1a", to:"#081a0f", border:"#1e5a30", text:"#68d391" },
+  t5:{ from:"#0a1f30", to:"#050f1c", border:"#1a3f5c", text:"#90cdf4" },
+  t6:{ from:"#2a0f18", to:"#18080e", border:"#5c1f30", text:"#fc8181" },
+};
+const TACTIC_ACCENTS_LIGHT = {
+  t1:{ from:"#dbeafe", to:"#eff6ff", border:"#93c5fd", text:"#1d4ed8" },
+  t2:{ from:"#ede9fe", to:"#f5f3ff", border:"#a78bfa", text:"#5b21b6" },
+  t3:{ from:"#ffedd5", to:"#fff7ed", border:"#fdba74", text:"#c2410c" },
+  t4:{ from:"#dcfce7", to:"#f0fdf4", border:"#86efac", text:"#15803d" },
+  t5:{ from:"#e0f2fe", to:"#f0f9ff", border:"#7dd3fc", text:"#0369a1" },
+  t6:{ from:"#ffe4e6", to:"#fff1f2", border:"#fda4af", text:"#be123c" },
+};
+const DEF_ACCENT_DARK  = { from:"#1e1e4f", to:"#12122a", border:"#3e2e7e", text:"#c4b5fd" };
+const DEF_ACCENT_LIGHT = { from:"#ede9fe", to:"#f5f3ff", border:"#a78bfa", text:"#5b21b6" };
+
+function uid() { return Math.random().toString(36).slice(2,8); }
+function openLink(url) { if(url) window.open(url,"_blank","noopener,noreferrer"); }
+function dateStamp() {
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+}
+function exportHTML(matrix, name) {
+  // In the GitHub Pages version we export a JSON snapshot instead of an HTML file
+  const data = JSON.stringify({...matrix, name}, null, 2);
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(new Blob([data],{type:'application/json'}));
+  a.download = `ir-navigator-snapshot_${dateStamp()}.json`;
+  a.click();
+}
+
+// ── Theme-aware shared styles (functions so they re-derive on theme change) ──
+function getS(dark) {
+  return {
+    primary: { background:"linear-gradient(135deg,#6c5ce7,#a29bfe)",color:"#fff",border:"none",borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'DM Mono',monospace",letterSpacing:.5 },
+    ghost:   { background:"transparent",color:dark?"#888":"#555",border:`1px solid ${dark?"#3a3a60":"#c0c0da"}`,borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'DM Mono',monospace" },
+    input:   { width:"100%",background:dark?"#0c0c1e":"#f5f5fc",border:`1px solid ${dark?"#252545":"#c0c0da"}`,borderRadius:6,color:dark?"#e8e8f0":"#1a1a2e",padding:"8px 10px",fontSize:13,fontFamily:"'DM Mono',monospace",boxSizing:"border-box",outline:"none",display:"block" },
+    mbox:    { background:dark?"#141428":"#ffffff",border:`1px solid ${dark?"#2e2e5e":"#c8c8e0"}`,borderRadius:14,padding:32,width:460,maxWidth:"92vw",fontFamily:"'DM Mono',monospace",boxShadow:dark?"0 24px 60px rgba(0,0,0,.6)":"0 24px 60px rgba(0,0,0,.15)" },
+    ml:      { fontSize:10,color:dark?"#555":"#a0a0c0",letterSpacing:3,textTransform:"uppercase",marginBottom:10 },
+    ml2:     { fontSize:10,color:dark?"#666":"#9090b0",letterSpacing:2,marginBottom:6 },
+    note:    { fontSize:10,color:dark?"#444":"#b0b0cc",marginBottom:16 },
+    select:  { width:"100%",marginBottom:14,background:dark?"#0c0c1e":"#f5f5fc",border:`1px solid ${dark?"#252545":"#c0c0da"}`,borderRadius:6,color:dark?"#e8e8f0":"#1a1a2e",padding:"8px 10px",fontSize:13,fontFamily:"inherit",outline:"none" },
+  };
+}
+
+// ── SectionBlock — collapsible section with copy-to-clipboard button ──
+function SectionBlock({sec, dark}) {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy(e) {
+    e.stopPropagation();
+    if(!sec.body) return;
+    navigator.clipboard.writeText(sec.body).then(()=>{
+      setCopied(true);
+      setTimeout(()=>setCopied(false), 1800);
+    }).catch(()=>{
+      const ta = document.createElement('textarea');
+      ta.value = sec.body;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(()=>setCopied(false), 1800);
+    });
+  }
+
+  return (
+    <details style={{marginBottom:3}}>
+      <summary style={{fontSize:9,color:dark?"#7c6ff7":"#5b4fd4",cursor:"pointer",letterSpacing:.5,listStyle:"none",display:"flex",alignItems:"center",gap:4,userSelect:"none",padding:"2px 0"}}>
+        <svg width="7" height="7" viewBox="0 0 10 10" fill={dark?"#7c6ff7":"#5b4fd4"} style={{flexShrink:0,transition:"transform .15s"}}><polygon points="0,0 10,5 0,10"/></svg>
+        {sec.title||"Notes"}
+      </summary>
+      <div style={{marginTop:4,position:"relative",borderRadius:5,border:`1px solid ${dark?"#1e1e3a":"#e0e0f0"}`,overflow:"hidden"}}>
+        {sec.body&&(
+          <button
+            onClick={handleCopy}
+            title={copied?"Copied!":"Copy to clipboard"}
+            style={{
+              position:"absolute",top:5,right:5,
+              background:copied?(dark?"#1a3a1a":"#e6f7e6"):(dark?"#1a1a3a":"#ede9fe"),
+              border:`1px solid ${copied?(dark?"#276749":"#86efac"):(dark?"#3a3a6a":"#c4b5fd")}`,
+              borderRadius:4,padding:"2px 6px",cursor:"pointer",
+              fontSize:9,fontFamily:"inherit",
+              color:copied?(dark?"#68d391":"#15803d"):(dark?"#a29bfe":"#5b4fd4"),
+              display:"flex",alignItems:"center",gap:3,
+              transition:"all .2s",zIndex:1,
+            }}>
+            {copied
+              ? <><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied</>
+              : <><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/></svg> Copy</>
+            }
+          </button>
+        )}
+        <div style={{padding:"6px 8px",paddingRight:sec.body?"52px":"8px",background:dark?"#0c0c1e88":"#f0f0f888",fontSize:10,color:dark?"#a0a0c0":"#5050a0",lineHeight:1.6,whiteSpace:"pre-wrap",wordBreak:"break-word",minHeight:28}}>
+          {sec.body?sec.body:<span style={{opacity:.4,fontStyle:"italic"}}>empty</span>}
+        </div>
+      </div>
+    </details>
+  );
+}
+
+// ── Icons ──
+function LinkIcon({color="#555",size=11}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>;
+}
+function BookIcon({color="#888",size=13}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>;
+}
+function PlusIcon({color="#888",size=11}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>;
+}
+function PencilIcon({color="#888",size=11}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
+}
+function EyeIcon({color="#888",size=11}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>;
+}
+function ChevronIcon({color="#555",size=10,up=false}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{transform:up?"rotate(180deg)":"none",transition:"transform .2s"}}><polyline points="6 9 12 15 18 9"/></svg>;
+}
+function GripIcon({color="#888"}) {
+  return <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+    <circle cx="3" cy="3"  r="1.3" fill={color}/>
+    <circle cx="7" cy="3"  r="1.3" fill={color}/>
+    <circle cx="3" cy="7"  r="1.3" fill={color}/>
+    <circle cx="7" cy="7"  r="1.3" fill={color}/>
+    <circle cx="3" cy="11" r="1.3" fill={color}/>
+    <circle cx="7" cy="11" r="1.3" fill={color}/>
+  </svg>;
+}
+function SunIcon({color="#888",size=15}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>;
+}
+function MoonIcon({color="#888",size=15}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>;
+}
+function TagIcon({color="#888",size=12}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>;
+}
+
+// ── Modals ──
+function TacticEditModal({dark, onClose, tactic, onSave}) {
+  const S = getS(dark);
+  const [name,setName] = useState(tactic.name);
+  const [url,setUrl]   = useState(tactic.url||"");
+  return (
+    <div className="modal-overlay">
+      <div style={S.mbox}>
+        <div style={S.ml}>Edit Phase</div>
+        <h2 style={{color:dark?"#fff":"#1a1a2e",margin:"0 0 20px",fontSize:16,fontFamily:"'Space Grotesk',sans-serif"}}>{tactic.name}</h2>
+        <div style={S.ml2}>PHASE NAME</div>
+        <input value={name} onChange={e=>setName(e.target.value)} style={{...S.input,marginBottom:16}}/>
+        <div style={S.ml2}>REFERENCE URL</div>
+        <div style={{position:"relative"}}>
+          <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)"}}><LinkIcon color={dark?"#555":"#aaa"} size={12}/></span>
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://wiki.example.com/preparation" style={{...S.input,paddingLeft:28,marginBottom:4}}/>
+        </div>
+        <div style={{...S.note,marginBottom:20}}>Clicking the phase header will open this URL in a new tab.</div>
+        <div style={{display:"flex",gap:10,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={S.ghost}>Cancel</button>
+          <button onClick={()=>onSave({name:name.trim()||tactic.name,url:url.trim()})} style={S.primary}>Save</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CellModal({dark, tech, onClose, onSave, categories}) {
+  const S = getS(dark);
+  const [category,setCategory]       = useState(tech.category||"");
+  const [url,setUrl]                 = useState(tech.url||"");
+  const [description,setDescription] = useState(tech.description||"");
+  const [editName,setEditName]       = useState(tech.name||"");
+  const getCat = id => categories.find(c=>c.id===id)||categories[0];
+  const cat = getCat(category);
+
+  // Sections: migrate legacy `comment` string to sections array
+  function initSections() {
+    if(tech.sections && tech.sections.length > 0) return tech.sections.map(s=>({...s}));
+    if(tech.comment) return [{id:uid(), title:"Notes", body:tech.comment}];
+    return [];
+  }
+  const [sections, setSections] = useState(initSections);
+
+  function addSection()                    { setSections(s=>[...s, {id:uid(), title:"Notes", body:""}]); }
+  function removeSection(id)               { setSections(s=>s.filter(x=>x.id!==id)); }
+  function updateSection(id, field, value) { setSections(s=>s.map(x=>x.id!==id?x:{...x,[field]:value})); }
+
+  const inputBg     = dark?"#0c0c1e":"#f5f5fc";
+  const inputBorder = dark?"#252545":"#c0c0da";
+  const textColor   = dark?"#ccc":"#333";
+  const dimColor    = dark?"#444":"#b0b0cc";
+
+  return (
+    <div className="modal-overlay">
+      <div style={{...S.mbox,border:`1px solid ${cat.id?cat.color:dark?"#2e2e5e":"#c8c8e0"}`,boxShadow:cat.id?`0 0 40px ${cat.color}28`:dark?"0 24px 60px rgba(0,0,0,.6)":"0 24px 60px rgba(0,0,0,.15)",width:520,maxHeight:"90vh",overflowY:"auto"}}>
+        <div style={S.ml}>Edit Action</div>
+        <div style={S.ml2}>NAME</div>
+        <input value={editName} onChange={e=>setEditName(e.target.value)} style={{...S.input,marginBottom:10,fontSize:14,fontWeight:600}}/>
+        <div style={S.ml2}>DESCRIPTION</div>
+        <textarea value={description} onChange={e=>setDescription(e.target.value)} rows={2} placeholder="Short description of this action…"
+          style={{width:"100%",background:inputBg,border:`1px solid ${inputBorder}`,borderRadius:6,color:textColor,padding:"8px 10px",fontSize:12,fontStyle:"italic",resize:"vertical",fontFamily:"inherit",boxSizing:"border-box",outline:"none",display:"block",lineHeight:1.5,marginBottom:10}}/>
+        <div style={{color:dimColor,fontSize:12,marginBottom:20}}>{tech.id}</div>
+        <div style={{display:"inline-flex",alignItems:"center",gap:7,background:cat.bg,border:`1px solid ${cat.color}`,borderRadius:20,padding:"5px 14px",marginBottom:20}}>
+          <div style={{width:8,height:8,borderRadius:"50%",background:cat.text}}/>
+          <span style={{color:cat.text,fontSize:12}}>{cat.label}</span>
+        </div>
+        <div style={S.ml2}>CATEGORY</div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7,marginBottom:20}}>
+          {categories.map(c=>(
+            <button key={c.id} onClick={()=>setCategory(c.id)} style={{background:category===c.id?c.bg:dark?"#0c0c1e":"#f0f0f8",border:`1px solid ${category===c.id?c.color:dark?"#252545":"#d0d0e8"}`,borderRadius:8,padding:"8px 12px",cursor:"pointer",display:"flex",alignItems:"center",gap:8,transition:"all .15s",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:9,height:9,borderRadius:"50%",flexShrink:0,background:category===c.id?c.text:dark?"#333":"#ccc"}}/>
+              <span style={{color:category===c.id?c.text:dark?"#666":"#888",fontSize:12}}>{c.label}</span>
+            </button>
+          ))}
+        </div>
+        <div style={S.ml2}>REFERENCE URL</div>
+        <div style={{position:"relative",marginBottom:4}}>
+          <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)"}}><LinkIcon color={dark?"#555":"#aaa"} size={12}/></span>
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://wiki.example.com/action" style={{...S.input,paddingLeft:28}}/>
+        </div>
+        <div style={{...S.note,marginBottom:20}}>Clicking this cell will open this URL in a new tab.</div>
+
+        {/* ── SECTIONS ── */}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+          <div style={S.ml2}>DETAIL SECTIONS</div>
+          <button onClick={addSection} style={{display:"flex",alignItems:"center",gap:4,background:"transparent",border:`1px dashed ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:6,padding:"3px 10px",cursor:"pointer",color:dark?"#7c6ff7":"#5b4fd4",fontSize:11,fontFamily:"inherit",transition:"all .15s"}}
+            onMouseEnter={e=>e.currentTarget.style.background=dark?"#1a1a3a":"#ede9fe"}
+            onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+            <PlusIcon color={dark?"#7c6ff7":"#5b4fd4"} size={9}/>
+            Add section
+          </button>
+        </div>
+
+        {sections.length===0 && (
+          <div style={{textAlign:"center",border:`1px dashed ${dark?"#252545":"#d8d8f0"}`,borderRadius:8,padding:"16px",color:dimColor,fontSize:11,marginBottom:8}}>
+            No sections yet — click "Add section" to create one.<br/>
+            <span style={{opacity:.6}}>Each section becomes a collapsible panel on the action card.</span>
+          </div>
+        )}
+
+        {sections.map((sec,i)=>(
+          <div key={sec.id} style={{marginBottom:10,border:`1px solid ${dark?"#252545":"#d8d8f0"}`,borderRadius:8,overflow:"hidden"}}>
+            {/* Section header */}
+            <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",background:dark?"#0e0e1e":"#f8f8ff",borderBottom:`1px solid ${dark?"#1e1e35":"#e8e8f8"}`}}>
+              <span style={{fontSize:10,color:dimColor,flexShrink:0}}>#{i+1}</span>
+              <input
+                value={sec.title}
+                onChange={e=>updateSection(sec.id,"title",e.target.value)}
+                placeholder="Section title (e.g. Procedure, Tools, References…)"
+                style={{flex:1,background:"transparent",border:"none",outline:"none",fontFamily:"inherit",fontSize:12,fontWeight:600,color:dark?"#ccc":"#333"}}
+              />
+              <button onClick={()=>removeSection(sec.id)}
+                onMouseEnter={e=>e.currentTarget.style.color="#e94560"}
+                onMouseLeave={e=>e.currentTarget.style.color=dark?"#e9456055":"#e9456033"}
+                style={{background:"transparent",border:"none",color:dark?"#e9456055":"#e9456033",cursor:"pointer",fontSize:15,lineHeight:1,padding:"0 2px",transition:"color .15s",flexShrink:0}}>×</button>
+            </div>
+            {/* Section body */}
+            <textarea
+              value={sec.body}
+              onChange={e=>updateSection(sec.id,"body",e.target.value)}
+              rows={4}
+              placeholder="Write detail here — supports plain text or markdown…"
+              style={{width:"100%",background:inputBg,border:"none",color:textColor,padding:"10px 12px",fontSize:12,resize:"vertical",fontFamily:"inherit",boxSizing:"border-box",outline:"none",display:"block",lineHeight:1.6}}
+              onFocus={e=>e.target.parentElement.style.borderColor="#7c6ff7"}
+              onBlur={e=>e.target.parentElement.style.borderColor=dark?"#252545":"#d8d8f0"}
+            />
+          </div>
+        ))}
+
+        <div style={{display:"flex",gap:10,marginTop:14,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={S.ghost}>Cancel</button>
+          <button onClick={()=>onSave({name:editName.trim()||tech.name, description:description.trim(), category, sections, url:url.trim()})} style={S.primary}>Save</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AddTacticModal({dark, onClose, onAdd}) {
+  const S = getS(dark);
+  const [name,setName] = useState("");
+  const [url,setUrl]   = useState("");
+  return (
+    <div className="modal-overlay">
+      <div style={S.mbox}>
+        <div style={S.ml}>New Phase</div>
+        <div style={S.ml2}>PHASE NAME</div>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Phase name..." autoFocus style={{...S.input,marginBottom:14}}/>
+        <div style={S.ml2}>REFERENCE URL <span style={{color:dark?"#333":"#ccc"}}>(optional)</span></div>
+        <div style={{position:"relative"}}>
+          <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)"}}><LinkIcon color={dark?"#555":"#aaa"} size={12}/></span>
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://..." style={{...S.input,paddingLeft:28}}/>
+        </div>
+        <div style={{display:"flex",gap:10,marginTop:18,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={S.ghost}>Cancel</button>
+          <button onClick={()=>name.trim()&&onAdd(name.trim(),url.trim())} style={S.primary}>Add Phase</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AddActionModal({dark, tactics, preselect, onClose, onAdd}) {
+  const S = getS(dark);
+  const [tacticId,setTacticId] = useState(preselect||tactics[0]?.id||"");
+  const [id,setId]     = useState("");
+  const [name,setName] = useState("");
+  const [desc,setDesc] = useState("");
+  const [url,setUrl]   = useState("");
+  return (
+    <div className="modal-overlay">
+      <div style={S.mbox}>
+        <div style={S.ml}>New Action</div>
+        <div style={S.ml2}>PHASE</div>
+        <select value={tacticId} onChange={e=>setTacticId(e.target.value)} style={S.select}>
+          {tactics.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
+        </select>
+        <div style={S.ml2}>ID</div>
+        <input value={id} onChange={e=>setId(e.target.value)} placeholder="e.g. PR-006" autoFocus style={{...S.input,marginBottom:12}}/>
+        <div style={S.ml2}>NAME</div>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Action name..." style={{...S.input,marginBottom:12}}/>
+        <div style={S.ml2}>DESCRIPTION <span style={{color:dark?"#333":"#ccc"}}>(optional)</span></div>
+        <input value={desc} onChange={e=>setDesc(e.target.value)} placeholder="Short description…" style={{...S.input,marginBottom:12}}/>
+        <div style={S.ml2}>REFERENCE URL <span style={{color:dark?"#333":"#ccc"}}>(optional)</span></div>
+        <div style={{position:"relative"}}>
+          <span style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)"}}><LinkIcon color={dark?"#555":"#aaa"} size={12}/></span>
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://..." style={{...S.input,paddingLeft:28}}/>
+        </div>
+        <div style={{display:"flex",gap:10,marginTop:18,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={S.ghost}>Cancel</button>
+          <button onClick={()=>{if(id.trim()&&name.trim()&&tacticId)onAdd(tacticId,id.trim(),name.trim(),url.trim(),desc.trim())}} style={S.primary}>Add Action</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AddPlaybookModal({dark, onClose, onAdd, usedColors}) {
+  const S = getS(dark);
+  const avail = PB_COLORS.filter(c=>!usedColors.includes(c));
+  const [name,setName]   = useState("");
+  const [color,setColor] = useState(avail[0]||PB_COLORS[0]);
+  return (
+    <div className="modal-overlay">
+      <div style={S.mbox}>
+        <div style={S.ml}>New Playbook</div>
+        <div style={S.ml2}>PLAYBOOK NAME</div>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Ransomware, Insider Threat…" autoFocus style={{...S.input,marginBottom:16}}/>
+        <div style={S.ml2}>COLOUR</div>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
+          {PB_COLORS.map(c=>(
+            <div key={c} onClick={()=>setColor(c)} style={{width:26,height:26,borderRadius:6,background:c,cursor:"pointer",outline:color===c?"3px solid #fff":"3px solid transparent",outlineOffset:2,transition:"outline .12s"}}/>
+          ))}
+        </div>
+        <div style={{display:"flex",gap:10,justifyContent:"flex-end"}}>
+          <button onClick={onClose} style={S.ghost}>Cancel</button>
+          <button onClick={()=>name.trim()&&onAdd(name.trim(),color)} style={S.primary}>Create Playbook</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Add / Edit Category Modal ──
+const CAT_PRESETS = [
+  {color:"#2b6cb0",bg:"#1a365d",text:"#63b3ed"},
+  {color:"#6b46c1",bg:"#2d1f5e",text:"#b794f4"},
+  {color:"#276749",bg:"#143325",text:"#68d391"},
+  {color:"#b7791f",bg:"#4a2e08",text:"#f6ad55"},
+  {color:"#c53030",bg:"#4a1010",text:"#fc8181"},
+  {color:"#2c7a7b",bg:"#163838",text:"#81e6d9"},
+  {color:"#5a6478",bg:"#2a303e",text:"#a0b0c8"},
+  {color:"#744210",bg:"#3d2000",text:"#f6e05e"},
+  {color:"#285e61",bg:"#1d4044",text:"#4fd1c5"},
+  {color:"#553c9a",bg:"#2d1f5e",text:"#d6bcfa"},
+];
+
+function ManageCategoriesModal({dark, categories, onClose, onAdd, onDelete}) {
+  const S = getS(dark);
+  const [label,setLabel]   = useState("");
+  const [col,setCol]       = useState(CAT_PRESETS[0].color);
+  const [bg,setBg]         = useState(CAT_PRESETS[0].bg);
+  const [text,setText]     = useState(CAT_PRESETS[0].text);
+  const [tab,setTab]       = useState("list"); // "list" | "add"
+
+  const wouldId = label.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const isDupe  = !!categories.find(c=>c.id===wouldId&&wouldId!=='');
+  // Only "Uncategorized" (id="") is truly undeletable — it's the fallback
+  function applyPreset(p) { setCol(p.color); setBg(p.bg); setText(p.text); }
+
+  return (
+    <div className="modal-overlay">
+      <div style={{...S.mbox,width:500}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20}}>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <TagIcon color={dark?"#a29bfe":"#5b4fd4"} size={14}/>
+            <span style={{fontSize:14,fontWeight:600,color:dark?"#e8e8f0":"#1a1a2e",fontFamily:"'Space Grotesk',sans-serif"}}>Manage Categories</span>
+          </div>
+          {/* Tab switcher */}
+          <div style={{display:"flex",gap:4,background:dark?"#0c0c1e":"#f0f0f8",border:`1px solid ${dark?"#252545":"#d0d0e8"}`,borderRadius:7,padding:3}}>
+            {["list","add"].map(t=>(
+              <button key={t} onClick={()=>setTab(t)} style={{background:tab===t?(dark?"#252545":"#fff"):"transparent",border:"none",borderRadius:5,padding:"4px 12px",cursor:"pointer",fontSize:11,fontFamily:"inherit",color:tab===t?(dark?"#a29bfe":"#5b4fd4"):(dark?"#666":"#aaa"),transition:"all .15s"}}>
+                {t==="list"?"All Categories":"+ New"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {tab==="list" ? (
+          <div>
+            <div style={{display:"flex",flexDirection:"column",gap:6,maxHeight:320,overflowY:"auto",paddingRight:4}}>
+              {categories.map(cat=>{
+                return (
+                  <div key={cat.id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 12px",background:dark?"#0e0e1e":"#f8f8ff",border:`1px solid ${dark?"#1e1e38":"#e0e0f0"}`,borderRadius:8}}>
+                    <div style={{width:10,height:10,borderRadius:"50%",background:cat.text,border:`2px solid ${cat.color}`,flexShrink:0}}/>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:12,color:dark?"#ccc":"#333",fontWeight:500}}>{cat.label}</div>
+                      <div style={{fontSize:9,color:dark?"#444":"#bbb",marginTop:1}}>ID: {cat.id||"(uncategorized)"}</div>
+                    </div>
+                    {/* Preview pill */}
+                    <div style={{display:"flex",alignItems:"center",gap:4,background:cat.bg,border:`1px solid ${cat.color}`,borderRadius:10,padding:"2px 8px",flexShrink:0}}>
+                      <span style={{fontSize:10,color:cat.text}}>{cat.label}</span>
+                    </div>
+                    {cat.id === "" ? (
+                      <span style={{fontSize:9,color:dark?"#444":"#ccc",flexShrink:0,fontStyle:"italic"}}>required</span>
+                    ) : (
+                      <button onClick={()=>onDelete(cat.id)}
+                        onMouseEnter={e=>e.currentTarget.style.color="#e94560"}
+                        onMouseLeave={e=>e.currentTarget.style.color=dark?"#e9456055":"#e9456033"}
+                        style={{background:"transparent",border:"none",color:dark?"#e9456055":"#e9456033",cursor:"pointer",fontSize:16,lineHeight:1,padding:"0 4px",flexShrink:0,transition:"color .15s"}}
+                        title="Delete category">×</button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{marginTop:14,display:"flex",justifyContent:"flex-end"}}>
+              <button onClick={onClose} style={S.primary}>Done</button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div style={S.ml2}>LABEL</div>
+            <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="e.g. Cloud, Endpoint, Threat Intel…" autoFocus style={{...S.input,marginBottom:4}}/>
+            {isDupe && <div style={{fontSize:10,color:"#e94560",marginBottom:8}}>A category with this name already exists.</div>}
+            {!isDupe && <div style={{...S.note,marginBottom:14}}>ID: <span style={{color:dark?"#888":"#666"}}>{wouldId||"…"}</span></div>}
+
+            <div style={S.ml2}>COLOUR PRESET</div>
+            <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
+              {CAT_PRESETS.map((p,i)=>(
+                <div key={i} onClick={()=>applyPreset(p)}
+                  style={{width:28,height:28,borderRadius:6,background:p.bg,border:`2px solid ${p.color}`,cursor:"pointer",outline:col===p.color?"3px solid #7c6ff7":"3px solid transparent",outlineOffset:2,transition:"outline .12s"}}/>
+              ))}
+            </div>
+
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:14}}>
+              {[{lbl:"BORDER",val:col,set:setCol},{lbl:"BG",val:bg,set:setBg},{lbl:"TEXT",val:text,set:setText}].map(({lbl,val,set})=>(
+                <div key={lbl}>
+                  <div style={{...S.ml2,marginBottom:4}}>{lbl}</div>
+                  <div style={{display:"flex",alignItems:"center",gap:5}}>
+                    <input type="color" value={val} onChange={e=>set(e.target.value)} style={{width:30,height:26,border:"none",background:"transparent",cursor:"pointer",padding:0,flexShrink:0}}/>
+                    <input value={val} onChange={e=>set(e.target.value)} style={{...S.input,flex:1,fontSize:10,padding:"4px 6px"}}/>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Preview */}
+            <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px",background:dark?"#0a0a18":"#f5f5fc",borderRadius:8,border:`1px solid ${dark?"#1e1e35":"#e0e0f0"}`,marginBottom:18}}>
+              <span style={{fontSize:10,color:dark?"#444":"#ccc"}}>Preview:</span>
+              <div style={{display:"inline-flex",alignItems:"center",gap:5,background:bg,border:`1px solid ${col}`,borderRadius:12,padding:"4px 12px"}}>
+                <div style={{width:7,height:7,borderRadius:"50%",background:text}}/>
+                <span style={{fontSize:12,color:text}}>{label||"Category Name"}</span>
+              </div>
+            </div>
+
+            <div style={{display:"flex",gap:10,justifyContent:"flex-end"}}>
+              <button onClick={()=>setTab("list")} style={S.ghost}>Back</button>
+              <button onClick={()=>{ if(label.trim()&&!isDupe){ onAdd(label.trim(),col,bg,text); setLabel(""); setTab("list"); }}}
+                style={{...S.primary,opacity:(!label.trim()||isDupe)?.5:1}}>
+                Add Category
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Playbook Panel ──
+function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onSetMode, onDeselect, onAdd, onDelete, onRename, onReorder, onCollapse, matrix}) {
+  const [collapsed,  setCollapsed]  = useState({});
+  const [editingId,  setEditingId]  = useState(null);
+  const [editName,   setEditName]   = useState("");
+  const [dragId,     setDragId]     = useState(null);
+  const [dragOverId, setDragOverId] = useState(null);
+  const [dropPos,    setDropPos]    = useState(null);
+  const dragPbRef = useRef(null);
+
+  const panelBg     = dark ? "#0e0e1e" : "#f8f8ff";
+  const panelBorder = dark ? "#1e1e38" : "#e0e0f0";
+  const headerBg    = dark ? "#111120" : "#ffffff";
+  const cardBg      = dark ? "#0e0e1e" : "#f8f8ff";
+  const textMain    = dark ? "#ccccee" : "#2a2a4a";
+  const textSub     = dark ? "#666688" : "#9090b0";
+
+  function getOrderedTechs(pb) {
+    const lookup = {};
+    matrix.tactics.forEach(t => t.techniques.forEach(te => { lookup[te.id] = {te, tacticName:t.name}; }));
+    return pb.techIds.map(id => lookup[id]).filter(Boolean);
+  }
+  function getSteps(pb) {
+    const lookup = {};
+    matrix.tactics.forEach(t => t.techniques.forEach(te => { lookup[te.id] = {te, tactic:t}; }));
+    const phaseMap = {};
+    pb.techIds.forEach(id => {
+      const entry = lookup[id]; if(!entry) return;
+      const tid = entry.tactic.id;
+      if(!phaseMap[tid]) phaseMap[tid] = {tactic:entry.tactic, techniques:[]};
+      phaseMap[tid].techniques.push(entry.te);
+    });
+    const tacticOrder = matrix.tactics.map(t => t.id);
+    return tacticOrder.filter(tid => phaseMap[tid]).map(tid => phaseMap[tid]);
+  }
+  function getTechUrl(techId) {
+    for(const t of matrix.tactics) { const te=t.techniques.find(x=>x.id===techId); if(te) return te.url||""; }
+    return "";
+  }
+
+  function onDragStart(e, techId, pbId) { setDragId(techId); dragPbRef.current=pbId; e.dataTransfer.effectAllowed="move"; }
+  function onDragEnter(e, techId) {
+    if(techId===dragId) return; setDragOverId(techId);
+    const r=e.currentTarget.getBoundingClientRect();
+    setDropPos(e.clientY-(r.top+r.height/2)<=0?"above":"below");
+  }
+  function onDragOver(e, techId) {
+    e.preventDefault(); if(techId===dragId) return;
+    const r=e.currentTarget.getBoundingClientRect();
+    setDropPos(e.clientY-(r.top+r.height/2)<=0?"above":"below");
+  }
+  function onDragLeave(e) { if(!e.currentTarget.contains(e.relatedTarget)){ setDragOverId(null); setDropPos(null); } }
+  function onDrop(e, targetId, pbId) {
+    e.preventDefault();
+    if(dragId&&targetId&&dragId!==targetId&&dragPbRef.current===pbId) onReorder(pbId,dragId,targetId,dropPos||"below");
+    setDragId(null); setDragOverId(null); setDropPos(null); dragPbRef.current=null;
+  }
+  function onDragEnd() { setDragId(null); setDragOverId(null); setDropPos(null); dragPbRef.current=null; }
+
+  return (
+    <div style={{width:268,flexShrink:0,background:panelBg,borderLeft:`1px solid ${panelBorder}`,display:"flex",flexDirection:"column",height:"100%",overflow:"hidden"}}>
+      {/* Header */}
+      <div style={{padding:"12px 14px 10px",borderBottom:`1px solid ${panelBorder}`,background:headerBg,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:7}}>
+          <BookIcon color="#7c6ff7" size={14}/>
+          <span style={{fontSize:12,color:"#7c6ff7",letterSpacing:1,fontWeight:600}}>PLAYBOOKS</span>
+        </div>
+        <div style={{display:"flex",gap:5}}>
+          <button onClick={onAdd} title="New playbook" style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:5,width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+            <PlusIcon color="#7c6ff7" size={10}/>
+          </button>
+          <button onClick={onCollapse} title="Collapse panel"
+            onMouseEnter={e=>e.currentTarget.style.borderColor="#7c6ff7"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor=dark?"#3a3a6a":"#c4b5fd"}
+            style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:5,width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",transition:"border-color .15s"}}>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#7c6ff7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      {/* List */}
+      <div style={{flex:1,overflowY:"auto",padding:"10px 10px 16px"}}>
+        {playbooks.length===0 && (
+          <div style={{textAlign:"center",color:textSub,fontSize:11,padding:"24px 12px",lineHeight:1.7}}>
+            No playbooks yet.<br/>Click + to create one.
+          </div>
+        )}
+
+        {playbooks.map(pb=>{
+          const isActive    = activePlaybookId===pb.id;
+          const isEdit      = isActive&&pbMode==="edit";
+          const isView      = isActive&&pbMode==="view";
+          const isCollapsed = !isActive&&collapsed[pb.id];
+          const techCount   = pb.techIds.length;
+          const ordered     = getOrderedTechs(pb);
+          const steps       = getSteps(pb);
+
+          return (
+            <div key={pb.id} className="pb-card fade-in" style={{border:`1px solid ${isActive?pb.color+"99":panelBorder}`,borderRadius:10,marginBottom:8,overflow:"hidden",background:isActive?`${pb.color}0d`:cardBg}}>
+              {/* Card header */}
+              <div style={{display:"flex",alignItems:"center",gap:6,padding:"9px 10px",cursor:"pointer"}} onClick={()=>isActive?onDeselect():onSelect(pb.id)}>
+                <div style={{width:9,height:9,borderRadius:"50%",background:pb.color,flexShrink:0,boxShadow:isActive?`0 0 7px ${pb.color}`:"none",transition:"box-shadow .2s"}}/>
+                {editingId===pb.id ? (
+                  <input autoFocus value={editName} onChange={e=>setEditName(e.target.value)}
+                    onBlur={()=>{onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}}
+                    onKeyDown={e=>{if(e.key==="Enter"){onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}if(e.key==="Escape")setEditingId(null);}}
+                    onClick={e=>e.stopPropagation()}
+                    style={{flex:1,background:"transparent",border:"none",borderBottom:`1px solid ${pb.color}`,color:textMain,fontSize:12,outline:"none",fontFamily:"inherit",padding:"1px 0"}}/>
+                ) : (
+                  <span onDoubleClick={e=>{e.stopPropagation();setEditingId(pb.id);setEditName(pb.name);}} title="Double-click to rename"
+                    style={{flex:1,fontSize:12,color:isActive?textMain:textSub,fontWeight:isActive?600:400,lineHeight:1.2}}>
+                    {pb.name}
+                  </span>
+                )}
+                <span style={{fontSize:10,color:isActive?pb.color:textSub,background:isActive?`${pb.color}22`:dark?"#181830":"#eeeefc",borderRadius:10,padding:"1px 7px",flexShrink:0}}>{techCount}</span>
+                {!isActive&&techCount>0&&(
+                  <div onClick={e=>{e.stopPropagation();setCollapsed(c=>({...c,[pb.id]:!c[pb.id]}));}} style={{cursor:"pointer",opacity:.4,display:"flex"}}>
+                    <ChevronIcon color={textSub} size={10} up={!isCollapsed}/>
+                  </div>
+                )}
+                <button onClick={e=>{e.stopPropagation();onDelete(pb.id);}}
+                  onMouseEnter={e=>e.currentTarget.style.color="#e94560"}
+                  onMouseLeave={e=>e.currentTarget.style.color="#e9456044"}
+                  style={{background:"transparent",border:"none",color:"#e9456044",cursor:"pointer",fontSize:14,lineHeight:1,padding:"0 2px",flexShrink:0,transition:"color .15s"}}>×</button>
+              </div>
+
+              {/* Mode toggles */}
+              {isActive&&(
+                <div className="fade-in" style={{display:"flex",gap:6,padding:"0 10px 10px"}}>
+                  {[{id:"view",label:"View",Icon:EyeIcon},{id:"edit",label:"Edit",Icon:PencilIcon}].map(({id,label,Icon})=>{
+                    const on=pbMode===id;
+                    return (
+                      <button key={id} className="mode-btn" onClick={()=>onSetMode(id)} style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:5,padding:"6px 0",borderRadius:6,cursor:"pointer",fontFamily:"inherit",fontSize:11,background:on?`${pb.color}22`:"transparent",border:`1px solid ${on?pb.color:dark?"#2a2a45":"#d0d0e8"}`,color:on?pb.color:textSub,transition:"all .15s"}}>
+                        <Icon color={on?pb.color:textSub} size={11}/>{label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {isView&&(
+                <div className="fade-in" style={{padding:"0 10px 8px",display:"flex",alignItems:"center",gap:6}}>
+                  <EyeIcon color={pb.color} size={10}/>
+                  <span style={{fontSize:10,color:pb.color,opacity:.8}}>Highlighted actions open their link on click</span>
+                </div>
+              )}
+              {isEdit&&(
+                <div className="fade-in" style={{padding:"0 10px 8px",display:"flex",alignItems:"center",gap:6}}>
+                  <div className="rec-dot" style={{width:6,height:6,borderRadius:"50%",background:pb.color,flexShrink:0}}/>
+                  <span style={{fontSize:10,color:pb.color,opacity:.8}}>Click matrix to add/remove · Drag rows to reorder</span>
+                </div>
+              )}
+
+              {/* Step list */}
+              {(isActive||!isCollapsed)&&techCount>0&&(
+                <div className="fade-in" style={{borderTop:`1px solid ${pb.color}22`,padding:"6px 0 4px"}}>
+                  {isEdit ? (
+                    <div>
+                      {ordered.map(({te,tacticName})=>{
+                        const isDragging=dragId===te.id;
+                        const isTarget=dragOverId===te.id;
+                        let cls="drag-row pb-tech-row";
+                        if(isDragging) cls+=" dragging";
+                        if(isTarget&&dropPos==="above") cls+=" drop-above";
+                        if(isTarget&&dropPos==="below") cls+=" drop-below";
+                        return (
+                          <div key={te.id} className={cls} style={{"--drop-color":pb.color,display:"flex",alignItems:"center",gap:5,padding:"4px 8px 4px 4px",margin:"0 4px"}}
+                            draggable={true} onDragStart={e=>onDragStart(e,te.id,pb.id)} onDragEnter={e=>onDragEnter(e,te.id)} onDragOver={e=>onDragOver(e,te.id)} onDragLeave={onDragLeave} onDrop={e=>onDrop(e,te.id,pb.id)} onDragEnd={onDragEnd}>
+                            <span className="drag-handle" title="Drag to reorder"><GripIcon color={pb.color}/></span>
+                            <div style={{width:4,height:4,borderRadius:"50%",background:pb.color,flexShrink:0,opacity:.7}}/>
+                            <div style={{flex:1,minWidth:0}}>
+                              <div style={{fontSize:11,color:textMain,lineHeight:1.3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{te.name}</div>
+                              <div style={{fontSize:9,color:textSub,marginTop:1}}>{tacticName} · {te.id}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    steps.map(({tactic,techniques})=>(
+                      <div key={tactic.id} style={{marginBottom:4}}>
+                        <div style={{fontSize:9,color:pb.color,opacity:.6,letterSpacing:2,textTransform:"uppercase",padding:"2px 10px 3px"}}>{tactic.name}</div>
+                        {techniques.map(te=>{
+                          const techUrl=getTechUrl(te.id);
+                          const clickable=isView&&!!techUrl;
+                          return (
+                            <div key={te.id} className={`pb-tech-row${clickable?" clickable":""}`} onClick={()=>clickable&&openLink(techUrl)}
+                              style={{display:"flex",alignItems:"center",gap:6,padding:"4px 10px",margin:"0 4px"}}>
+                              <div style={{width:4,height:4,borderRadius:"50%",background:pb.color,flexShrink:0,opacity:.7}}/>
+                              <span style={{fontSize:11,color:clickable?textMain:textSub,flex:1,lineHeight:1.3}}>{te.name}</span>
+                              {clickable?<LinkIcon color={pb.color} size={9}/>:<span style={{fontSize:9,color:textSub,opacity:.6}}>{te.id}</span>}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      {activePlaybookId&&(
+        <div style={{padding:"8px 10px",borderTop:`1px solid ${panelBorder}`,flexShrink:0}}>
+          <button onClick={onDeselect}
+            onMouseEnter={e=>{e.target.style.borderColor="#e94560";e.target.style.color="#e94560";}}
+            onMouseLeave={e=>{e.target.style.borderColor=dark?"#2e2e5e":"#d0d0e8";e.target.style.color=dark?"#666":"#aaa";}}
+            style={{width:"100%",background:"transparent",border:`1px solid ${dark?"#2e2e5e":"#d0d0e8"}`,borderRadius:6,color:dark?"#666":"#aaa",padding:"6px",cursor:"pointer",fontSize:11,fontFamily:"inherit",transition:"all .15s"}}>
+            ✕ Deselect playbook
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Main App ──
+function App({initialMatrix, initialName}) {
+  const [theme,         setTheme]         = useState("dark");
+  const [matrix,        setMatrix]        = useState({...initialMatrix, playbooks:initialMatrix.playbooks||[], categories:initialMatrix.categories||DEFAULT_CATEGORIES});
+  const [selected,      setSelected]      = useState(null);
+  const [editTactic,    setEditTactic]    = useState(null);
+  const [showAddTactic, setShowAddTactic] = useState(false);
+  const [showAddAction, setShowAddAction] = useState(false);
+  const [showAddPb,     setShowAddPb]     = useState(false);
+  const [showManageCat, setShowManageCat] = useState(false);
+  const [hoveredCell,   setHoveredCell]   = useState(null);
+  const [hoveredTactic, setHoveredTactic] = useState(null);
+  const [matrixName,    setMatrixName]    = useState(initialName||"Incident Response — PICERL");
+  const [editingName,   setEditingName]   = useState(false);
+  const [filterCat,     setFilterCat]     = useState("");
+  const [activePlaybook,setActivePlaybook]= useState(null);
+  const [pbMode,        setPbMode]        = useState(null);
+  const [panelOpen,     setPanelOpen]     = useState(true);
+  const fileRef = useRef();
+
+  const dark = theme === "dark";
+
+  // Apply theme to html element
+  useEffect(()=>{ document.documentElement.setAttribute('data-theme', theme); }, [theme]);
+
+  const categories   = matrix.categories || DEFAULT_CATEGORIES;
+  const getCat       = id => categories.find(c=>c.id===id)||categories[0];
+  const activePb     = (matrix.playbooks||[]).find(p=>p.id===activePlaybook)||null;
+  const selectedTech = selected ? matrix.tactics.find(t=>t.id===selected.tacticId)?.techniques.find(te=>te.id===selected.techId) : null;
+
+  const TACTIC_ACCENTS = dark ? TACTIC_ACCENTS_DARK : TACTIC_ACCENTS_LIGHT;
+  const DEF_ACCENT     = dark ? DEF_ACCENT_DARK      : DEF_ACCENT_LIGHT;
+
+  // ── Playbook fns ──
+  function selectPlaybook(pbId) { setActivePlaybook(pbId); setPbMode("view"); setSelected(null); }
+  function deselectPlaybook()   { setActivePlaybook(null); setPbMode(null); }
+  function addPlaybook(name,color) { setMatrix(m=>({...m,playbooks:[...(m.playbooks||[]),{id:uid(),name,color,techIds:[]}]})); setShowAddPb(false); }
+  function deletePlaybook(pbId)    { setMatrix(m=>({...m,playbooks:(m.playbooks||[]).filter(p=>p.id!==pbId)})); if(activePlaybook===pbId) deselectPlaybook(); }
+  function renamePlaybook(pbId,name) { setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>p.id!==pbId?p:{...p,name})})); }
+  function reorderPlaybook(pbId,dragId,targetId,pos) {
+    setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>{
+      if(p.id!==pbId) return p;
+      const ids=p.techIds.filter(id=>id!==dragId), at=ids.indexOf(targetId);
+      if(at===-1) return p;
+      const out=[...ids]; out.splice(pos==="above"?at:at+1,0,dragId);
+      return {...p,techIds:out};
+    })}));
+  }
+  function toggleTechInPlaybook(pbId,techId) {
+    setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>{
+      if(p.id!==pbId) return p;
+      const has=p.techIds.includes(techId);
+      return {...p,techIds:has?p.techIds.filter(id=>id!==techId):[...p.techIds,techId]};
+    })}));
+  }
+
+  // ── Matrix fns ──
+  function updateTech(tacticId,techId,updates) { setMatrix(m=>({...m,tactics:m.tactics.map(t=>t.id!==tacticId?t:{...t,techniques:t.techniques.map(te=>te.id!==techId?te:{...te,...updates})})})); }
+  function updateTactic(tacticId,updates)      { setMatrix(m=>({...m,tactics:m.tactics.map(t=>t.id!==tacticId?t:{...t,...updates})})); }
+  function deleteTech(tacticId,techId) {
+    setMatrix(m=>({...m,
+      tactics:  m.tactics.map(t=>t.id!==tacticId?t:{...t,techniques:t.techniques.filter(te=>te.id!==techId)}),
+      playbooks:(m.playbooks||[]).map(p=>({...p,techIds:p.techIds.filter(id=>id!==techId)})),
+    }));
+  }
+  function deleteTactic(tacticId)    { setMatrix(m=>({...m,tactics:m.tactics.filter(t=>t.id!==tacticId)})); }
+  function addTactic(name,url)       { setMatrix(m=>({...m,tactics:[...m.tactics,{id:uid(),name,url,techniques:[]}]})); setShowAddTactic(false); }
+  function addAction(tacticId,id,name,url,description) { setMatrix(m=>({...m,tactics:m.tactics.map(t=>t.id!==tacticId?t:{...t,techniques:[...t.techniques,{id,name,url,description:description||"",category:"",comment:""}]})})); setShowAddAction(false); }
+
+  // ── Category fns ──
+  function addCategory(label,color,bg,text) {
+    const id=label.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    if(categories.find(c=>c.id===id)) return;
+    setMatrix(m=>({...m,categories:[...(m.categories||DEFAULT_CATEGORIES),{id,label,color,bg,text}]}));
+  }
+  function deleteCategory(catId) {
+    if(catId==="") return; // "Uncategorized" is the fallback, never delete it
+    setMatrix(m=>({...m,
+      categories:(m.categories||DEFAULT_CATEGORIES).filter(c=>c.id!==catId),
+      tactics:m.tactics.map(t=>({...t,techniques:t.techniques.map(te=>te.category===catId?{...te,category:""}:te)})),
+    }));
+    if(filterCat===catId) setFilterCat("");
+  }
+
+  // ── Click routing ──
+  function handleTechClick(tacticId,tech) {
+    if(activePb) {
+      if(pbMode==="edit") { toggleTechInPlaybook(activePlaybook,tech.id); return; }
+      if(pbMode==="view"&&activePb.techIds.includes(tech.id)&&tech.url) openLink(tech.url);
+      return;
+    }
+    if(tech.url) openLink(tech.url);
+    else setSelected({tacticId,techId:tech.id});
+  }
+  function handleTacticClick(tactic) {
+    if(activePb) return;
+    if(tactic.url) openLink(tactic.url);
+    else setEditTactic(tactic);
+  }
+
+  // ── Export / Import ──
+  function exportSnapshot() { exportHTML({...matrix},matrixName); }
+  function importFile(e) {
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try {
+        const match=ev.target.result.match(/<script id="matrix-data"[^>]*>([\s\S]*?)<\/script>/);
+        if(match){ const d=JSON.parse(match[1]); setMatrix({...d,playbooks:d.playbooks||[],categories:d.categories||DEFAULT_CATEGORIES}); setMatrixName(d.name||"Imported"); }
+        else alert("Could not find matrix data in this file.");
+      } catch { alert("Failed to parse the file."); }
+    };
+    reader.readAsText(file); e.target.value="";
+  }
+  function clearAll() {
+    setMatrix(m=>({...m,
+      tactics:  m.tactics.map(t=>({...t,techniques:t.techniques.map(te=>({...te,category:"",comment:""}))})),
+      playbooks:(m.playbooks||[]).map(p=>({...p,techIds:[]})),
+    }));
+  }
+
+  // ── Stats ──
+  const totalTechs       = matrix.tactics.reduce((s,t)=>s+t.techniques.length,0);
+  const categorizedTechs = matrix.tactics.reduce((s,t)=>s+t.techniques.filter(te=>te.category).length,0);
+  const linkedTechs      = matrix.tactics.reduce((s,t)=>s+t.techniques.filter(te=>te.url).length,0);
+  const linkedPhases     = matrix.tactics.filter(t=>t.url).length;
+  const catCounts        = categories.slice(1).map(c=>({...c,count:matrix.tactics.reduce((s,t)=>s+t.techniques.filter(te=>te.category===c.id).length,0)})).filter(c=>c.count>0);
+
+  // ── Theme colors ──
+  const bg        = dark?"#0e0e18":"#f0f0f8";
+  const headerBg  = dark?"#111120":"#ffffff";
+  const barBg     = dark?"#0c0c1a":"#e8e8f4";
+  const hintBg    = dark?"#0a0a12":"#f0f0fa";
+  const border    = dark?"#1e1e38":"#d8d8f0";
+  const border2   = dark?"#252545":"#c8c8e8";
+  const textMain  = dark?"#e8e8f0":"#1a1a2e";
+  const textSub   = dark?"#8888aa":"#6060a0";
+  const textDim   = dark?"#444460":"#b0b0cc";
+  const cellBg    = dark?"#161628":"#ffffff";
+  const cellBorderBase = dark?"#252545":"#d8d8f0";
+
+  const S = getS(dark);
+
+  return (
+    <div style={{height:"100vh",display:"flex",flexDirection:"column",background:bg,fontFamily:"'DM Mono',monospace",color:textMain}}>
+
+      {/* ── HEADER ── */}
+      <header style={{background:headerBg,borderBottom:`1px solid ${border}`,padding:"13px 22px",display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",flexShrink:0,boxShadow:dark?"none":"0 1px 8px rgba(0,0,0,.06)"}}>
+        <div style={{flex:1,minWidth:220}}>
+          {editingName ? (
+            <input value={matrixName} onChange={e=>setMatrixName(e.target.value)} onBlur={()=>setEditingName(false)} onKeyDown={e=>e.key==="Enter"&&setEditingName(false)} autoFocus
+              style={{fontSize:18,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,background:"transparent",border:"none",borderBottom:"2px solid #7c6ff7",color:textMain,outline:"none",padding:"2px 0",minWidth:280}}/>
+          ) : (
+            <h1 onClick={()=>setEditingName(true)} title="Click to rename"
+              style={{margin:0,fontSize:18,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:textMain,cursor:"text",letterSpacing:.3}}>
+              {matrixName}
+            </h1>
+          )}
+          <div style={{fontSize:11,color:textDim,marginTop:4,display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
+            <span>{categorizedTechs}/{totalTechs} categorized</span>
+            <span style={{opacity:.4}}>·</span>
+            <span>{matrix.tactics.length} phases</span>
+            <span style={{opacity:.4}}>·</span>
+            <span style={{display:"flex",alignItems:"center",gap:4,color:linkedTechs>0?(dark?"#63b3ed":"#2b6cb0"):textDim}}>
+              <LinkIcon color={linkedTechs>0?(dark?"#63b3ed":"#2b6cb0"):textDim} size={10}/>
+              {linkedPhases} phase · {linkedTechs} action links
+            </span>
+            {activePb&&(
+              <span style={{display:"flex",alignItems:"center",gap:5,color:activePb.color,background:`${activePb.color}18`,border:`1px solid ${activePb.color}44`,borderRadius:12,padding:"1px 9px"}}>
+                {pbMode==="edit"
+                  ?<><div className="rec-dot" style={{width:5,height:5,borderRadius:"50%",background:activePb.color}}/> Editing: {activePb.name}</>
+                  :<><EyeIcon color={activePb.color} size={10}/> Viewing: {activePb.name}</>
+                }
+              </span>
+            )}
+            {catCounts.map(c=>(
+              <span key={c.id} style={{color:c.text,display:"flex",alignItems:"center",gap:3}}>
+                <span style={{opacity:.3}}>·</span>{c.count} {c.label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
+          {/* Theme toggle */}
+          <button className="theme-toggle" onClick={()=>setTheme(t=>t==="dark"?"light":"dark")}
+            title={`Switch to ${dark?"light":"dark"} mode`}
+            style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:7,width:34,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
+            {dark ? <SunIcon color="#f6ad55" size={15}/> : <MoonIcon color="#5b4fd4" size={15}/>}
+          </button>
+          {[
+            {label:"+ Phase",        fn:()=>setShowAddTactic(true)},
+            {label:"+ Action",       fn:()=>setShowAddAction(true)},
+            {label:"Clear All",      fn:clearAll},
+            {label:"Import HTML",    fn:()=>fileRef.current.click()},
+            {label:"Export JSON ↓",  fn:exportSnapshot, hi:true},
+          ].map(btn=>(
+            <button key={btn.label} className="tool-btn" onClick={btn.fn} style={{
+              background:btn.hi?(dark?"#1a1040":"#ede9fe"):(dark?"#0e0e20":"#f5f5fc"),
+              color:btn.hi?(dark?"#a29bfe":"#5b4fd4"):(dark?"#888":"#6060a0"),
+              border:`1px solid ${btn.hi?(dark?"#6c5ce7":"#a78bfa"):(dark?"#252545":"#d0d0e8")}`,
+              borderRadius:6,padding:"6px 12px",cursor:"pointer",fontSize:11,letterSpacing:.5,fontFamily:"inherit",
+            }}>{btn.label}</button>
+          ))}
+        </div>
+      </header>
+
+      {/* ── CATEGORY FILTER BAR ── */}
+      <div style={{background:barBg,borderBottom:`1px solid ${border}`,padding:"7px 22px",display:"flex",gap:5,flexWrap:"wrap",alignItems:"center",flexShrink:0}}>
+        <span style={{fontSize:10,color:textDim,letterSpacing:2,marginRight:4}}>CATEGORY:</span>
+        {categories.map(cat=>{
+          const on = filterCat===cat.id;
+          const isCustom = !DEFAULT_CATEGORIES.find(d=>d.id===cat.id);
+          return (
+            <div key={cat.id} className="cat-pill-wrap" style={{display:"flex",alignItems:"center",position:"relative",opacity:filterCat&&!on?.4:1}}>
+              <button onClick={()=>setFilterCat(on?"":cat.id)}
+                style={{display:"flex",alignItems:"center",gap:5,background:on?cat.bg:"transparent",border:`1px solid ${on?cat.color:dark?"#2a2a48":"#d0d0e8"}`,borderRadius:20,padding:isCustom?"3px 22px 3px 10px":"3px 10px",cursor:"pointer",fontFamily:"inherit",transition:"all .15s"}}>
+                <div style={{width:6,height:6,borderRadius:"50%",background:on?cat.text:dark?"#4a4a70":"#b0b0cc",flexShrink:0}}/>
+                <span style={{fontSize:11,color:on?cat.text:textSub}}>{cat.label}</span>
+              </button>
+              {isCustom&&(
+                <button onClick={e=>{e.stopPropagation();deleteCategory(cat.id);}}
+                  onMouseEnter={e=>e.currentTarget.style.color="#e94560"}
+                  onMouseLeave={e=>e.currentTarget.style.color="#e9456055"}
+                  style={{position:"absolute",right:7,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",color:"#e9456055",cursor:"pointer",fontSize:12,lineHeight:1,padding:0,transition:"color .15s"}} title="Delete">×</button>
+              )}
+            </div>
+          );
+        })}
+        {/* Manage categories button */}
+        <button onClick={()=>setShowManageCat(true)}
+          onMouseEnter={e=>{e.currentTarget.style.borderColor="#7c6ff7";e.currentTarget.style.color=dark?"#a29bfe":"#5b4fd4";}}
+          onMouseLeave={e=>{e.currentTarget.style.borderColor=dark?"#2a2a48":"#d0d0e8";e.currentTarget.style.color=textSub;}}
+          style={{display:"flex",alignItems:"center",gap:4,background:"transparent",border:`1px dashed ${dark?"#2a2a48":"#d0d0e8"}`,borderRadius:20,padding:"3px 10px",cursor:"pointer",fontFamily:"inherit",color:textSub,fontSize:11,transition:"all .15s"}}>
+          <TagIcon color="currentColor" size={10}/>
+          Manage
+        </button>
+      </div>
+
+      {/* ── HINT BAR ── */}
+      <div style={{background:hintBg,borderBottom:`1px solid ${border}`,padding:"5px 22px",display:"flex",gap:20,alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",flexShrink:0}}>
+        <span style={{fontSize:10,color:textDim,display:"flex",alignItems:"center",gap:5}}>
+          {activePb&&pbMode==="view"&&<><EyeIcon color={activePb.color+"aa"} size={9}/><span style={{color:activePb.color+"bb"}}>View — highlighted actions open their link on click</span></>}
+          {activePb&&pbMode==="edit"&&<><div className="rec-dot" style={{width:5,height:5,borderRadius:"50%",background:activePb.color,flexShrink:0}}/><span style={{color:activePb.color+"bb"}}>Edit — click any action to add/remove from <strong style={{color:activePb.color}}>{activePb.name}</strong></span></>}
+          {!activePb&&<><LinkIcon color={textDim} size={9}/> Phase/action with link → opens URL · No link → click to edit</>}
+        </span>
+        <span style={{fontSize:10,color:textDim}}>Export → <span style={{color:dark?"#5555aa":"#8888cc"}}>index_YYYYMMDD_HHMMSS.html</span></span>
+      </div>
+
+      {/* ── BODY ── */}
+      <div style={{flex:1,display:"flex",overflow:"hidden"}}>
+
+        {/* MATRIX */}
+        <div style={{flex:1,overflowX:"auto",overflowY:"auto",padding:"20px 18px 48px"}}>
+          <div style={{display:"flex",gap:12,minWidth:"max-content",alignItems:"flex-start"}}>
+
+            {matrix.tactics.map((tactic,idx)=>{
+              const accent = TACTIC_ACCENTS[tactic.id]||DEF_ACCENT;
+              const techs  = filterCat ? tactic.techniques.filter(te=>te.category===filterCat) : tactic.techniques;
+
+              return (
+                <div key={tactic.id} className="tactic-wrap" style={{width:175,flexShrink:0}}>
+
+                  {/* Phase header */}
+                  <div className="tactic-header"
+                    onClick={()=>handleTacticClick(tactic)}
+                    onMouseEnter={()=>setHoveredTactic(tactic.id)}
+                    onMouseLeave={()=>setHoveredTactic(null)}
+                    style={{background:`linear-gradient(150deg,${accent.from},${accent.to})`,borderRadius:10,padding:"12px 14px",marginBottom:8,border:`1px solid ${tactic.url?accent.text+"66":accent.border}`,position:"relative",boxShadow:dark?(tactic.url?`0 4px 24px ${accent.text}22`:`0 4px 18px ${accent.border}22`):(tactic.url?`0 4px 16px ${accent.text}33`:`0 2px 8px ${accent.border}22`)}}>
+                    <div style={{fontSize:9,color:accent.text,opacity:.6,letterSpacing:3,marginBottom:4,textTransform:"uppercase"}}>Phase {idx+1}</div>
+                    <div style={{fontSize:13,fontWeight:700,color:accent.text,fontFamily:"'Space Grotesk',sans-serif",lineHeight:1.25,paddingRight:18}}>{tactic.name}</div>
+                    <div style={{fontSize:10,color:dark?"#44446088":"#88889088",marginTop:4,display:"flex",alignItems:"center",gap:5}}>
+                      <span>{filterCat?`${techs.length}/${tactic.techniques.length}`:tactic.techniques.length} actions</span>
+                      {tactic.url&&<span style={{display:"flex",alignItems:"center",gap:3,color:accent.text,opacity:.6}}>· <LinkIcon color={accent.text} size={9}/></span>}
+                    </div>
+                    {hoveredTactic===tactic.id&&!tactic.url&&!activePb&&(
+                      <div style={{position:"absolute",top:9,right:28,fontSize:11,color:accent.text,opacity:.5}}>✎</div>
+                    )}
+                    <button className="tactic-del" onClick={e=>{e.stopPropagation();deleteTactic(tactic.id);}} style={{position:"absolute",top:9,right:9,background:"transparent",border:"none",color:"#e94560",cursor:"pointer",fontSize:16,padding:2,lineHeight:1}}>×</button>
+                  </div>
+
+                  {/* Action cells */}
+                  <div style={{display:"flex",flexDirection:"column",gap:4}}>
+                    {techs.map(tech=>{
+                      const cat       = getCat(tech.category);
+                      const isHov     = hoveredCell===`${tactic.id}-${tech.id}`;
+                      const hasLink   = !!tech.url;
+                      const inPb      = activePb&&activePb.techIds.includes(tech.id);
+                      const isDimmed  = activePb&&!inPb;
+                      const memberPbs = (matrix.playbooks||[]).filter(p=>p.id!==activePlaybook&&p.techIds.includes(tech.id));
+
+                      let cls="tech-cell";
+                      if(isDimmed)                    cls+=" dimmed";
+                      if(isDimmed&&pbMode==="view")   cls+=" view-mode-dim";
+                      if(inPb)                        cls+=" in-playbook";
+                      if(inPb&&pbMode==="view")       cls+=" view-mode";
+                      if(pbMode==="edit")             cls+=" edit-mode-cell";
+
+                      const catBg = tech.category ? cat.bg : cellBg;
+                      const catBorder = inPb
+                        ? activePb.color+"cc"
+                        : hasLink
+                          ? (tech.category?cat.color+"aa":(dark?"#4a4a80":"#b0b0d8"))
+                          : (tech.category?cat.color:cellBorderBase);
+
+                      return (
+                        <div key={tech.id} className={cls}
+                          style={{
+                            "--pb-color": activePb?.color||"#7c6ff7",
+                            background: catBg,
+                            border: `1px solid ${catBorder}`,
+                            borderRadius:8, padding:"9px 11px",
+                            cursor: pbMode==="edit"?"crosshair":(hasLink||inPb)?"pointer":"default",
+                            position:"relative",
+                            boxShadow: inPb
+                              ? `0 0 14px ${activePb.color}44`
+                              : hasLink
+                                ? `0 2px 10px ${tech.category?cat.color+"33":(dark?"#3a3a7033":"#b0b0d033")}`
+                                : tech.category
+                                  ? `0 1px 6px ${cat.color}22`
+                                  : dark?"none":"0 1px 3px rgba(0,0,0,.06)",
+                          }}
+                          onClick={()=>handleTechClick(tactic.id,tech)}
+                          onMouseEnter={()=>{ if(!isDimmed||pbMode==="edit") setHoveredCell(`${tactic.id}-${tech.id}`); }}
+                          onMouseLeave={()=>setHoveredCell(null)}
+                        >
+                          {/* ID row */}
+                          <div style={{fontSize:9,color:dark?"#3a3a58":"#c0c0d8",marginBottom:3,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                            <span>{tech.id}</span>
+                            <div style={{display:"flex",alignItems:"center",gap:3}}>
+                              {memberPbs.map(p=><div key={p.id} style={{width:5,height:5,borderRadius:"50%",background:p.color}} title={p.name}/>)}
+                              {hasLink&&!activePb&&<LinkIcon color={tech.category?cat.text:(dark?"#5a5a90":"#b0b0d0")} size={9}/>}
+                              {inPb&&pbMode==="view"&&hasLink&&<LinkIcon color={activePb.color} size={9}/>}
+                            </div>
+                          </div>
+                          {/* Name */}
+                          <div style={{fontSize:12,fontWeight:500,color:inPb?textMain:(tech.category?cat.text:(hasLink?(dark?"#b0b0d8":"#4040a0"):(dark?"#9090b8":"#5050a0"))),lineHeight:1.35}}>
+                            {tech.name}
+                          </div>
+                          {/* Description */}
+                          {tech.description&&(
+                            <div style={{fontSize:10,fontStyle:"italic",color:dark?"#666688":"#9090b0",lineHeight:1.35,marginTop:3}}>
+                              {tech.description}
+                            </div>
+                          )}
+                          {/* Category badge */}
+                          {tech.category&&(
+                            <div style={{display:"inline-flex",alignItems:"center",gap:4,marginTop:6,background:`${cat.color}20`,border:`1px solid ${cat.color}55`,borderRadius:10,padding:"2px 7px"}}>
+                              <div style={{width:5,height:5,borderRadius:"50%",background:cat.text}}/>
+                              <span style={{fontSize:9,color:cat.text,letterSpacing:.5}}>{cat.label}</span>
+                            </div>
+                          )}
+                          {/* Collapsible detail sections */}
+                          {!inPb&&!activePb&&(tech.sections?.length>0||(tech.comment&&!tech.sections))&&(
+                            <div style={{marginTop:6}} onClick={e=>e.stopPropagation()}>
+                              {(tech.sections?.length>0?tech.sections:[{id:"legacy",title:"Notes",body:tech.comment}]).map(sec=>(
+                                <SectionBlock key={sec.id} sec={sec} dark={dark}/>
+                              ))}
+                            </div>
+                          )}
+                          {/* In-playbook checkmark */}
+                          {inPb&&(
+                            <div style={{position:"absolute",top:6,right:6,width:15,height:15,borderRadius:"50%",background:activePb.color,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                              <span style={{color:"#fff",fontSize:9,fontWeight:700,lineHeight:1}}>✓</span>
+                            </div>
+                          )}
+                          {/* Sections indicator dots — removed by design */}
+                          {/* Edit/del */}
+                          {isHov&&!activePb&&(
+                            <div style={{position:"absolute",bottom:5,right:5,display:"flex",gap:4}}>
+                              <button onClick={e=>{e.stopPropagation();setSelected({tacticId:tactic.id,techId:tech.id});}}
+                                style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:4,color:dark?"#a29bfe":"#5b4fd4",fontSize:9,padding:"1px 6px",cursor:"pointer",fontFamily:"inherit"}}>edit</button>
+                              <button onClick={e=>{e.stopPropagation();deleteTech(tactic.id,tech.id);}}
+                                style={{background:dark?"#e9456012":"#fff0f2",border:`1px solid ${dark?"#e9456045":"#fca5a5"}`,borderRadius:4,color:"#e94560",fontSize:9,padding:"1px 5px",cursor:"pointer",fontFamily:"inherit"}}>del</button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+
+                    {filterCat&&techs.length===0&&(
+                      <div style={{border:`1px dashed ${dark?"#1e1e38":"#d8d8f0"}`,borderRadius:8,padding:"16px 10px",textAlign:"center",color:textDim,fontSize:11}}>no match</div>
+                    )}
+
+                    {!activePb&&(
+                      <button className="add-action-btn"
+                        onClick={()=>setShowAddAction({preselect:tactic.id})}
+                        onMouseEnter={e=>{e.currentTarget.style.borderColor=accent.text;e.currentTarget.style.color=accent.text;}}
+                        onMouseLeave={e=>{e.currentTarget.style.borderColor=dark?"#1e1e38":"#d8d8f0";e.currentTarget.style.color=textDim;}}
+                        style={{background:"transparent",border:`1px dashed ${dark?"#1e1e38":"#d8d8f0"}`,borderRadius:8,padding:"8px",color:textDim,cursor:"pointer",fontSize:11,fontFamily:"inherit",transition:"all .15s"}}>
+                        + add action
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Add Phase */}
+            {!activePb&&(
+              <div style={{width:140,flexShrink:0}}>
+                <button onClick={()=>setShowAddTactic(true)}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#7c6ff7";e.currentTarget.style.color="#7c6ff7";}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor=dark?"#1a1a30":"#d8d8f0";e.currentTarget.style.color=textDim;}}
+                  style={{width:"100%",background:"transparent",border:`2px dashed ${dark?"#1a1a30":"#d8d8f0"}`,borderRadius:10,padding:"40px 10px",color:textDim,cursor:"pointer",fontSize:12,transition:"all .2s",fontFamily:"inherit"}}>
+                  + New Phase
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── PLAYBOOK PANEL ── */}
+        {panelOpen ? (
+          <PlaybookPanel
+            dark={dark}
+            playbooks={matrix.playbooks||[]}
+            activePlaybookId={activePlaybook}
+            pbMode={pbMode}
+            onSelect={selectPlaybook}
+            onSetMode={setPbMode}
+            onDeselect={deselectPlaybook}
+            onAdd={()=>setShowAddPb(true)}
+            onDelete={deletePlaybook}
+            onRename={renamePlaybook}
+            onReorder={reorderPlaybook}
+            onCollapse={()=>setPanelOpen(false)}
+            matrix={matrix}
+          />
+        ) : (
+          <div onClick={()=>setPanelOpen(true)} title="Open playbooks panel"
+            style={{width:32,flexShrink:0,background:dark?"#0e0e1e":"#f8f8ff",borderLeft:`1px solid ${dark?"#1e1e38":"#d8d8f0"}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:10,transition:"background .15s"}}
+            onMouseEnter={e=>e.currentTarget.style.background=dark?"#141430":"#eeeefc"}
+            onMouseLeave={e=>e.currentTarget.style.background=dark?"#0e0e1e":"#f8f8ff"}>
+            <BookIcon color="#7c6ff7" size={14}/>
+            <span style={{fontSize:10,color:"#7c6ff7",letterSpacing:2,textTransform:"uppercase",writingMode:"vertical-rl",transform:"rotate(180deg)",opacity:.8,whiteSpace:"nowrap"}}>Playbooks</span>
+            {(matrix.playbooks||[]).length>0&&(
+              <span style={{fontSize:9,color:"#a29bfe",background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:8,padding:"2px 5px",textAlign:"center"}}>
+                {(matrix.playbooks||[]).length}
+              </span>
+            )}
+            <div style={{marginTop:"auto",marginBottom:14,opacity:.4}}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#a29bfe" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── MODALS ── */}
+      {selected&&selectedTech&&(
+        <CellModal dark={dark} tech={selectedTech} categories={categories} onClose={()=>setSelected(null)} onSave={u=>{updateTech(selected.tacticId,selected.techId,u);setSelected(null);}}/>
+      )}
+      {editTactic&&(
+        <TacticEditModal dark={dark} tactic={editTactic} onClose={()=>setEditTactic(null)} onSave={u=>{updateTactic(editTactic.id,u);setEditTactic(null);}}/>
+      )}
+      {showAddTactic&&<AddTacticModal dark={dark} onClose={()=>setShowAddTactic(false)} onAdd={addTactic}/>}
+      {showAddAction&&<AddActionModal dark={dark} tactics={matrix.tactics} preselect={showAddAction?.preselect} onClose={()=>setShowAddAction(false)} onAdd={addAction}/>}
+      {showAddPb&&<AddPlaybookModal dark={dark} onClose={()=>setShowAddPb(false)} onAdd={addPlaybook} usedColors={(matrix.playbooks||[]).map(p=>p.color)}/>}
+      {showManageCat&&<ManageCategoriesModal dark={dark} categories={categories} onClose={()=>setShowManageCat(false)} onAdd={addCategory} onDelete={deleteCategory}/>}
+
+      <input ref={fileRef} type="file" accept=".html" style={{display:"none"}} onChange={importFile}/>
+    </div>
+  );
+}
+
+// ── Load all data from the GitHub folder structure then boot the app ──
+async function loadData() {
+  const root = document.getElementById("root");
+
+  // Show a loading state
+  root.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#0e0e18;font-family:DM Mono,monospace;color:#444460;font-size:13px;letter-spacing:1px;">Loading IR Navigator…</div>';
+
+  try {
+    // Derive base URL robustly — works whether the page is at /repo/ or /repo/index.html
+    const base = (() => {
+      const loc = window.location.href;
+      // Strip query string and hash
+      const clean = loc.split('?')[0].split('#')[0];
+      // If URL ends with .html, remove the filename; otherwise remove trailing slash
+      return clean.endsWith('.html')
+        ? clean.substring(0, clean.lastIndexOf('/'))
+        : clean.replace(/\/$/, '');
+    })();
+    const get = path => fetch(`${base}/${path}`).then(r => {
+      if(!r.ok) throw new Error(`Could not load "${path}" — HTTP ${r.status}. Check that the file exists in your GitHub repo at that path.`);
+      return r.json();
+    });
+
+    // Step 1: fetch the master index
+    const index = await get('index.json');
+
+    // Step 2: fetch categories, playbooks, and phase metadata — all in parallel
+    const [categories, ...playbooksAndPhases] = await Promise.all([
+      get(index.categories),
+      ...index.playbooks.map(p => get(p)),
+      ...index.phases.map(folder => get(folder + '/_phase.json')),
+    ]);
+
+    const playbooks = playbooksAndPhases.slice(0, index.playbooks.length);
+    const phaseMetas = playbooksAndPhases.slice(index.playbooks.length);
+
+    // Step 3: for each phase, fetch all its action files in parallel
+    const tactics = await Promise.all(
+      phaseMetas.map(async (phase, i) => {
+        const folder = index.phases[i];
+        const actions = await Promise.all(
+          phase.actions.map(filename => get(folder + '/' + filename))
+        );
+        return {
+          id:        phase.id,
+          name:      phase.name,
+          shortcode: phase.shortcode,
+          url:       phase.url || "",
+          techniques: actions,
+        };
+      })
+    );
+
+    // Step 4: assemble the full matrix and render
+    const matrix = {
+      name:       index.name,
+      categories: categories,
+      playbooks:  playbooks,
+      tactics:    tactics,
+    };
+
+    ReactDOM.createRoot(root).render(
+      <App initialMatrix={matrix} initialName={index.name}/>
+    );
+
+  } catch(err) {
+    const msg = err.message || String(err);
+    root.innerHTML = `<div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0e0e18;font-family:DM Mono,monospace;gap:10px;padding:40px;text-align:center;">
+      <div style="color:#e94560;font-size:15px;font-weight:600;">Failed to load IR Navigator</div>
+      <div style="color:#888;font-size:12px;max-width:560px;">${msg}</div>
+      <div style="color:#555;font-size:10px;margin-top:6px;">Page URL: ${window.location.href}</div>
+      <div style="color:#555;font-size:10px;">Check the browser console (F12) for more detail.</div>
+    </div>`;
+    console.error('IR Navigator load error:', err);
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>

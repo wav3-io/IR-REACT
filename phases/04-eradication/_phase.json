@@ -1,0 +1,16 @@
+{
+  "id": "t4",
+  "name": "Eradication",
+  "shortcode": "E",
+  "url": "",
+  "actions": [
+    "ER-001-report-incident-to-external-companies.json",
+    "ER-002-remove-rogue-network-device.json",
+    "ER-003-delete-email-message.json",
+    "ER-004-remove-file.json",
+    "ER-005-remove-registry-key.json",
+    "ER-006-remove-service.json",
+    "ER-007-revoke-authentication-credentials.json",
+    "ER-008-remove-user-account.json"
+  ]
+}

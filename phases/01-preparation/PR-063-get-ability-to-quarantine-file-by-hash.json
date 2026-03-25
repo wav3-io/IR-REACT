@@ -1,0 +1,8 @@
+{
+  "id": "PR-063",
+  "name": "Get Ability To Quarantine File By Hash",
+  "description": "Make sure you have the ability to block a file from being accessed by its hash",
+  "url": "",
+  "category": "",
+  "sections": []
+}

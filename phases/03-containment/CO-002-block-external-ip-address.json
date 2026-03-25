@@ -1,0 +1,8 @@
+{
+  "id": "CO-002",
+  "name": "Block External IP Address",
+  "description": "Block an external IP address from being accessed by corporate assets",
+  "url": "",
+  "category": "",
+  "sections": []
+}

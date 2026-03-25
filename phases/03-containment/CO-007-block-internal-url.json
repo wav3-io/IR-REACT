@@ -1,0 +1,8 @@
+{
+  "id": "CO-007",
+  "name": "Block Internal URL",
+  "description": "Block an internal URL from being accessed by corporate assets",
+  "url": "",
+  "category": "",
+  "sections": []
+}

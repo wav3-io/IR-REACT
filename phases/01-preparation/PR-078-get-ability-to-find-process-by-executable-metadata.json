@@ -1,0 +1,8 @@
+{
+  "id": "PR-078",
+  "name": "Get Ability To Find Process By Executable Metadata",
+  "description": "Make sure you have the ability to find process executed at a particular time in the past by its executable metadata (i.e. signature, permissions, MAC times)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-019",
+  "name": "Access Internal DNS Logs",
+  "description": "Make sure you have access to internal communication DNS logs",
+  "url": "",
+  "category": "",
+  "sections": []
+}

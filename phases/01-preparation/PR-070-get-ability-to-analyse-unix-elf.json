@@ -1,0 +1,8 @@
+{
+  "id": "PR-070",
+  "name": "Get Ability To Analyse Unix ELF",
+  "description": "Make sure you have the ability to analyse a UNIX ELF file",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "ER-003",
+  "name": "Delete Email Message",
+  "description": "Delete an email message from an Email Server and users' email boxes",
+  "url": "",
+  "category": "",
+  "sections": []
+}

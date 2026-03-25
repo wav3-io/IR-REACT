@@ -1,0 +1,8 @@
+{
+  "id": "PR-016",
+  "name": "Access Internal Network Flow Logs",
+  "description": "Make sure you have access to internal communication Network Flow logs",
+  "url": "",
+  "category": "",
+  "sections": []
+}

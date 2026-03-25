@@ -1,0 +1,8 @@
+{
+  "id": "PR-057",
+  "name": "Get Ability To Find File By Metadata",
+  "description": "Make sure you have the ability to find file by its metadata (i.e. signature, permissions, MAC times)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

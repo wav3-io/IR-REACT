@@ -1,0 +1,8 @@
+{
+  "id": "CO-004",
+  "name": "Block External Domain",
+  "description": "Block an external domain name from being accessed by corporate assets",
+  "url": "",
+  "category": "",
+  "sections": []
+}

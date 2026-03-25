@@ -1,0 +1,8 @@
+{
+  "id": "PR-077",
+  "name": "Get Ability To Find Process By Executable Path",
+  "description": "Make sure you have the ability to find process executed at a particular time in the past by its executable path (including its name)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-006",
+  "name": "Set Up A Centralized Long Term Log Storage",
+  "description": "Set up a centralized long-term log storage. This is one of the most critical problems companies have nowadays. Even if there is such a system, in most of the cases it stores irrelevant data or has too small retention period",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-032",
+  "name": "Get Ability To Block Port Internal Communication",
+  "description": "Make sure you can block a network port for internal communications",
+  "url": "",
+  "category": "",
+  "sections": []
+}

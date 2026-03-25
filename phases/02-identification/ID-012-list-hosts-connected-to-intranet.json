@@ -1,0 +1,8 @@
+{
+  "id": "ID-012",
+  "name": "List Hosts Connected To Intranet",
+  "description": "List hosts connected to the internal network at the moment or at a particular time in the past",
+  "url": "",
+  "category": "",
+  "sections": []
+}

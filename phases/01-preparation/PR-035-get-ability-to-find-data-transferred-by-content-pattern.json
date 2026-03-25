@@ -1,0 +1,8 @@
+{
+  "id": "PR-035",
+  "name": "Get Ability To Find Data Transferred By Content Pattern",
+  "description": "Make sure you have the ability to find data transferred at a particular time in the past by its content pattern (i.e. specific string, keyword, binary pattern etc)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

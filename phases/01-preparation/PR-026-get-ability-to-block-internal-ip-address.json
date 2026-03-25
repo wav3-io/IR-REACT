@@ -1,0 +1,8 @@
+{
+  "id": "PR-026",
+  "name": "Get Ability To Block Internal IP Address",
+  "description": "Make sure you can block an internal IP address from being accessed by corporate assets",
+  "url": "",
+  "category": "",
+  "sections": []
+}

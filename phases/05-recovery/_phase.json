@@ -1,0 +1,22 @@
+{
+  "id": "t5",
+  "name": "Recovery",
+  "shortcode": "R",
+  "url": "",
+  "actions": [
+    "RE-001-reinstall-host-from-golden-image.json",
+    "RE-002-restore-data-from-backup.json",
+    "RE-003-unblock-blocked-ip.json",
+    "RE-004-unblock-blocked-domain.json",
+    "RE-005-unblock-blocked-url.json",
+    "RE-006-unblock-blocked-port.json",
+    "RE-007-unblock-blocked-user.json",
+    "RE-008-unblock-domain-on-email.json",
+    "RE-009-unblock-sender-on-email.json",
+    "RE-010-restore-quarantined-email-message.json",
+    "RE-011-restore-quarantined-file.json",
+    "RE-012-unblock-blocked-process.json",
+    "RE-013-enable-disabled-service.json",
+    "RE-014-unlock-locked-user-account.json"
+  ]
+}

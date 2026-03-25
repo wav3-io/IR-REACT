@@ -1,0 +1,16 @@
+{
+  "name": "Incident Response — PICERL",
+  "categories": "categories.json",
+  "playbooks": [
+    "playbooks/phishing.json",
+    "playbooks/ddos.json"
+  ],
+  "phases": [
+    "phases/01-preparation",
+    "phases/02-identification",
+    "phases/03-containment",
+    "phases/04-eradication",
+    "phases/05-recovery",
+    "phases/06-lessons-learned"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-017",
+  "name": "Access Internal HTTP Logs",
+  "description": "Make sure you have access to internal communication HTTP logs",
+  "url": "",
+  "category": "",
+  "sections": []
+}

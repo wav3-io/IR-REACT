@@ -1,0 +1,8 @@
+{
+  "id": "ID-037",
+  "name": "Find File By Content Pattern",
+  "description": "Find a file by its content pattern (i.e. specific string, keyword, binary pattern etc)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

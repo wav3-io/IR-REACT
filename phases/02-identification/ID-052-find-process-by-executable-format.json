@@ -1,0 +1,8 @@
+{
+  "id": "ID-052",
+  "name": "Find Process By Executable Format",
+  "description": "Find a process that is being executed at the moment or at a particular time in the past by its executable format",
+  "url": "",
+  "category": "",
+  "sections": []
+}

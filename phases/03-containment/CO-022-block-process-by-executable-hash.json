@@ -1,0 +1,8 @@
+{
+  "id": "CO-022",
+  "name": "Block Process By Executable Hash",
+  "description": "Block a process execution by its executable hash",
+  "url": "",
+  "category": "",
+  "sections": []
+}

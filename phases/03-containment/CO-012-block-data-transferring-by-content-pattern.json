@@ -1,0 +1,8 @@
+{
+  "id": "CO-012",
+  "name": "Block Data Transferring By Content Pattern",
+  "description": "Block data transferring by its content pattern (i.e. specific string, keyword, binary pattern etc)",
+  "url": "",
+  "category": "",
+  "sections": []
+}

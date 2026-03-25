@@ -1,0 +1,8 @@
+{
+  "id": "PR-028",
+  "name": "Get Ability To Block Internal Domain",
+  "description": "Make sure you can block an internal domain name from being accessed by corporate assets",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-009",
+  "name": "Get Network Architecture Map",
+  "description": "Get network architecture map. Usually, its managed by the Network security team. It will help you to choose the containment strategy, such as isolating specific network segments",
+  "url": "",
+  "category": "",
+  "sections": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "PR-020",
+  "name": "Access External DNS Logs",
+  "description": "Make sure you have access to external communication DNS logs",
+  "url": "",
+  "category": "",
+  "sections": []
+}
