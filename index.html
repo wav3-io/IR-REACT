@@ -348,6 +348,9 @@ function MoonIcon({color="#888",size=15}) {
 function TagIcon({color="#888",size=12}) {
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>;
 }
+function GuideIcon({color="#888",size=11}) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
+}
 
 // ── Modals ──
 function TacticEditModal({dark, onClose, tactic, onSave}) {
@@ -701,7 +704,7 @@ function ManageCategoriesModal({dark, categories, onClose, onAdd, onDelete}) {
 }
 
 // ── Playbook Panel ──
-function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onSetMode, onDeselect, onAdd, onDelete, onRename, onReorder, onCollapse, matrix}) {
+function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onSetMode, onDeselect, onAdd, onDelete, onRename, onReorder, onCollapse, onOpenGuide, matrix}) {
   const [collapsed,  setCollapsed]  = useState({});
   const [editingId,  setEditingId]  = useState(null);
   const [editName,   setEditName]   = useState("");
@@ -837,6 +840,12 @@ function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onS
                       </button>
                     );
                   })}
+                  <button className="mode-btn" onClick={()=>onOpenGuide&&onOpenGuide(pb.id)}
+                    style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",gap:5,padding:"6px 0",borderRadius:6,cursor:"pointer",fontFamily:"inherit",fontSize:11,background:"transparent",border:`1px solid ${dark?"#2a2a45":"#d0d0e8"}`,color:textSub,transition:"all .15s"}}
+                    onMouseEnter={e=>{e.currentTarget.style.borderColor=pb.color;e.currentTarget.style.color=pb.color;}}
+                    onMouseLeave={e=>{e.currentTarget.style.borderColor=dark?"#2a2a45":"#d0d0e8";e.currentTarget.style.color=textSub;}}>
+                    <GuideIcon color="currentColor" size={11}/>Guide
+                  </button>
                 </div>
               )}
 
@@ -919,6 +928,198 @@ function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onS
   );
 }
 
+// ── Response Guide Overlay ──
+function ResponseGuideOverlay({dark, playbook, matrix, onClose}) {
+  const [expanded, setExpanded] = useState({});
+  const toggle = id => setExpanded(e=>({...e,[id]:!e[id]}));
+
+  // Build phase-grouped actions from playbook techIds
+  const lookup = {};
+  matrix.tactics.forEach(t => t.techniques.forEach(te => { lookup[te.id] = {te, tactic:t}; }));
+
+  const phaseMap = {};
+  playbook.techIds.forEach(id => {
+    const entry = lookup[id]; if(!entry) return;
+    const tid = entry.tactic.id;
+    if(!phaseMap[tid]) phaseMap[tid] = {tactic:entry.tactic, techniques:[]};
+    phaseMap[tid].techniques.push(entry.te);
+  });
+
+  const tacticOrder = matrix.tactics.map(t => t.id);
+  const phases = tacticOrder.filter(tid => phaseMap[tid]).map(tid => phaseMap[tid]);
+
+  const totalActions = playbook.techIds.filter(id=>lookup[id]).length;
+
+  // Phase badge colors
+  const phaseBadge = {
+    P:{ bg:dark?"#1a365d":"#dbeafe", text:dark?"#63b3ed":"#1d4ed8" },
+    I:{ bg:dark?"#2d1f5e":"#ede9fe", text:dark?"#b794f4":"#5b21b6" },
+    C:{ bg:dark?"#4a2e08":"#ffedd5", text:dark?"#f6ad55":"#c2410c" },
+    E:{ bg:dark?"#4a1010":"#ffe4e6", text:dark?"#fc8181":"#be123c" },
+    R:{ bg:dark?"#143325":"#dcfce7", text:dark?"#68d391":"#15803d" },
+    L:{ bg:dark?"#3b1a3b":"#fce7f3", text:dark?"#d6bcfa":"#a21caf" },
+  };
+
+  const bgMain   = dark?"#0e0e18":"#f0f0f8";
+  const bgCard   = dark?"#161628":"#ffffff";
+  const borderC  = dark?"#2e2e50":"#d8d8f0";
+  const textMain = dark?"#e8e8f0":"#1a1a2e";
+  const textSub  = dark?"#8888aa":"#6060a0";
+  const textDim  = dark?"#555577":"#a0a0c0";
+  const surfaceBg= dark?"#1a1a2e":"#f5f5fc";
+
+  return (
+    <div style={{position:"fixed",inset:0,background:bgMain,zIndex:2000,display:"flex",flexDirection:"column",fontFamily:"'DM Mono',monospace",overflow:"hidden"}}>
+      {/* Header bar */}
+      <div style={{padding:"16px 28px",borderBottom:`1px solid ${borderC}`,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0,background:dark?"#111120":"#ffffff"}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:10,height:10,borderRadius:"50%",background:playbook.color,boxShadow:`0 0 8px ${playbook.color}`}}/>
+          <span style={{fontSize:16,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:textMain}}>Response Guide</span>
+          <span style={{fontSize:12,color:textSub}}>—</span>
+          <span style={{fontSize:14,fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,color:playbook.color}}>{playbook.name}</span>
+          <span style={{fontSize:11,color:textDim,background:dark?"#1e1e38":"#eeeefc",borderRadius:10,padding:"2px 10px"}}>{totalActions} actions across {phases.length} phases</span>
+        </div>
+        <button onClick={onClose}
+          onMouseEnter={e=>{e.currentTarget.style.background=dark?"#2a2a4a":"#e0e0f0";}}
+          onMouseLeave={e=>{e.currentTarget.style.background=dark?"#1a1a3a":"#ede9fe";}}
+          style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:7,padding:"6px 16px",cursor:"pointer",color:dark?"#a29bfe":"#5b4fd4",fontSize:12,fontFamily:"inherit",transition:"background .15s",display:"flex",alignItems:"center",gap:6}}>
+          ← Back to Matrix
+        </button>
+      </div>
+
+      {/* Scrollable content */}
+      <div style={{flex:1,overflowY:"auto",padding:"28px 40px 60px"}}>
+        <div style={{maxWidth:880,margin:"0 auto"}}>
+
+          {/* Playbook hero header */}
+          <div style={{background:`linear-gradient(135deg, ${playbook.color}18, ${playbook.color}08)`,border:`1px solid ${playbook.color}44`,borderBottom:`3px solid ${playbook.color}`,borderRadius:12,padding:"24px 30px",marginBottom:28}}>
+            <div style={{display:"flex",alignItems:"center",gap:16}}>
+              <span style={{fontSize:48,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:playbook.color,opacity:.35,lineHeight:1}}>
+                {String(((matrix.playbooks||[]).indexOf(playbook))+1).padStart(2,"0")}
+              </span>
+              <div>
+                <div style={{fontSize:22,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:playbook.color}}>{playbook.name}</div>
+                <div style={{fontSize:12,color:textDim,marginTop:2}}>PICERL Response Guide — {totalActions} actions</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Phase sections */}
+          {phases.length===0 && (
+            <div style={{textAlign:"center",padding:"60px 20px",color:textDim,fontSize:13}}>
+              No actions assigned to this playbook yet.<br/>
+              <span style={{fontSize:11,opacity:.7}}>Use Edit mode on the main matrix to add actions, then return to this guide.</span>
+            </div>
+          )}
+
+          {phases.map(({tactic, techniques}) => {
+            const badge = phaseBadge[tactic.shortcode] || phaseBadge.P;
+            return (
+              <div key={tactic.id} style={{marginBottom:24}}>
+                {/* Phase header */}
+                <div style={{display:"flex",alignItems:"center",gap:10,paddingBottom:8,marginBottom:8,borderBottom:`1px solid ${borderC}`}}>
+                  <span style={{fontSize:11,fontWeight:700,letterSpacing:2,textTransform:"uppercase",padding:"4px 12px",borderRadius:5,background:badge.bg,color:badge.text}}>
+                    {tactic.shortcode}
+                  </span>
+                  <span style={{fontSize:15,fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,color:badge.text}}>
+                    {tactic.name}
+                  </span>
+                  <span style={{fontSize:10,color:textDim}}>{techniques.length} action{techniques.length!==1?"s":""}</span>
+                </div>
+
+                {/* Action rows */}
+                {techniques.map(tech => {
+                  const isOpen = expanded[tech.id];
+                  const hasDetail = tech.description || (tech.sections && tech.sections.length > 0);
+                  return (
+                    <div key={tech.id}>
+                      <div
+                        onClick={()=>hasDetail && toggle(tech.id)}
+                        style={{display:"flex",alignItems:"center",gap:12,padding:"7px 4px 7px 18px",cursor:hasDetail?"pointer":"default",borderRadius:6,transition:"background .12s",background:isOpen?(dark?"#1a1a30":"#f0f0fa"):"transparent"}}
+                        onMouseEnter={e=>{if(hasDetail) e.currentTarget.style.background=dark?"#1a1a30":"#f0f0fa";}}
+                        onMouseLeave={e=>{if(!isOpen) e.currentTarget.style.background="transparent";}}
+                      >
+                        {/* Expand chevron */}
+                        <div style={{width:14,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",opacity:hasDetail?0.5:0.15}}>
+                          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={textSub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                            style={{transform:isOpen?"rotate(90deg)":"none",transition:"transform .15s"}}>
+                            <polyline points="9 18 15 12 9 6"/>
+                          </svg>
+                        </div>
+
+                        {/* ID */}
+                        <span style={{fontSize:12,color:textDim,fontFamily:"'DM Mono',monospace",minWidth:58,flexShrink:0}}>{tech.id}</span>
+
+                        {/* Name */}
+                        <span style={{fontSize:13,color:textMain,flex:1}}>{tech.name}</span>
+
+                        {/* Link icon if URL exists */}
+                        {tech.url && (
+                          <a href={tech.url} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}
+                            style={{flexShrink:0,opacity:.4,display:"flex",alignItems:"center"}}
+                            onMouseEnter={e=>e.currentTarget.style.opacity=1}
+                            onMouseLeave={e=>e.currentTarget.style.opacity=.4}>
+                            <LinkIcon color={playbook.color} size={11}/>
+                          </a>
+                        )}
+                      </div>
+
+                      {/* Expanded detail panel */}
+                      {isOpen && hasDetail && (
+                        <div className="fade-in" style={{marginLeft:44,padding:"6px 16px 14px",borderLeft:`2px solid ${playbook.color}33`}}>
+                          {/* Description */}
+                          {tech.description && (
+                            <div style={{fontSize:12,fontStyle:"italic",color:textSub,lineHeight:1.5,marginBottom:tech.sections?.length>0?10:0}}>
+                              {tech.description}
+                            </div>
+                          )}
+
+                          {/* Sections */}
+                          {tech.sections && tech.sections.length > 0 && tech.sections.map(sec => (
+                            <GuideSection key={sec.id} sec={sec} dark={dark} pbColor={playbook.color}/>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GuideSection({sec, dark, pbColor}) {
+  const [open, setOpen] = useState(false);
+  const textSub  = dark?"#8888aa":"#6060a0";
+  const textMain = dark?"#ccc":"#333";
+  const borderC  = dark?"#252545":"#d8d8f0";
+
+  return (
+    <div style={{marginBottom:4}}>
+      <div onClick={()=>setOpen(!open)}
+        style={{display:"flex",alignItems:"center",gap:6,cursor:"pointer",padding:"4px 0"}}
+        onMouseEnter={e=>e.currentTarget.querySelector('.sec-title').style.color=pbColor}
+        onMouseLeave={e=>e.currentTarget.querySelector('.sec-title').style.color=textSub}>
+        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke={textSub} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          style={{transform:open?"rotate(90deg)":"none",transition:"transform .15s",flexShrink:0}}>
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+        <span className="sec-title" style={{fontSize:11,fontWeight:600,color:textSub,letterSpacing:.5,transition:"color .12s"}}>{sec.title || "Notes"}</span>
+      </div>
+      {open && (
+        <div className="fade-in" style={{fontSize:12,color:textMain,lineHeight:1.6,padding:"4px 0 6px 14px",whiteSpace:"pre-wrap"}}>
+          {sec.body || <span style={{opacity:.4,fontStyle:"italic"}}>empty</span>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main App ──
 function App({initialMatrix, initialName}) {
   const [theme,         setTheme]         = useState("dark");
@@ -937,12 +1138,20 @@ function App({initialMatrix, initialName}) {
   const [activePlaybook,setActivePlaybook]= useState(null);
   const [pbMode,        setPbMode]        = useState(null);
   const [panelOpen,     setPanelOpen]     = useState(true);
+  const [showGuide,     setShowGuide]     = useState(null); // playbook id for guide view
   const fileRef = useRef();
 
   const dark = theme !== "light";
 
   // Apply theme to html element
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', theme); }, [theme]);
+
+  // Escape key to close guide overlay
+  useEffect(()=>{
+    const handler = e => { if(e.key==="Escape"&&showGuide) setShowGuide(null); };
+    window.addEventListener("keydown",handler);
+    return ()=>window.removeEventListener("keydown",handler);
+  }, [showGuide]);
 
   const categories   = matrix.categories || DEFAULT_CATEGORIES;
   const getCat       = id => categories.find(c=>c.id===id)||categories[0];
@@ -1375,6 +1584,7 @@ function App({initialMatrix, initialName}) {
             onRename={renamePlaybook}
             onReorder={reorderPlaybook}
             onCollapse={()=>setPanelOpen(false)}
+            onOpenGuide={(pbId)=>setShowGuide(pbId)}
             matrix={matrix}
           />
         ) : (
@@ -1397,6 +1607,12 @@ function App({initialMatrix, initialName}) {
       </div>
 
       {/* ── MODALS ── */}
+      {/* Response Guide Overlay */}
+      {showGuide&&(()=>{
+        const guidePb=(matrix.playbooks||[]).find(p=>p.id===showGuide);
+        return guidePb ? <ResponseGuideOverlay dark={dark} playbook={guidePb} matrix={matrix} onClose={()=>setShowGuide(null)}/> : null;
+      })()}
+
       {selected&&selectedTech&&(
         <CellModal dark={dark} tech={selectedTech} categories={categories} onClose={()=>setSelected(null)} onSave={u=>{updateTech(selected.tacticId,selected.techId,u);setSelected(null);}}/>
       )}
