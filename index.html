@@ -554,13 +554,16 @@ function AddPlaybookModal({dark, onClose, onAdd, usedColors}) {
   const S = getS(dark);
   const avail = PB_COLORS.filter(c=>!usedColors.includes(c));
   const [name,setName]   = useState("");
+  const [desc,setDesc]   = useState("");
   const [color,setColor] = useState(avail[0]||PB_COLORS[0]);
   return (
     <div className="modal-overlay">
       <div style={S.mbox}>
         <div style={S.ml}>New Use Case</div>
         <div style={S.ml2}>USE CASE NAME</div>
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Ransomware, Insider Threat…" autoFocus style={{...S.input,marginBottom:16}}/>
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Ransomware, Insider Threat…" autoFocus style={{...S.input,marginBottom:12}}/>
+        <div style={S.ml2}>DESCRIPTION <span style={{color:dark?"#333":"#ccc"}}>(optional)</span></div>
+        <input value={desc} onChange={e=>setDesc(e.target.value)} placeholder="Brief description of this use case…" style={{...S.input,marginBottom:16}}/>
         <div style={S.ml2}>COLOUR</div>
         <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
           {PB_COLORS.map(c=>(
@@ -569,7 +572,7 @@ function AddPlaybookModal({dark, onClose, onAdd, usedColors}) {
         </div>
         <div style={{display:"flex",gap:10,justifyContent:"flex-end"}}>
           <button onClick={onClose} style={S.ghost}>Cancel</button>
-          <button onClick={()=>name.trim()&&onAdd(name.trim(),color)} style={S.primary}>Create Use Case</button>
+          <button onClick={()=>name.trim()&&onAdd(name.trim(),color,desc.trim())} style={S.primary}>Create Use Case</button>
         </div>
       </div>
     </div>
@@ -704,7 +707,7 @@ function ManageCategoriesModal({dark, categories, onClose, onAdd, onDelete}) {
 }
 
 // ── Playbook Panel ──
-function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onSetMode, onDeselect, onAdd, onDelete, onRename, onReorder, onCollapse, onOpenGuide, matrix}) {
+function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onSetMode, onDeselect, onAdd, onDelete, onRename, onUpdateDesc, onReorder, onCollapse, onOpenGuide, matrix}) {
   const [collapsed,  setCollapsed]  = useState({});
   const [editingId,  setEditingId]  = useState(null);
   const [editName,   setEditName]   = useState("");
@@ -805,18 +808,34 @@ function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onS
               {/* Card header */}
               <div style={{display:"flex",alignItems:"center",gap:6,padding:"9px 10px",cursor:"pointer"}} onClick={()=>isActive?onDeselect():onSelect(pb.id)}>
                 <div style={{width:9,height:9,borderRadius:"50%",background:pb.color,flexShrink:0,boxShadow:isActive?`0 0 7px ${pb.color}`:"none",transition:"box-shadow .2s"}}/>
-                {editingId===pb.id ? (
-                  <input autoFocus value={editName} onChange={e=>setEditName(e.target.value)}
-                    onBlur={()=>{onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}}
-                    onKeyDown={e=>{if(e.key==="Enter"){onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}if(e.key==="Escape")setEditingId(null);}}
-                    onClick={e=>e.stopPropagation()}
-                    style={{flex:1,background:"transparent",border:"none",borderBottom:`1px solid ${pb.color}`,color:textMain,fontSize:12,outline:"none",fontFamily:"inherit",padding:"1px 0"}}/>
-                ) : (
-                  <span onDoubleClick={e=>{e.stopPropagation();setEditingId(pb.id);setEditName(pb.name);}} title="Double-click to rename"
-                    style={{flex:1,fontSize:12,color:isActive?textMain:textSub,fontWeight:isActive?600:400,lineHeight:1.2}}>
-                    {pb.name}
-                  </span>
-                )}
+                <div style={{flex:1,minWidth:0}}>
+                  {editingId===pb.id ? (
+                    <input autoFocus value={editName} onChange={e=>setEditName(e.target.value)}
+                      onBlur={()=>{onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}}
+                      onKeyDown={e=>{if(e.key==="Enter"){onRename(pb.id,editName.trim()||pb.name);setEditingId(null);}if(e.key==="Escape")setEditingId(null);}}
+                      onClick={e=>e.stopPropagation()}
+                      style={{width:"100%",background:"transparent",border:"none",borderBottom:`1px solid ${pb.color}`,color:textMain,fontSize:12,outline:"none",fontFamily:"inherit",padding:"1px 0"}}/>
+                  ) : (
+                    <span onDoubleClick={e=>{e.stopPropagation();setEditingId(pb.id);setEditName(pb.name);}} title="Double-click to rename"
+                      style={{fontSize:12,color:isActive?textMain:textSub,fontWeight:isActive?600:400,lineHeight:1.2,display:"block"}}>
+                      {pb.name}
+                    </span>
+                  )}
+                  {pb.description&&editingId!==pb.id&&(
+                    <div onDoubleClick={e=>{e.stopPropagation();setEditingId("desc-"+pb.id);setEditName(pb.description);}} title="Double-click to edit description"
+                      style={{fontSize:10,fontStyle:"italic",color:textSub,opacity:.7,lineHeight:1.3,marginTop:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                      {pb.description}
+                    </div>
+                  )}
+                  {editingId==="desc-"+pb.id&&(
+                    <input autoFocus value={editName} onChange={e=>setEditName(e.target.value)}
+                      onBlur={()=>{onUpdateDesc(pb.id,editName.trim());setEditingId(null);}}
+                      onKeyDown={e=>{if(e.key==="Enter"){onUpdateDesc(pb.id,editName.trim());setEditingId(null);}if(e.key==="Escape")setEditingId(null);}}
+                      onClick={e=>e.stopPropagation()}
+                      placeholder="Add description…"
+                      style={{width:"100%",background:"transparent",border:"none",borderBottom:`1px solid ${pb.color}44`,color:textSub,fontSize:10,fontStyle:"italic",outline:"none",fontFamily:"inherit",padding:"1px 0",marginTop:1}}/>
+                  )}
+                </div>
                 <span style={{fontSize:10,color:isActive?pb.color:textSub,background:isActive?`${pb.color}22`:dark?"#181830":"#eeeefc",borderRadius:10,padding:"1px 7px",flexShrink:0}}>{techCount}</span>
                 {!isActive&&techCount>0&&(
                   <div onClick={e=>{e.stopPropagation();setCollapsed(c=>({...c,[pb.id]:!c[pb.id]}));}} style={{cursor:"pointer",opacity:.4,display:"flex"}}>
@@ -830,6 +849,16 @@ function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onS
               </div>
 
               {/* Mode toggles */}
+              {isActive&&!pb.description&&editingId!=="desc-"+pb.id&&(
+                <div className="fade-in" style={{padding:"0 10px 6px"}}>
+                  <span onClick={e=>{e.stopPropagation();setEditingId("desc-"+pb.id);setEditName("");}}
+                    style={{fontSize:10,color:textSub,opacity:.5,cursor:"pointer",fontStyle:"italic",transition:"opacity .15s"}}
+                    onMouseEnter={e=>e.currentTarget.style.opacity=1}
+                    onMouseLeave={e=>e.currentTarget.style.opacity=.5}>
+                    + add description
+                  </span>
+                </div>
+              )}
               {isActive&&(
                 <div className="fade-in" style={{display:"flex",gap:6,padding:"0 10px 10px"}}>
                   {[{id:"view",label:"View",Icon:EyeIcon},{id:"edit",label:"Edit",Icon:PencilIcon}].map(({id,label,Icon})=>{
@@ -999,6 +1028,9 @@ function ResponseGuideOverlay({dark, playbook, matrix, onClose}) {
               </span>
               <div>
                 <div style={{fontSize:22,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:playbook.color}}>{playbook.name}</div>
+                {playbook.description&&(
+                  <div style={{fontSize:13,fontStyle:"italic",color:textSub,marginTop:4,lineHeight:1.4}}>{playbook.description}</div>
+                )}
                 <div style={{fontSize:12,color:textDim,marginTop:2}}>PICERL Response Guide — {totalActions} actions</div>
               </div>
             </div>
@@ -1207,9 +1239,10 @@ function App({initialMatrix, initialName}) {
   // ── Playbook fns ──
   function selectPlaybook(pbId) { setActivePlaybook(pbId); setPbMode("view"); setSelected(null); }
   function deselectPlaybook()   { setActivePlaybook(null); setPbMode(null); }
-  function addPlaybook(name,color) { setMatrix(m=>({...m,playbooks:[...(m.playbooks||[]),{id:uid(),name,color,techIds:[]}]})); setShowAddPb(false); }
+  function addPlaybook(name,color,description) { setMatrix(m=>({...m,playbooks:[...(m.playbooks||[]),{id:uid(),name,color,description:description||"",techIds:[]}]})); setShowAddPb(false); }
   function deletePlaybook(pbId)    { setMatrix(m=>({...m,playbooks:(m.playbooks||[]).filter(p=>p.id!==pbId)})); if(activePlaybook===pbId) deselectPlaybook(); }
   function renamePlaybook(pbId,name) { setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>p.id!==pbId?p:{...p,name})})); }
+  function updatePlaybookDesc(pbId,description) { setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>p.id!==pbId?p:{...p,description})})); }
   function reorderPlaybook(pbId,dragId,targetId,pos) {
     setMatrix(m=>({...m,playbooks:(m.playbooks||[]).map(p=>{
       if(p.id!==pbId) return p;
@@ -1625,6 +1658,7 @@ function App({initialMatrix, initialName}) {
             onAdd={()=>setShowAddPb(true)}
             onDelete={deletePlaybook}
             onRename={renamePlaybook}
+            onUpdateDesc={updatePlaybookDesc}
             onReorder={reorderPlaybook}
             onCollapse={()=>setPanelOpen(false)}
             onOpenGuide={(pbId)=>setShowGuide(pbId)}
