@@ -280,6 +280,15 @@ function SectionBlock({sec, dark}) {
       <summary style={{fontSize:9,color:dark?"#7c6ff7":"#5b4fd4",cursor:"pointer",letterSpacing:.5,listStyle:"none",display:"flex",alignItems:"center",gap:4,userSelect:"none",padding:"2px 0"}}>
         <svg width="7" height="7" viewBox="0 0 10 10" fill={dark?"#7c6ff7":"#5b4fd4"} style={{flexShrink:0,transition:"transform .15s"}}><polygon points="0,0 10,5 0,10"/></svg>
         {sec.title||"Notes"}
+        {sec.url&&(
+          <a href={sec.url} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}
+            title={sec.url}
+            style={{display:"inline-flex",alignItems:"center",marginLeft:2,opacity:.5,transition:"opacity .15s"}}
+            onMouseEnter={e=>e.currentTarget.style.opacity=1}
+            onMouseLeave={e=>e.currentTarget.style.opacity=.5}>
+            <LinkIcon color={dark?"#63b3ed":"#2b6cb0"} size={8}/>
+          </a>
+        )}
       </summary>
       <div style={{marginTop:4,position:"relative",borderRadius:5,border:`1px solid ${dark?"#1e1e3a":"#e0e0f0"}`,overflow:"hidden"}}>
         {sec.body&&(
@@ -396,7 +405,7 @@ function CellModal({dark, tech, onClose, onSave, categories}) {
   }
   const [sections, setSections] = useState(initSections);
 
-  function addSection()                    { setSections(s=>[...s, {id:uid(), title:"Notes", body:""}]); }
+  function addSection()                    { setSections(s=>[...s, {id:uid(), title:"Notes", body:"", url:""}]); }
   function removeSection(id)               { setSections(s=>s.filter(x=>x.id!==id)); }
   function updateSection(id, field, value) { setSections(s=>s.map(x=>x.id!==id?x:{...x,[field]:value})); }
 
@@ -464,11 +473,34 @@ function CellModal({dark, tech, onClose, onSave, categories}) {
                 placeholder="Section title (e.g. Procedure, Tools, References…)"
                 style={{flex:1,background:"transparent",border:"none",outline:"none",fontFamily:"inherit",fontSize:12,fontWeight:600,color:dark?"#ccc":"#333"}}
               />
+              <button onClick={()=>updateSection(sec.id,"_showUrl",!sec._showUrl)}
+                title={sec.url?"Edit section link":"Add section link"}
+                onMouseEnter={e=>e.currentTarget.style.opacity=1}
+                onMouseLeave={e=>e.currentTarget.style.opacity=sec.url?.8:.35}
+                style={{background:"transparent",border:"none",cursor:"pointer",padding:"0 2px",flexShrink:0,opacity:sec.url?.8:.35,transition:"opacity .15s",display:"flex",alignItems:"center"}}>
+                <LinkIcon color={sec.url?(dark?"#63b3ed":"#2b6cb0"):(dark?"#666":"#aaa")} size={11}/>
+              </button>
               <button onClick={()=>removeSection(sec.id)}
                 onMouseEnter={e=>e.currentTarget.style.color="#e94560"}
                 onMouseLeave={e=>e.currentTarget.style.color=dark?"#e9456055":"#e9456033"}
                 style={{background:"transparent",border:"none",color:dark?"#e9456055":"#e9456033",cursor:"pointer",fontSize:15,lineHeight:1,padding:"0 2px",transition:"color .15s",flexShrink:0}}>×</button>
             </div>
+            {/* Section URL input (toggled) */}
+            {sec._showUrl&&(
+              <div style={{display:"flex",alignItems:"center",gap:6,padding:"6px 10px",background:dark?"#0a0a18":"#f0f0fa",borderBottom:`1px solid ${dark?"#1e1e35":"#e8e8f8"}`}}>
+                <LinkIcon color={dark?"#555":"#aaa"} size={10}/>
+                <input
+                  value={sec.url||""}
+                  onChange={e=>updateSection(sec.id,"url",e.target.value)}
+                  placeholder="https://wiki.example.com/section-reference"
+                  style={{flex:1,background:"transparent",border:"none",outline:"none",fontFamily:"inherit",fontSize:11,color:dark?"#90b0d0":"#4060a0"}}
+                />
+                {sec.url&&(
+                  <button onClick={()=>updateSection(sec.id,"url","")}
+                    style={{background:"transparent",border:"none",color:dark?"#e9456055":"#e9456033",cursor:"pointer",fontSize:12,lineHeight:1,padding:"0 2px"}}>×</button>
+                )}
+              </div>
+            )}
             {/* Section body */}
             <textarea
               value={sec.body}
@@ -484,7 +516,7 @@ function CellModal({dark, tech, onClose, onSave, categories}) {
 
         <div style={{display:"flex",gap:10,marginTop:14,justifyContent:"flex-end"}}>
           <button onClick={onClose} style={S.ghost}>Cancel</button>
-          <button onClick={()=>onSave({name:editName.trim()||tech.name, description:description.trim(), category, sections, url:url.trim()})} style={S.primary}>Save</button>
+          <button onClick={()=>onSave({name:editName.trim()||tech.name, description:description.trim(), category, sections:sections.map(s=>{const {_showUrl,...rest}=s; return rest;}), url:url.trim()})} style={S.primary}>Save</button>
         </div>
       </div>
     </div>
@@ -1178,6 +1210,15 @@ function GuideSection({sec, dark, pbColor}) {
           <polyline points="9 18 15 12 9 6"/>
         </svg>
         <span className="sec-title" style={{fontSize:11,fontWeight:600,color:textSub,letterSpacing:.5,transition:"color .12s"}}>{sec.title || "Notes"}</span>
+        {sec.url&&(
+          <a href={sec.url} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()}
+            title={sec.url}
+            style={{display:"inline-flex",alignItems:"center",opacity:.5,transition:"opacity .15s"}}
+            onMouseEnter={e=>e.currentTarget.style.opacity=1}
+            onMouseLeave={e=>e.currentTarget.style.opacity=.5}>
+            <LinkIcon color={dark?"#63b3ed":"#2b6cb0"} size={9}/>
+          </a>
+        )}
       </div>
       {open && (
         <div className="fade-in" style={{position:"relative",margin:"2px 0 6px 14px",borderRadius:5,border:`1px solid ${borderC}`,overflow:"hidden"}}>
