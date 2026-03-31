@@ -920,7 +920,7 @@ function PlaybookPanel({dark, playbooks, activePlaybookId, pbMode, onSelect, onS
                   ) : (
                     steps.map(({tactic,techniques})=>{
                       const phaseKey=pb.id+"-"+tactic.id;
-                      const isPhaseCollapsed=collapsedPhases[phaseKey];
+                      const isPhaseCollapsed=!collapsedPhases[phaseKey];
                       return (
                       <div key={tactic.id} style={{marginBottom:4}}>
                         <div onClick={()=>setCollapsedPhases(c=>({...c,[phaseKey]:!c[phaseKey]}))}
