@@ -29,6 +29,8 @@
     "CO-023-block-process-by-executable-format.json",
     "CO-024-block-process-by-executable-content-pattern.json",
     "CO-025-disable-system-service.json",
-    "CO-026-lock-user-account.json"
+    "CO-026-lock-user-account.json",
+    "CO-027-invalidate-user-sessions.json",
+    "CO-028-enable-enhanced-session-controls.json"
   ]
 }

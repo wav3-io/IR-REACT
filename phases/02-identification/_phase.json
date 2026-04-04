@@ -66,6 +66,10 @@
     "ID-060-list-services-deleted.json",
     "ID-061-analyse-registry-key.json",
     "ID-062-list-users-authenticated.json",
-    "ID-063-list-user-accounts.json"
+    "ID-063-list-user-accounts.json",
+    "ID-064-list-active-user-sessions.json",
+    "ID-065-detect-anomalous-session-activity.json",
+    "ID-066-analyse-session-tokens.json",
+    "ID-067-review-web-application-firewall-logs.json"
   ]
 }

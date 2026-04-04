@@ -1,0 +1,24 @@
+{
+  "id": "CO-027",
+  "name": "Invalidate User Sessions",
+  "description": "Force-terminate all active sessions for compromised users across all applications and services",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Revoke all refresh tokens and active sessions at the identity provider (SSO/IdP)\n2. Invalidate sessions in each directly-authenticated application\n3. Clear server-side session stores (Redis, database session tables, in-memory caches)\n4. For OAuth/OIDC: revoke all access tokens and refresh tokens via token revocation endpoint\n5. For SAML: invalidate assertions and notify service providers\n6. Verify the user is forced to re-authenticate on next access attempt\n7. Monitor for immediate re-authentication — if it occurs from a suspicious IP, the attacker may have credentials too (escalate to credential reset)"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Azure AD: Revoke-AzureADUserAllRefreshToken or Graph API revokeSignInSessions\n- Okta: DELETE /api/v1/users/{userId}/sessions, clear all tokens\n- Google Workspace: Admin > Users > Security > Sign out user\n- AWS: aws sts revoke-security-credentials, CloudTrail token revocation\n- Redis: DEL session:{session_id} or FLUSHDB for full reset\n- Custom apps: DELETE FROM sessions WHERE user_id = ?"
+    },
+    {
+      "id": "s3",
+      "title": "Escalation",
+      "body": "If the attacker re-authenticates after session invalidation, they likely have the user's credentials. Immediately escalate to credential reset (ER-007) and account lockout (CO-026)."
+    }
+  ]
+}

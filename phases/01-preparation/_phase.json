@@ -106,6 +106,9 @@
     "PR-100-get-ability-to-list-users-authenticated.json",
     "PR-101-get-ability-to-revoke-authentication-credentials.json",
     "PR-102-get-ability-to-remove-user-account.json",
-    "PR-103-get-ability-to-list-user-accounts.json"
+    "PR-103-get-ability-to-list-user-accounts.json",
+    "PR-104-get-ability-to-invalidate-user-sessions.json",
+    "PR-105-get-ability-to-review-web-application-firewall-logs.json",
+    "PR-106-get-ability-to-detect-anomalous-authentication-patterns.json"
   ]
 }

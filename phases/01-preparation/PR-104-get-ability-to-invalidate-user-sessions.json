@@ -1,0 +1,24 @@
+{
+  "id": "PR-104",
+  "name": "Get Ability to Invalidate User Sessions",
+  "description": "Ensure capability to force-terminate active user sessions across web applications, SSO platforms, and cloud services",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Identify all session-bearing platforms (web apps, SSO providers, SaaS, cloud consoles)\n2. Confirm administrative access to session management for each platform\n3. Verify the ability to revoke individual sessions without full account lockout\n4. Test bulk session invalidation across SSO-connected applications\n5. Document the session invalidation process for each platform\n6. Confirm that session invalidation triggers re-authentication"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Azure AD / Entra ID: Revoke-AzureADUserAllRefreshToken\n- Okta: DELETE /api/v1/users/{userId}/sessions\n- AWS IAM: aws iam delete-login-profile / STS token revocation\n- Google Workspace: Admin Console > Security > User sessions\n- On-prem AD: Reset-ComputerMachinePassword, klist purge"
+    },
+    {
+      "id": "s3",
+      "title": "References",
+      "body": "- NIST SP 800-63B Section 7 — Session Management\n- OWASP Session Management Cheat Sheet"
+    }
+  ]
+}

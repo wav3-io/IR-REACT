@@ -1,0 +1,19 @@
+{
+  "id": "ID-064",
+  "name": "List Active User Sessions",
+  "description": "Enumerate all active sessions for potentially compromised users across applications and services",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Identify all applications and services the user has access to via SSO/IdP\n2. Query the identity provider for active sessions and refresh tokens\n3. Check cloud service consoles (AWS, Azure, GCP) for active sessions\n4. Review web application session stores for active session records\n5. Cross-reference session source IPs with known user locations and VPN ranges\n6. Flag sessions originating from unexpected IPs, geolocations, or user agents\n7. Document all active sessions with timestamps, source IPs, and user agents"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Azure AD: Get-AzureADAuditSignInLogs, Graph API /auditLogs/signIns\n- Okta: GET /api/v1/users/{userId}/sessions\n- Google Workspace: Admin > Reporting > Login audit log\n- AWS CloudTrail: filter by userIdentity.arn\n- On-prem: query session databases, IIS/Apache active session tables"
+    }
+  ]
+}

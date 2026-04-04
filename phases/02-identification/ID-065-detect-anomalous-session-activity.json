@@ -1,0 +1,24 @@
+{
+  "id": "ID-065",
+  "name": "Detect Anomalous Session Activity",
+  "description": "Identify concurrent sessions from different IPs, impossible travel, mid-session user agent changes, and unusual session behavior",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Pull authentication and session logs for the affected user (past 7–30 days)\n2. Identify all unique source IPs and map to geolocation\n3. Check for concurrent sessions from different geographic regions\n4. Calculate travel velocity between sequential logins — flag impossible travel\n5. Compare user agent strings across sessions — flag mid-session changes\n6. Review session activity volume — flag unusual spikes in API calls or data access\n7. Check for session token reuse from IPs outside the user's normal pattern\n8. Correlate timing of anomalous sessions with known phishing or malware events"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- SIEM: Correlate auth logs by user + source IP + user agent\n- Azure AD Identity Protection: Risky sign-ins report\n- Splunk: | iplocation src_ip | stats dc(Country) by user session_id\n- MaxMind GeoIP: IP-to-location mapping for travel velocity calculation\n- Custom: compare haversine distance / time between sequential logins"
+    },
+    {
+      "id": "s3",
+      "title": "Indicators of Compromise",
+      "body": "- Same session token used from multiple distinct IPs\n- Login from a country the user has never accessed from before\n- User agent switches from desktop browser to automation tool mid-session\n- Session activity continues after user reports logging out\n- Burst of sensitive data access immediately after session establishment"
+    }
+  ]
+}

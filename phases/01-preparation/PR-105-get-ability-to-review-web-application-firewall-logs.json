@@ -1,0 +1,19 @@
+{
+  "id": "PR-105",
+  "name": "Get Ability to Review Web Application Firewall Logs",
+  "description": "Ensure access to WAF and reverse proxy logs for detecting injection, XSS, and suspicious request patterns",
+  "url": "",
+  "category": "network",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Identify all WAF and reverse proxy appliances protecting web applications\n2. Confirm analyst access to WAF dashboards and raw log exports\n3. Verify logs capture: request headers, cookies, query strings, POST bodies, response codes\n4. Ensure WAF logs are forwarded to SIEM with appropriate parsing rules\n5. Confirm retention period meets incident investigation requirements (minimum 90 days)\n6. Test alert rules for XSS, SQL injection, and cookie manipulation patterns"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Cloudflare WAF: Dashboard > Security > Events\n- AWS WAF: CloudWatch Logs, S3 log delivery, Athena queries\n- Akamai: Security Center > Web Security Analytics\n- F5 ASM / NGINX App Protect: /var/log/asm, syslog forwarding\n- ModSecurity: audit log (/var/log/modsec_audit.log)"
+    }
+  ]
+}

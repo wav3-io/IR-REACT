@@ -1,0 +1,19 @@
+{
+  "id": "RE-015",
+  "name": "Restore Normal Session Policies",
+  "description": "Revert enhanced session controls to standard policies after incident resolution and root cause remediation",
+  "url": "",
+  "category": "configuration",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Confirm the root cause of the session hijacking has been remediated\n2. Verify no ongoing suspicious session activity across monitored platforms\n3. Revert session timeout values to standard policy\n4. Restore persistent session / 'remember me' options if appropriate\n5. Adjust MFA step-up requirements back to standard policy\n6. Disable IP-bound session restrictions if they were emergency-only\n7. Maintain any detection improvements discovered during the incident\n8. Communicate the policy restoration to affected teams"
+    },
+    {
+      "id": "s2",
+      "title": "Escalation",
+      "body": "If the root cause has not been fully remediated (e.g., XSS vulnerability still open, malware not eradicated), do NOT restore normal session policies. Keep enhanced controls in place until remediation is confirmed."
+    }
+  ]
+}

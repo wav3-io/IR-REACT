@@ -1,0 +1,19 @@
+{
+  "id": "ID-066",
+  "name": "Analyse Session Tokens",
+  "description": "Examine session cookies, JWT tokens, and OAuth tokens for signs of theft, tampering, or replay",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Collect session tokens from application logs, WAF logs, or proxy captures\n2. Identify the token type (session cookie, JWT, OAuth access/refresh token, SAML assertion)\n3. For JWT tokens:\n   - Decode header and payload (base64)\n   - Check issued-at (iat), expiration (exp), and not-before (nbf) claims\n   - Verify the signing algorithm matches expected (reject 'none' or algorithm confusion)\n   - Check audience (aud) and issuer (iss) claims for tampering\n4. For session cookies:\n   - Check Secure, HttpOnly, and SameSite flags\n   - Verify cookie scope (domain, path) is appropriately restrictive\n   - Check for predictable session ID patterns\n5. For OAuth tokens:\n   - Verify token scopes match expected permissions\n   - Check token binding (if implemented)\n   - Review refresh token usage patterns\n6. Compare tokens used by the attacker with legitimately issued tokens\n7. Determine the token theft vector (XSS, MITM, malware, log exposure)"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- jwt.io: Decode and inspect JWT tokens\n- Burp Suite: Proxy > HTTP History — inspect Set-Cookie and Authorization headers\n- Browser DevTools: Application > Cookies / Storage\n- Python PyJWT: jwt.decode(token, options={'verify_signature': False})\n- openssl: Verify token signatures and certificate chains"
+    }
+  ]
+}

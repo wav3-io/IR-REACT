@@ -1,0 +1,19 @@
+{
+  "id": "PR-106",
+  "name": "Get Ability to Detect Anomalous Authentication Patterns",
+  "description": "Ensure tooling and detection rules exist for identifying impossible travel, concurrent sessions, and session anomalies",
+  "url": "",
+  "category": "identity",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Confirm authentication logs capture source IP, user agent, timestamp, and session ID\n2. Deploy or verify detection rules for:\n   - Concurrent sessions from different geographic locations\n   - Impossible travel (logins from distant locations within short time windows)\n   - User agent changes mid-session\n   - Session token reuse from different source IPs\n   - Abnormal session duration or activity volume\n3. Tune alert thresholds based on baseline user behavior\n4. Test detection rules with simulated anomalous login patterns\n5. Ensure alerts route to the SOC with sufficient context for triage"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Azure AD Identity Protection: Risky sign-ins, impossible travel alerts\n- Okta: System Log + ThreatInsight\n- Splunk: ES Notable Events — Concurrent Login from Different IPs\n- Microsoft Sentinel: BehaviorAnalytics table, IdentityInfo\n- CrowdStrike Falcon Identity: Lateral movement + anomalous logon detection"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ID-067",
+  "name": "Review Web Application Firewall Logs",
+  "description": "Analyse WAF logs for XSS payloads, script injection, cookie theft attempts, and suspicious request patterns",
+  "url": "",
+  "category": "network",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Query WAF logs for the time window surrounding the suspected session hijack\n2. Filter for XSS-related rule triggers (script injection, event handlers, encoded payloads)\n3. Search for requests containing suspicious cookie or token exfiltration patterns:\n   - document.cookie in request parameters\n   - Encoded script tags in query strings or POST bodies\n   - Requests to known token-stealing endpoints\n4. Identify the attacker's source IP and check for other malicious requests from the same IP\n5. Review blocked vs allowed requests — determine if the attack bypassed WAF rules\n6. Check for session fixation patterns (Set-Cookie manipulation in requests)\n7. Export relevant log entries for evidence preservation"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Cloudflare: Security > Events, filter by rule group 'XSS'\n- AWS WAF: Athena query on waf_logs, filter by action and ruleGroup\n- Splunk: index=waf sourcetype=waf:logs | search xss OR script OR document.cookie\n- ELK: Kibana > Discover, filter WAF index by rule_id or message content\n- ModSecurity: grep -i 'xss\\|script\\|cookie' /var/log/modsec_audit.log"
+    }
+  ]
+}

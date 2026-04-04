@@ -17,6 +17,7 @@
     "RE-011-restore-quarantined-file.json",
     "RE-012-unblock-blocked-process.json",
     "RE-013-enable-disabled-service.json",
-    "RE-014-unlock-locked-user-account.json"
+    "RE-014-unlock-locked-user-account.json",
+    "RE-015-restore-normal-session-policies.json"
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "id": "CO-028",
+  "name": "Enable Enhanced Session Controls",
+  "description": "Activate IP-bound sessions, reduce session timeouts, and enforce step-up re-authentication during active incident",
+  "url": "",
+  "category": "configuration",
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Procedure",
+      "body": "1. Reduce session timeout to minimum acceptable duration (e.g., 15–30 minutes)\n2. Enable session IP binding where supported — invalidate session if source IP changes\n3. Enforce step-up MFA for sensitive operations (admin consoles, data exports, privilege changes)\n4. Disable 'remember me' and persistent session options\n5. Enable continuous access evaluation (CAE) if supported by the IdP\n6. Increase logging verbosity for session creation and validation events\n7. Communicate the temporary policy change to affected teams\n8. Document all changes for rollback during recovery phase"
+    },
+    {
+      "id": "s2",
+      "title": "Tools",
+      "body": "- Azure AD Conditional Access: Session > Sign-in frequency, Persistent browser session = Never\n- Okta: Global Session Policy — max session lifetime, MFA frequency\n- AWS IAM: MaxSessionDuration, STS condition keys for source IP\n- Nginx/Apache: session.gc_maxlifetime, cookie expiry configuration\n- Application config: SESSION_TIMEOUT, REQUIRE_MFA_FOR_SENSITIVE_OPS flags"
+    }
+  ]
+}
