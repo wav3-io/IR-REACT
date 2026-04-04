@@ -3,6 +3,6 @@
   "name": "Find File By Path",
   "description": "Find a file by its path (including its name)",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

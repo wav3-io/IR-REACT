@@ -3,6 +3,6 @@
   "name": "Find Process By Executable Path",
   "description": "Find a process that is being executed at the moment or at a particular time in the past by its executable path (including its name)",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

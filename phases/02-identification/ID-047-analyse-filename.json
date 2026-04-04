@@ -3,6 +3,6 @@
   "name": "Analyse Filename",
   "description": "Analyse a filename",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

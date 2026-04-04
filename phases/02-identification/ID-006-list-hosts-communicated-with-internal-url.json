@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated With Internal URL",
   "description": "List hosts communicated with an internal URL",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

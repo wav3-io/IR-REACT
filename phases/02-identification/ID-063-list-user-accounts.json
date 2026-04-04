@@ -3,6 +3,6 @@
   "name": "List User Accounts",
   "description": "List user accounts on a particular system",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

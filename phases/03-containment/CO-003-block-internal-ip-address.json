@@ -3,6 +3,6 @@
   "name": "Block Internal IP Address",
   "description": "Block an internal IP address from being accessed by corporate assets",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

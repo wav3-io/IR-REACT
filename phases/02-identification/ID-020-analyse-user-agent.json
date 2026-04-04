@@ -3,6 +3,6 @@
   "name": "Analyse User-Agent",
   "description": "Analyse an User-Agent request header for indications of suspicious activity",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "List Firewall Rules",
   "description": "List firewall rules",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

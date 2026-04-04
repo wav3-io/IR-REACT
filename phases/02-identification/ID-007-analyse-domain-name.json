@@ -3,6 +3,6 @@
   "name": "Analyse Domain Name",
   "description": "Analyse a domain name",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

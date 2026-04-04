@@ -3,6 +3,6 @@
   "name": "Get Ability To List User Accounts",
   "description": "Make sure you have the ability to list user accounts on a particular system",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

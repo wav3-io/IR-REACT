@@ -3,6 +3,6 @@
   "name": "Access External HTTP Logs",
   "description": "Make sure you have access to external communication HTTP logs",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated By Port",
   "description": "List hosts communicating by a specific port at the moment or at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

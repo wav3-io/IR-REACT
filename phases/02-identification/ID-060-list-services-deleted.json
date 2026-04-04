@@ -3,6 +3,6 @@
   "name": "List Services Deleted",
   "description": "List services that have been deleted at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

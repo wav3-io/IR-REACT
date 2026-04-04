@@ -3,6 +3,6 @@
   "name": "Disable System Service",
   "description": "Disable a system service",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

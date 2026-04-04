@@ -3,6 +3,6 @@
   "name": "Get Ability To Analyse PDF File",
   "description": "Make sure you have the ability to analyse a PDF file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

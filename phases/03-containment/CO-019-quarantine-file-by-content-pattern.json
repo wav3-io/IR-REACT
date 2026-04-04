@@ -3,6 +3,6 @@
   "name": "Quarantine File By Content Pattern",
   "description": "Quarantine a file by its content pattern",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

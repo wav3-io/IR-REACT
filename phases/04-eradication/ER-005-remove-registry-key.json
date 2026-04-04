@@ -3,6 +3,6 @@
   "name": "Remove Registry Key",
   "description": "Remove a registry key",
   "url": "",
-  "category": "",
+  "category": "configuration",
   "sections": []
 }

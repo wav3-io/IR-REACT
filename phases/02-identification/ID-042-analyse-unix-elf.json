@@ -3,6 +3,6 @@
   "name": "Analyse Unix ELF",
   "description": "Analise Unix ELF",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Unblock Blocked Process",
   "description": "Unblock a blocked process",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Block Process By Executable Format",
   "description": "Block a process execution by its executable format",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

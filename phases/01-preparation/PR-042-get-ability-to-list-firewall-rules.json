@@ -3,6 +3,6 @@
   "name": "Get Ability To List Firewall Rules",
   "description": "Make sure you have the ability to list firewall rules",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

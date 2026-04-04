@@ -3,6 +3,6 @@
   "name": "Get Ability To Remove File",
   "description": "Make sure you have the ability to remove a specific file from a (remote) host or a system",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

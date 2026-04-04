@@ -3,6 +3,6 @@
   "name": "Get Ability To Block User External Communication",
   "description": "Make sure you can block a user for external communications",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

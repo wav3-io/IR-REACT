@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated With External Domain",
   "description": "List hosts communicated with an external domain",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

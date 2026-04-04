@@ -3,6 +3,6 @@
   "name": "Block Domain On Email",
   "description": "Block a domain name on an Email server",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

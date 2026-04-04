@@ -3,6 +3,6 @@
   "name": "Find File By Format",
   "description": "Find a file by its format",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

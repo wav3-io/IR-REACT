@@ -3,6 +3,6 @@
   "name": "Block User External Communication",
   "description": "Block a user for external communications",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

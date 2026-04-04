@@ -3,6 +3,6 @@
   "name": "List Files With Tampered Timestamps",
   "description": "List files with tampered timestamps",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

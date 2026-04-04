@@ -3,6 +3,6 @@
   "name": "Find Data Transferred By Content Pattern",
   "description": "Find the data that is being transferred at the moment or at a particular time in the past by its content pattern (i.e. specific string, keyword, binary pattern etc)",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

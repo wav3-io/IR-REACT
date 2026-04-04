@@ -3,6 +3,6 @@
   "name": "Get Ability To List Files With Tampered Timestamps",
   "description": "Make sure you have the ability to list files with a tampered timestamp",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

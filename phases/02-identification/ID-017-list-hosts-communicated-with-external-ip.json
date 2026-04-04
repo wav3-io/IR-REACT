@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated With External IP",
   "description": "List hosts communicated with an external IP address",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

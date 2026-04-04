@@ -3,6 +3,6 @@
   "name": "Analyse MS Office File",
   "description": "Analise MS Office file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

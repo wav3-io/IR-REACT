@@ -3,6 +3,6 @@
   "name": "Make Sure Email Message Is Phishing",
   "description": "Make sure that an email message is a phishing attack",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Get Ability To List Services Deleted",
   "description": "Make sure you have the ability to list services that have been deleted at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Get Ability To Lock User Account",
   "description": "Make sure you have the ability to lock user account from being used",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

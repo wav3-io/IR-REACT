@@ -3,6 +3,6 @@
   "name": "Unblock Sender On Email",
   "description": "Unblock a sender on email",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

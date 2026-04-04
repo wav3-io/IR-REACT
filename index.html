@@ -1554,7 +1554,13 @@ function App({initialMatrix, initialName}) {
 
             {matrix.tactics.map((tactic,idx)=>{
               const accent = TACTIC_ACCENTS[tactic.id]||DEF_ACCENT;
-              const techs  = filterCat ? tactic.techniques.filter(te=>te.category===filterCat) : tactic.techniques;
+              const catOrder = categories.map(c=>c.id);
+              const sortByCat = list => [...list].sort((a,b)=>{
+                const ai = catOrder.indexOf(a.category||"");
+                const bi = catOrder.indexOf(b.category||"");
+                return (ai===-1?999:ai) - (bi===-1?999:bi);
+              });
+              const techs  = sortByCat(filterCat ? tactic.techniques.filter(te=>te.category===filterCat) : tactic.techniques);
 
               return (
                 <div key={tactic.id} className="tactic-wrap" style={{width:175,flexShrink:0}}>

@@ -3,6 +3,6 @@
   "name": "Analyse Windows PE",
   "description": "Analise MS Windows Portable Executable",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

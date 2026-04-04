@@ -3,6 +3,6 @@
   "name": "Analyse Email Address",
   "description": "Analyse an email address",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

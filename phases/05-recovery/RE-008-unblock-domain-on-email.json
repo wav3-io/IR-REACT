@@ -3,6 +3,6 @@
   "name": "Unblock Domain On Email",
   "description": "Unblock a domain on email",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

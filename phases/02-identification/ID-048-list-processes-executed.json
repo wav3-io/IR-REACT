@@ -3,6 +3,6 @@
   "name": "List Processes Executed",
   "description": "List processes being executed at the moment or at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

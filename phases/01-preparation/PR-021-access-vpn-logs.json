@@ -3,6 +3,6 @@
   "name": "Access VPN Logs",
   "description": "Make sure you have access to VPN logs",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

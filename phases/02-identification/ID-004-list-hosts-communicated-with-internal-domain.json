@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated With Internal Domain",
   "description": "List hosts communicated with an internal domain",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

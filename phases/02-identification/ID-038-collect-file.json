@@ -3,6 +3,6 @@
   "name": "Collect File",
   "description": "Collect a specific file from a (remote) host or a system",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

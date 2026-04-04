@@ -3,6 +3,6 @@
   "name": "Unblock Blocked Domain",
   "description": "Unblock a blocked domain name",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

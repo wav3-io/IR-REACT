@@ -3,6 +3,6 @@
   "name": "Block Port External Communication",
   "description": "Block a network port for external communications",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

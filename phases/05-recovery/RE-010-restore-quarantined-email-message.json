@@ -3,6 +3,6 @@
   "name": "Restore Quarantined Email Message",
   "description": "Restore a quarantined email message",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

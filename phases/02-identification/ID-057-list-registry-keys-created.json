@@ -3,6 +3,6 @@
   "name": "List Registry Keys Created",
   "description": "List registry keys that have been created at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "configuration",
   "sections": []
 }

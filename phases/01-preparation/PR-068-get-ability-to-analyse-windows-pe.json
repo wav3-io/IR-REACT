@@ -3,6 +3,6 @@
   "name": "Get Ability To Analyse Windows PE",
   "description": "Make sure you have the ability to analyse a Windows Portable Executable file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Analyse Script",
   "description": "Analyse a script file (i.e. Python, PowerShell, Bash scripts etc)",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

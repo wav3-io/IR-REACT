@@ -3,6 +3,6 @@
   "name": "Access External Network Flow Logs",
   "description": "Make sure you have access to external communication Network Flow logs",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

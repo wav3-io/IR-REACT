@@ -3,6 +3,6 @@
   "name": "Identify Transferred Data",
   "description": "Identify the data that is being transferred at the moment or at a particular time in the past (i.e. its content, value)",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

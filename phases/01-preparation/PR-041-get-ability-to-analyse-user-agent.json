@@ -3,6 +3,6 @@
   "name": "Get Ability To Analyse User-Agent",
   "description": "Make sure you have the ability to analyse an User-Agent request header",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

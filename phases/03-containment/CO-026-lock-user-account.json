@@ -3,6 +3,6 @@
   "name": "Lock User Account",
   "description": "Lock an user account",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

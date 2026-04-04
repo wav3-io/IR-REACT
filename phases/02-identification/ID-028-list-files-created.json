@@ -3,6 +3,6 @@
   "name": "List Files Created",
   "description": "List files that have been created at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Put Compromised Accounts On Monitoring",
   "description": "Put (potentially) compromised accounts on monitoring",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "List Users Opened Email Message",
   "description": "List users that have opened am email message",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

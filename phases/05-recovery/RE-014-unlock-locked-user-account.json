@@ -3,6 +3,6 @@
   "name": "Unlock Locked User Account",
   "description": "Unlock a locked user account",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

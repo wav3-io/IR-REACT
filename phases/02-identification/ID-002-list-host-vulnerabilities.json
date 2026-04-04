@@ -3,6 +3,6 @@
   "name": "List Host Vulnerabilities",
   "description": "Get information about a specific host existing vulnerabilities, or about vulnerabilities it had at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "configuration",
   "sections": []
 }

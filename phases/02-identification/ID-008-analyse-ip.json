@@ -3,6 +3,6 @@
   "name": "Analyse IP",
   "description": "Analyse an IP address",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

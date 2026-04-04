@@ -3,6 +3,6 @@
   "name": "Get Ability To Analyse JAR",
   "description": "Make sure you have the ability to analyse JAR file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

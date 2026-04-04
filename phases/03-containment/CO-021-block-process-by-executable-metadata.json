@@ -3,6 +3,6 @@
   "name": "Block Process By Executable Metadata",
   "description": "Block a process execution by its executable metadata (i.e. signature, permissions, MAC times)",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Restore Quarantined File",
   "description": "Restore a quarantined file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

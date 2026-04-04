@@ -3,6 +3,6 @@
   "name": "Get Ability To Block Process By Executable Path",
   "description": "Make sure you have the ability to block process by its executable path (including its name)",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

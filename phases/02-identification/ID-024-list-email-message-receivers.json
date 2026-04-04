@@ -3,6 +3,6 @@
   "name": "List Email Message Receivers",
   "description": "List receivers of a particular email message",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

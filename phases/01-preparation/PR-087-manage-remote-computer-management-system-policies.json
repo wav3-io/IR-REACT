@@ -3,6 +3,6 @@
   "name": "Manage Remote Computer Management System Policies",
   "description": "Make sure you can manage Remote Computer Management system policies",
   "url": "",
-  "category": "",
+  "category": "configuration",
   "sections": []
 }

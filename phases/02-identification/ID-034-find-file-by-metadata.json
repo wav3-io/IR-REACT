@@ -3,6 +3,6 @@
   "name": "Find File By Metadata",
   "description": "Find a file by its metadata (i.e. signature, permissions, MAC times)",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

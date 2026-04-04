@@ -3,6 +3,6 @@
   "name": "Analyse File Hash",
   "description": "Analise a hash of a file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

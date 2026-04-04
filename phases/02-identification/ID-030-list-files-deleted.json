@@ -3,6 +3,6 @@
   "name": "List Files Deleted",
   "description": "List files that have been deleted at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

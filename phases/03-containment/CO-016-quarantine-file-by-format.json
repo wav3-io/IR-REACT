@@ -3,6 +3,6 @@
   "name": "Quarantine File By Format",
   "description": "Quarantine a file by its format",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

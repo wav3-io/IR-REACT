@@ -3,6 +3,6 @@
   "name": "Analyse Uri",
   "description": "Analyse an URI",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

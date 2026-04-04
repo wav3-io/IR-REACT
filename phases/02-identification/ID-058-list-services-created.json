@@ -3,6 +3,6 @@
   "name": "List Services Created",
   "description": "List services that have been created at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

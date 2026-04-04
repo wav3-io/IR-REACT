@@ -3,6 +3,6 @@
   "name": "Quarantine Email Message",
   "description": "Quarantine an email message",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

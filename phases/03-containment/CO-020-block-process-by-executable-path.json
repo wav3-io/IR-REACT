@@ -3,6 +3,6 @@
   "name": "Block Process By Executable Path",
   "description": "Block a process execution by its executable path (including its name)",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

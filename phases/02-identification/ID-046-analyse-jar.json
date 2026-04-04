@@ -3,6 +3,6 @@
   "name": "Analyse JAR",
   "description": "Analyse a JAR file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

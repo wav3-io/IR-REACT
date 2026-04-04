@@ -3,6 +3,6 @@
   "name": "Get Ability To List Files Modified",
   "description": "Make sure you have the ability to list files that have been modified at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

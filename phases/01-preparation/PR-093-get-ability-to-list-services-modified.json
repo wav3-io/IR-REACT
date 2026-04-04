@@ -3,6 +3,6 @@
   "name": "Get Ability To List Services Modified",
   "description": "Make sure you have the ability to list services that have been modified at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "List Hosts Communicated With Internal IP",
   "description": "List hosts communicated with an internal IP address",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

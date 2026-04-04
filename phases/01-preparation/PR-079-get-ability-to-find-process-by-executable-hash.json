@@ -3,6 +3,6 @@
   "name": "Get Ability To Find Process By Executable Hash",
   "description": "Make sure you have the ability to find process executed at a particular time in the past by its executable hash",
   "url": "",
-  "category": "",
+  "category": "process",
   "sections": []
 }

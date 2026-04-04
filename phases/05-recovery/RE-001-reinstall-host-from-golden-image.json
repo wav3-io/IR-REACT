@@ -3,6 +3,6 @@
   "name": "Reinstall Host From Golden Image",
   "description": "Reinstall host OS from a golden image",
   "url": "",
-  "category": "",
+  "category": "configuration",
   "sections": []
 }

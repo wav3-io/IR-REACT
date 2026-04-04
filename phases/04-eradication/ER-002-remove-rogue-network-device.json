@@ -3,6 +3,6 @@
   "name": "Remove Rogue Network Device",
   "description": "Remove a rogue network device",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

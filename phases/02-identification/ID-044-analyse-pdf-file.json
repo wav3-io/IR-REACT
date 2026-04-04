@@ -3,6 +3,6 @@
   "name": "Analyse PDF File",
   "description": "Analise PDF file",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Analyse Macos MachO",
   "description": "Analise macOS Mach-O",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

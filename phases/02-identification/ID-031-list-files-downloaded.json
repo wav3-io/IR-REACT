@@ -3,6 +3,6 @@
   "name": "List Files Downloaded",
   "description": "List files that have been downloaded at a particular time in the past",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

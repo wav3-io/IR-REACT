@@ -3,6 +3,6 @@
   "name": "List Victims Of Security Alert",
   "description": "List victims of a security alert",
   "url": "",
-  "category": "",
+  "category": "general",
   "sections": []
 }

@@ -3,6 +3,6 @@
   "name": "Access DHCP Logs",
   "description": "Make sure you have access to DHCP logs",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

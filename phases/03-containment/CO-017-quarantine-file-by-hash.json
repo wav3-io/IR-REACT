@@ -3,6 +3,6 @@
   "name": "Quarantine File By Hash",
   "description": "Quarantine a file by its hash",
   "url": "",
-  "category": "",
+  "category": "file",
   "sections": []
 }

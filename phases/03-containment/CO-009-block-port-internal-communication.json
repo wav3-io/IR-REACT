@@ -3,6 +3,6 @@
   "name": "Block Port Internal Communication",
   "description": "Block a network port for internal communications",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

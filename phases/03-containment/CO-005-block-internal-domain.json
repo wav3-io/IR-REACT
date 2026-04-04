@@ -3,6 +3,6 @@
   "name": "Block Internal Domain",
   "description": "Block an internal domain name from being accessed by corporate assets",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

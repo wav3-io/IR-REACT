@@ -3,6 +3,6 @@
   "name": "Block Sender On Email",
   "description": "Block an email sender on the Email-server",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }

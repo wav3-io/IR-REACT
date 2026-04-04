@@ -3,6 +3,6 @@
   "name": "Unblock Blocked IP",
   "description": "Unblock a blocked IP address",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

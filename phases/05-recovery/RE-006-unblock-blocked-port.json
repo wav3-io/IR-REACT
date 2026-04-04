@@ -3,6 +3,6 @@
   "name": "Unblock Blocked Port",
   "description": "Unblock a blocked port",
   "url": "",
-  "category": "",
+  "category": "network",
   "sections": []
 }

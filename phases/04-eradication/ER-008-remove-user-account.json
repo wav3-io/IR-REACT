@@ -3,6 +3,6 @@
   "name": "Remove User Account",
   "description": "Remove a user account",
   "url": "",
-  "category": "",
+  "category": "identity",
   "sections": []
 }

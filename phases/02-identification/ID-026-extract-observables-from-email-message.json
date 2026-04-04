@@ -3,6 +3,6 @@
   "name": "Extract Observables From Email Message",
   "description": "Extract observables from an email message",
   "url": "",
-  "category": "",
+  "category": "email",
   "sections": []
 }
