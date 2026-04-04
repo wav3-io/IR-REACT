@@ -1280,7 +1280,7 @@ function App({initialMatrix, initialName}) {
 
   // Escape key to close guide overlay
   useEffect(()=>{
-    const handler = e => { if(e.key==="Escape"&&showGuide) setShowGuide(null); };
+    const handler = e => { if(e.key==="Escape"){ if(showGuide) setShowGuide(null); else setExpandedCards({}); } };
     window.addEventListener("keydown",handler);
     return ()=>window.removeEventListener("keydown",handler);
   }, [showGuide]);
@@ -1591,6 +1591,7 @@ function App({initialMatrix, initialName}) {
                       const hasLink   = !!tech.url;
                       const inPb      = activePb&&activePb.techIds.includes(tech.id);
                       const isDimmed  = activePb&&!inPb;
+                      if(isDimmed&&pbMode==="view") return null;
                       const memberPbs = (matrix.playbooks||[]).filter(p=>p.id!==activePlaybook&&p.techIds.includes(tech.id));
                       const cardKey = `${tactic.id}-${tech.id}`;
                       const isExpanded = expandedCards[cardKey];
