@@ -1,6 +1,6 @@
 # IR Navigator — PICERL
 
-A living incident response reference tool built on the PICERL framework. Browse phases, actions, and use cases at the live URL. Update this repository to instantly update what everyone sees.
+A living incident response reference tool built on the PICERL framework. Browse phases, actions, and use cases at the live URL. When an alert comes in, switch to **Incident View** to track your actions in real time. Update this repository to instantly update what everyone sees.
 
 ---
 
@@ -47,7 +47,8 @@ react-custom2/
     ├── layer7-ddos.json
     ├── password-spray.json
     ├── malware.json
-    └── insider-threat.json
+    ├── insider-threat.json
+    └── session-hijacking.json
 ```
 
 ---
@@ -66,7 +67,7 @@ Everything an analyst would want to change — action names, procedures, URLs, c
 The main view displays a column-based matrix. Each column is a PICERL phase. Each cell is an action. Click an action to expand its detail sections (description, procedure, tools, etc.) inline. Hover over an action to see **edit** and **del** buttons.
 
 ### Themes
-Cycle through 4 themes using the toggle button in the header: **Dark** (default), **Light**, **Tactical** (red/amber), **Midnight** (blue).
+Cycle through 5 themes using the toggle button in the header: **Dark** (default), **Light**, **Tactical** (red/amber), **Midnight** (blue), **8-Bit** (retro CRT green).
 
 ### Category filter bar
 Filter the matrix by category (Network, Email, File, Process, Configuration, Identity, General). Click a category pill to show only actions in that category. Click again to clear the filter.
@@ -77,6 +78,9 @@ The right-side panel lists all use cases. Each use case has three modes:
 - **View** — highlights its actions on the matrix. Clicking a highlighted action opens its reference URL.
 - **Edit** — click any action on the matrix to add/remove it from the use case. Drag rows in the panel to reorder.
 - **Guide** — opens a full-page response guide with all actions grouped by PICERL phase, each expandable to show description and detail sections.
+
+### Incident View
+A full-screen action tracker for working live incidents. Switch to it when an alert requires active handling. See the **Working a live incident** section below for a full walkthrough.
 
 ### Actions
 Each action has:
@@ -98,6 +102,70 @@ Each action has:
 
 ### Keyboard shortcuts
 - **Escape** — close the response guide overlay
+
+---
+
+## Working a live incident
+
+### When to switch to Incident View
+
+Switch to Incident View as soon as you have a confirmed or suspected incident that needs tracking. It's designed to be shared on screen during a call — everything a team needs to see (who owns what, what stage things are in, how long they've been there) is visible at a glance.
+
+Use the **matrix view** to look things up and understand what an action does. Use **Incident View** to actually run the response.
+
+### How to open it
+
+Click the **Incident View** button on the right side of the category filter bar (the bar just below the header). The page switches to a full-screen Kanban board with three lanes: **To Do**, **In Progress**, and **Completed**.
+
+### Loading a playbook
+
+If the alert matches a known scenario (phishing, malware, password spray, etc.), load the matching playbook:
+
+1. In the top bar of Incident View, find the **Load Playbook** dropdown
+2. Select the playbook that matches the incident type
+3. All relevant actions are automatically placed in the **To Do** lane, grouped by phase (Identification → Containment → Eradication → Recovery)
+
+The phases always appear in ICER order. Work top to bottom — don't skip Identification just to jump to Containment.
+
+### Adding actions manually
+
+If the incident doesn't match a playbook, or you need to add something not in the library:
+
+- Click **+ Add Action** at the bottom of the To Do lane
+- Use the **From Library** tab to search the full action catalogue. Filter by phase or by category to narrow things down quickly.
+- Use the **Custom Action** tab to type in a free-text action if the exact step isn't in the library.
+
+Actions added manually sit in the correct ICER phase group alongside playbook actions.
+
+### Working the board
+
+**Starting an action:**
+1. Find the action card in the To Do lane
+2. Assign an owner — type a name in the **Assign owner** field on the card
+3. Click **Start →** to move it to In Progress
+
+The card automatically captures the timestamp when it was assigned and when it moved to In Progress.
+
+**Adding notes:**
+Each card has a **NOTES** field. Use this for findings, observations, or anything relevant to that specific action — IOCs found, tools used, outcomes. Notes persist as the card moves between lanes and are included in the exported report.
+
+**Completing an action:**
+Click **Complete ✓** on the card. A completion timestamp is recorded automatically.
+
+**Keeping the lanes clean:**
+Each lane groups actions under their phase header (Identification, Containment, etc.). Click the phase header to collapse that group when it's done — it stays visible as a count so you can still see progress at a glance. Click again to expand.
+
+### Tracking multiple incidents
+
+The sidebar on the left lists all open incidents. Click **+** to create a new one. Click any incident to switch to it. Double-click an incident name to rename it (e.g. `INC-00124 Phishing Wave`). Each incident is independent — its own board, its own playbook, its own cards.
+
+### Exporting a record
+
+Click **Export JSON** in the top bar to download a full record of the incident. The export includes every action, owner, status, timestamps (assigned, started, completed), and any notes added to each card. Hand this to Tier 2, attach it to a ticket, or use it for the post-incident review.
+
+### Going back to the matrix
+
+Click **← Back to Matrix** in the top bar to return. Your incident board is preserved for the session.
 
 ---
 
@@ -189,7 +257,7 @@ The live page updates within about 60 seconds.
   "actions": [
     "CO-001-patch-vulnerability.json",
     "CO-002-block-external-ip-address.json",
-    ...
+    "...",
     "CO-027-your-action-name.json"
   ]
 }
@@ -242,7 +310,7 @@ Use cases define which actions belong to a specific incident type. Open a file i
 
 ```json
 {
-  "id": "pb7",
+  "id": "pb8",
   "name": "Ransomware",
   "color": "#68d391",
   "description": "Response playbook for ransomware incidents.",
@@ -250,7 +318,7 @@ Use cases define which actions belong to a specific incident type. Open a file i
 }
 ```
 
-Use a unique `id` (e.g. `pb7`, `pb8`, etc.). Available colors: `#e94560` (red), `#f6ad55` (amber), `#68d391` (green), `#63b3ed` (blue), `#b794f4` (purple), `#81e6d9` (teal), `#fc8181` (coral), `#a29bfe` (lavender), `#fbd38d` (gold), `#90cdf4` (sky).
+Use a unique `id` (e.g. `pb8`, `pb9`, etc.). Available colors: `#e94560` (red), `#f6ad55` (amber), `#68d391` (green), `#63b3ed` (blue), `#b794f4` (purple), `#81e6d9` (teal), `#fc8181` (coral), `#a29bfe` (lavender), `#fbd38d` (gold), `#90cdf4` (sky).
 
 4. Commit the file
 5. Open `index.json` and add `"usecases/ransomware.json"` to the `playbooks` array:
@@ -262,10 +330,10 @@ Use a unique `id` (e.g. `pb7`, `pb8`, etc.). Available colors: `#e94560` (red), 
   "playbooks": [
     "usecases/phishing.json",
     "usecases/layer3-ddos.json",
-    ...
+    "...",
     "usecases/ransomware.json"
   ],
-  "phases": [ ... ]
+  "phases": [ "..." ]
 }
 ```
 
@@ -310,7 +378,7 @@ Open the action file and set the `url` field:
   "id": "CO-002",
   "name": "Block External IP Address",
   "url": "https://your-internal-wiki.com/block-ip",
-  ...
+  "..."
 }
 ```
 
@@ -345,7 +413,7 @@ Open the `_phase.json` file for the phase and set the `url` field:
   "name": "Preparation",
   "shortcode": "P",
   "url": "https://wiki.example.com/preparation-phase",
-  "actions": [ ... ]
+  "actions": [ "..." ]
 }
 ```
 
