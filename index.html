@@ -149,31 +149,31 @@
     }
 
     :root[data-theme="corporate"] {
-      --bg:          #f4f6f9;
-      --bg2:         #eaecf0;
-      --bg3:         #dde1e8;
-      --surface:     #ffffff;
-      --surface2:    #f8f9fb;
-      --border:      #d0d5de;
-      --border2:     #bcc3cf;
-      --text:        #1a2233;
-      --text2:       #3d4f6b;
-      --text3:       #6b7a95;
-      --text4:       #a0abbe;
-      --accent:      #1a56db;
-      --accent2:     #3b78f5;
-      --danger:      #c0392b;
-      --header-bg:   #ffffff;
-      --modal-bg:    #ffffff;
-      --modal-border:#d0d5de;
-      --input-bg:    #f8f9fb;
-      --input-border:#c8cdd8;
-      --scrollbar:   #c0c7d4;
-      --cell-bg:     #ffffff;
-      --cell-border: #dde1e8;
-      --dim-opacity: 0.25;
-      --shadow-sm:   0 1px 4px rgba(0,0,0,.08);
-      --shadow-md:   0 4px 16px rgba(0,0,0,.10);
+      --bg:          #1c2333;
+      --bg2:         #212b3b;
+      --bg3:         #273042;
+      --surface:     #263044;
+      --surface2:    #2c3850;
+      --border:      #354560;
+      --border2:     #3f5070;
+      --text:        #cdd6e8;
+      --text2:       #96a8c0;
+      --text3:       #627590;
+      --text4:       #415068;
+      --accent:      #4a8ef5;
+      --accent2:     #7aaeff;
+      --danger:      #e05a5a;
+      --header-bg:   #18202e;
+      --modal-bg:    #1e2a3c;
+      --modal-border:#354560;
+      --input-bg:    #18202e;
+      --input-border:#354560;
+      --scrollbar:   #354560;
+      --cell-bg:     #212b3b;
+      --cell-border: #2e3f58;
+      --dim-opacity: 0.20;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,.35);
+      --shadow-md:   0 4px 20px rgba(0,0,0,.45);
     }
 
     /* ── RETRO 8-BIT OVERRIDES ── */
@@ -382,26 +382,29 @@ const DEF_ACCENT_RETRO = { from:"#0e0e30", to:"#08081a", border:"#00ff41", text:
 const DEF_ACCENT_DARK  = { from:"#1e1e4f", to:"#12122a", border:"#3e2e7e", text:"#c4b5fd" };
 const DEF_ACCENT_LIGHT = { from:"#ede9fe", to:"#f5f3ff", border:"#a78bfa", text:"#5b21b6" };
 const TACTIC_ACCENTS_CORPORATE = {
-  t1:{ from:"#e8f0fb", to:"#f0f5fd", border:"#b8cef5", text:"#1a56db" },
-  t2:{ from:"#f0ebfc", to:"#f7f3fe", border:"#cdb8f5", text:"#5b21b6" },
-  t3:{ from:"#fef3e2", to:"#fffaf0", border:"#f5d48a", text:"#92580a" },
-  t4:{ from:"#e6f7ee", to:"#f0fbf4", border:"#8ed4b0", text:"#166534" },
-  t5:{ from:"#e0f2fe", to:"#f0f9ff", border:"#93c5fd", text:"#0369a1" },
-  t6:{ from:"#fde8e8", to:"#fff5f5", border:"#f5b8b8", text:"#be123c" },
+  t1:{ from:"#1e304e", to:"#182840", border:"#2e5080", text:"#7aaeff" },
+  t2:{ from:"#251e40", to:"#1c1632", border:"#42307a", text:"#a88cff" },
+  t3:{ from:"#352808", to:"#261c04", border:"#6a4c10", text:"#e0a040" },
+  t4:{ from:"#0e2e20", to:"#081e14", border:"#1a5038", text:"#4ec490" },
+  t5:{ from:"#102840", to:"#082030", border:"#1e4868", text:"#5ab0e8" },
+  t6:{ from:"#2e1020", to:"#1e0814", border:"#5a1e30", text:"#e07090" },
 };
-const DEF_ACCENT_CORPORATE = { from:"#e8f0fb", to:"#f0f5fd", border:"#b8cef5", text:"#1a56db" };
+const DEF_ACCENT_CORPORATE = { from:"#1e304e", to:"#182840", border:"#2e5080", text:"#7aaeff" };
 
 // ── Live UTC clock + incident elapsed timer ──
-function ClockBar({ startMs, compact }) {
+// timerStart = ms timestamp when timer began (null = not running)
+// onTimerStart / onTimerStop = callbacks to lift state to App
+function ClockBar({ timerStart, onTimerStart, onTimerStop, compact }) {
   const [utcTime, setUtcTime] = React.useState('');
   const [elapsed, setElapsed] = React.useState('––:––:––');
+
   React.useEffect(() => {
     function tick() {
       const now = new Date();
       const p = n => String(n).padStart(2,'0');
       setUtcTime(p(now.getUTCHours())+':'+p(now.getUTCMinutes())+':'+p(now.getUTCSeconds())+' UTC');
-      if (startMs) {
-        const diff = Math.max(0, Math.floor((Date.now() - startMs) / 1000));
+      if (timerStart) {
+        const diff = Math.max(0, Math.floor((Date.now() - timerStart) / 1000));
         setElapsed(p(Math.floor(diff/3600))+':'+p(Math.floor((diff%3600)/60))+':'+p(diff%60));
       } else {
         setElapsed('––:––:––');
@@ -410,7 +413,10 @@ function ClockBar({ startMs, compact }) {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [startMs]);
+  }, [timerStart]);
+
+  const isRunning = !!timerStart;
+
   return (
     <div style={{
       display:'flex', alignItems:'center', gap: compact?10:20,
@@ -421,10 +427,31 @@ function ClockBar({ startMs, compact }) {
       fontFamily:"'DM Mono',monospace",
       flexShrink:0,
     }}>
-      <div style={{display:'flex',alignItems:'center',gap:5}}>
+      <div style={{display:'flex',alignItems:'center',gap:6}}>
         <span style={{fontSize:compact?8:9,color:'rgba(255,255,255,0.45)',letterSpacing:1.5,textTransform:'uppercase'}}>ELAPSED</span>
         <span style={{fontSize:compact?12:15,color:'#f0c040',fontWeight:600,letterSpacing:2,fontVariantNumeric:'tabular-nums',textShadow:'0 0 8px rgba(240,192,64,0.4)'}}>{elapsed}</span>
-        {startMs && <span style={{width:6,height:6,borderRadius:'50%',background:'#ef4444',flexShrink:0,display:'inline-block'}} className="rec-dot"/>}
+        {isRunning && <span style={{width:6,height:6,borderRadius:'50%',background:'#ef4444',flexShrink:0,display:'inline-block'}} className="rec-dot"/>}
+        <button
+          onClick={isRunning ? onTimerStop : onTimerStart}
+          title={isRunning ? 'Stop & reset timer' : 'Start elapsed timer'}
+          style={{
+            background: isRunning ? 'rgba(239,68,68,0.15)' : 'rgba(255,255,255,0.08)',
+            border: isRunning ? '1px solid rgba(239,68,68,0.5)' : '1px solid rgba(255,255,255,0.18)',
+            borderRadius: 4,
+            color: isRunning ? '#ef4444' : 'rgba(255,255,255,0.5)',
+            cursor: 'pointer',
+            fontSize: compact?9:10,
+            fontFamily: "'DM Mono',monospace",
+            padding: '1px 7px',
+            letterSpacing: 0.5,
+            lineHeight: 1.6,
+            transition: 'all .15s',
+          }}
+          onMouseEnter={e=>{e.currentTarget.style.borderColor=isRunning?'#ef4444':'rgba(255,255,255,0.4)';e.currentTarget.style.color=isRunning?'#ef4444':'rgba(255,255,255,0.8)';}}
+          onMouseLeave={e=>{e.currentTarget.style.borderColor=isRunning?'rgba(239,68,68,0.5)':'rgba(255,255,255,0.18)';e.currentTarget.style.color=isRunning?'#ef4444':'rgba(255,255,255,0.5)';}}
+        >
+          {isRunning ? '■ STOP' : '▶ START'}
+        </button>
       </div>
       <div style={{width:1,height:compact?16:22,background:'rgba(255,255,255,0.15)',flexShrink:0}}/>
       <div style={{display:'flex',alignItems:'center',gap:5}}>
@@ -1936,7 +1963,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
 // ─────────────────────────────────────────────────────────────────
 // IncidentView
 // ─────────────────────────────────────────────────────────────────
-function IncidentView({ matrix, theme, dark, onClose }) {
+function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, onTimerStop }) {
   const isRetro  = theme==='retro';
   const font     = isRetro?"'Press Start 2P',monospace":"'DM Mono',monospace";
 
@@ -2214,7 +2241,7 @@ function IncidentView({ matrix, theme, dark, onClose }) {
             textShadow:isRetro?'0 0 10px #00ff41':'none', letterSpacing:isRetro?1:0,
           }}>{isRetro?'⚡ ':''}INCIDENT VIEW</span>
 
-          <ClockBar startMs={activeInc?.createdAt} compact={false} />
+          <ClockBar timerStart={timerStart} onTimerStart={onTimerStart} onTimerStop={onTimerStop} compact={false} />
 
           {activeInc&&<>
             <span style={{color:textDim,fontSize:isRetro?7:12}}>—</span>
@@ -2561,9 +2588,13 @@ function App({initialMatrix, initialName}) {
   const [panelOpen,     setPanelOpen]     = useState(true);
   const [showGuide,     setShowGuide]     = useState(null); // playbook id for guide view
   const [showIncident,  setShowIncident]  = useState(false);
+  const [timerStart,    setTimerStart]    = useState(null); // shared elapsed timer
   const fileRef = useRef();
 
-  const dark = theme !== "light" && theme !== "corporate";
+  function startTimer() { setTimerStart(Date.now()); }
+  function stopTimer()  { setTimerStart(null); }
+
+  const dark = theme !== "light";
 
   // Apply theme to html element
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', theme); }, [theme]);
@@ -2765,7 +2796,7 @@ function App({initialMatrix, initialName}) {
         </div>
 
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
-          <ClockBar compact={true} />
+          <ClockBar timerStart={timerStart} onTimerStart={startTimer} onTimerStop={stopTimer} compact={true} />
           {/* Theme toggle */}
           {(()=>{
             const themes = ["dark","light","tactical","midnight","corporate","retro"];
@@ -3081,7 +3112,7 @@ function App({initialMatrix, initialName}) {
 
       {/* ── INCIDENT VIEW ── */}
       {showIncident&&(
-        <IncidentView matrix={matrix} theme={theme} dark={dark} onClose={()=>setShowIncident(false)}/>
+        <IncidentView matrix={matrix} theme={theme} dark={dark} onClose={()=>setShowIncident(false)} timerStart={timerStart} onTimerStart={startTimer} onTimerStop={stopTimer}/>
       )}
 
       {/* ── MODALS ── */}
