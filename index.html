@@ -1982,14 +1982,39 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
   const font     = "'Inter',system-ui,sans-serif";
 
   // Stable initial incident ID
+  // ── Persist incidents + activeId to localStorage ──
+  const LS_INC = 'ir_navigator_incidents';
+  const LS_AID = 'ir_navigator_activeId';
+
   const initRef = React.useRef(null);
   if (!initRef.current) { initRef.current = { id: uid() }; }
 
-  const [incidents,    setIncidents]   = React.useState(()=>[{
-    id: initRef.current.id, name:'INC-001 New Incident',
-    createdAt: Date.now(), playbookId: null, cards: [],
-  }]);
-  const [activeId,     setActiveId]    = React.useState(initRef.current.id);
+  const [incidents, setIncidents] = React.useState(() => {
+    try {
+      const saved = localStorage.getItem(LS_INC);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch(e) {}
+    return [{ id: initRef.current.id, name:'INC-001 New Incident', createdAt: Date.now(), playbookId: null, cards: [] }];
+  });
+
+  const [activeId, setActiveId] = React.useState(() => {
+    try {
+      const saved = localStorage.getItem(LS_AID);
+      if (saved) return saved;
+    } catch(e) {}
+    return initRef.current.id;
+  });
+
+  // Save to localStorage whenever incidents or activeId change
+  React.useEffect(() => {
+    try { localStorage.setItem(LS_INC, JSON.stringify(incidents)); } catch(e) {}
+  }, [incidents]);
+  React.useEffect(() => {
+    try { localStorage.setItem(LS_AID, activeId); } catch(e) {}
+  }, [activeId]);
   const [sidebarOpen,  setSidebarOpen] = React.useState(true);
   const [now,          setNow]         = React.useState(Date.now());
   const [showAdd,      setShowAdd]     = React.useState(false);
@@ -2632,11 +2657,25 @@ function App({initialMatrix, initialName}) {
   const [panelOpen,     setPanelOpen]     = useState(true);
   const [showGuide,     setShowGuide]     = useState(null); // playbook id for guide view
   const [showIncident,  setShowIncident]  = useState(false);
-  const [timerStart,    setTimerStart]    = useState(null); // shared elapsed timer
+  const LS_TIMER = 'ir_navigator_timer';
+  const [timerStart, setTimerStart] = useState(() => {
+    try {
+      const saved = localStorage.getItem(LS_TIMER);
+      if (saved) return parseInt(saved, 10);
+    } catch(e) {}
+    return null;
+  });
   const fileRef = useRef();
 
-  function startTimer() { setTimerStart(Date.now()); }
-  function stopTimer()  { setTimerStart(null); }
+  function startTimer() {
+    const t = Date.now();
+    setTimerStart(t);
+    try { localStorage.setItem(LS_TIMER, String(t)); } catch(e) {}
+  }
+  function stopTimer() {
+    setTimerStart(null);
+    try { localStorage.removeItem(LS_TIMER); } catch(e) {}
+  }
 
   const dark = theme !== "light";
 
