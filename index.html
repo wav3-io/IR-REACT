@@ -2007,15 +2007,17 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
   const activeInc    = incidents.find(i=>i.id===activeId) || incidents[0];
 
   // ── Theme colours ──
-  const bg        = isRetro?'#0a0a1e':dark?'#0e0e18':'#f0f0f8';
-  const headerBg  = isRetro?'#06061a':dark?'#0a0a20':'#ffffff';
-  const sidebarBg = isRetro?'#06061a':dark?'#0a0a1e':'#f8f8ff';
-  const border    = isRetro?'#00aa2a':dark?'#2e2e50':'#d8d8f0';
-  const border2   = isRetro?'#006618':dark?'#1e1e38':'#ebebf5';
-  const textMain  = isRetro?'#00ff41':dark?'#e8e8f0':'#1a1a2e';
-  const textSub   = isRetro?'#00aa2a':dark?'#8888aa':'#6060a0';
-  const textDim   = isRetro?'#006618':dark?'#555577':'#a0a0c0';
-  const cardBg    = isRetro?'#0e0e2a':dark?'#141630':'#ffffff';
+  // Read CSS vars so IncidentView respects the active theme (including Corporate)
+  const getV = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const bg        = isRetro?'#0a0a1e':getV('--bg')        || (dark?'#0e0e18':'#f0f0f8');
+  const headerBg  = isRetro?'#06061a':getV('--header-bg')  || (dark?'#0a0a20':'#ffffff');
+  const sidebarBg = isRetro?'#06061a':getV('--bg2')        || (dark?'#0a0a1e':'#f8f8ff');
+  const border    = isRetro?'#00aa2a':getV('--border')     || (dark?'#2e2e50':'#d8d8f0');
+  const border2   = isRetro?'#006618':getV('--border2')    || (dark?'#1e1e38':'#ebebf5');
+  const textMain  = isRetro?'#00ff41':getV('--text')       || (dark?'#e8e8f0':'#1a1a2e');
+  const textSub   = isRetro?'#00aa2a':getV('--text3')      || (dark?'#8888aa':'#6060a0');
+  const textDim   = isRetro?'#006618':getV('--text4')      || (dark?'#555577':'#a0a0c0');
+  const cardBg    = isRetro?'#0e0e2a':getV('--cell-bg')    || (dark?'#141630':'#ffffff');
 
   const PHASE_COLORS = isRetro ? {
     I: { bg:'#001a40', text:'#00ccff', border:'#00aaff' },
@@ -2245,9 +2247,38 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
 
           {activeInc&&<>
             <span style={{color:textDim,fontSize:isRetro?7:12}}>—</span>
-            <span style={{fontSize:isRetro?8:13,color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',fontWeight:600}}>
-              {activeInc.name}
-            </span>
+            {editingIncId==='topbar' ? (
+              <input
+                autoFocus
+                value={editIncName}
+                onChange={e=>setEditIncName(e.target.value)}
+                onBlur={()=>{
+                  if(editIncName.trim()) setIncidents(p=>p.map(i=>i.id===activeId?{...i,name:editIncName.trim()}:i));
+                  setEditingIncId(null);
+                }}
+                onKeyDown={e=>{
+                  if(e.key==='Enter') e.target.blur();
+                  if(e.key==='Escape') setEditingIncId(null);
+                }}
+                style={{
+                  background:'transparent',
+                  border:'none',
+                  borderBottom:`1px solid ${isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4'}`,
+                  color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',
+                  fontFamily:font, fontSize:isRetro?8:13, fontWeight:600,
+                  outline:'none', padding:'1px 2px', minWidth:160,
+                }}
+              />
+            ) : (
+              <span
+                onClick={()=>{setEditingIncId('topbar');setEditIncName(activeInc.name);}}
+                title="Click to rename"
+                style={{fontSize:isRetro?8:13,color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',fontWeight:600,cursor:'text',borderBottom:'1px dashed transparent',transition:'border-color .15s'}}
+                onMouseEnter={e=>e.currentTarget.style.borderBottomColor=isRetro?'#ffcc00':dark?'#a29bfe55':'#5b4fd455'}
+                onMouseLeave={e=>e.currentTarget.style.borderBottomColor='transparent'}>
+                {activeInc.name}
+              </span>
+            )}
             <span style={{fontSize:isRetro?5:9,color:textDim}}>
               created {fmtTs(activeInc.createdAt)}
             </span>
@@ -2806,7 +2837,13 @@ function App({initialMatrix, initialName}) {
               <button className="theme-toggle" onClick={()=>setTheme(nextTheme)}
                 title={`Theme: ${labels[theme]} → ${labels[nextTheme]}`}
                 style={{background:theme==="retro"?"#0a0a1e":dark?"#1a1a3a":"#ede9fe",border:theme==="retro"?"2px solid #00ff41":`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:7,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:5,padding:"0 10px"}}>
-                {theme==="retro" ? <span style={{fontSize:10,lineHeight:1}}>&#x1F47E;</span> : dark ? <SunIcon color={theme==="tactical"?"#FCCC44":"#f6ad55"} size={15}/> : <MoonIcon color="#5b4fd4" size={15}/>}
+                {theme==="dark"      ? <MoonIcon color="#a29bfe" size={15}/>
+                 : theme==="light"     ? <SunIcon  color="#f6ad55" size={15}/>
+                 : theme==="tactical"  ? <span style={{fontSize:14,lineHeight:1}}>🛡️</span>
+                 : theme==="midnight"  ? <span style={{fontSize:14,lineHeight:1}}>🌌</span>
+                 : theme==="corporate" ? <span style={{fontSize:14,lineHeight:1}}>💼</span>
+                 : theme==="retro"     ? <span style={{fontSize:14,lineHeight:1}}>👾</span>
+                 : <MoonIcon color="#a29bfe" size={15}/>}
                 <span style={{fontSize:theme==="retro"?7:10,color:theme==="retro"?"#00ff41":dark?"#888":"#666",letterSpacing:theme==="retro"?1:.5}}>{labels[theme]}</span>
               </button>
             );
