@@ -120,32 +120,32 @@
       --shadow-md:   0 4px 20px rgba(0,0,0,.5);
     }
 
-    :root[data-theme="retro"] {
-      --bg:          #1a1a2e;
-      --bg2:         #16213e;
-      --bg3:         #0f3460;
-      --surface:     #1a1a40;
-      --surface2:    #222255;
-      --border:      #00ff41;
-      --border2:     #33ff66;
-      --text:        #00ff41;
-      --text2:       #33ff88;
-      --text3:       #00aa2a;
-      --text4:       #006618;
-      --accent:      #ff003c;
-      --accent2:     #ffcc00;
-      --danger:      #ff003c;
-      --header-bg:   #0a0a1e;
-      --modal-bg:    #0e0e28;
-      --modal-border:#00ff41;
-      --input-bg:    #0a0a20;
-      --input-border:#00ff41;
-      --scrollbar:   #00ff41;
-      --cell-bg:     #0e0e2a;
-      --cell-border: #00aa2a;
-      --dim-opacity: 0.12;
-      --shadow-sm:   0 2px 0 #00ff41, 0 -2px 0 #00ff41, 2px 0 0 #00ff41, -2px 0 0 #00ff41;
-      --shadow-md:   0 0 12px rgba(0,255,65,.3);
+    :root[data-theme="goose"] {
+      --bg:          #0f0f13;
+      --bg2:         #171720;
+      --bg3:         #1e1e2a;
+      --surface:     #1c1c26;
+      --surface2:    #242432;
+      --border:      #c84b9e;
+      --border2:     #e0559e;
+      --text:        #f0eeea;
+      --text2:       #d4cfc8;
+      --text3:       #a09890;
+      --text4:       #5a5450;
+      --accent:      #e8520a;
+      --accent2:     #ff7a30;
+      --danger:      #e8520a;
+      --header-bg:   #0a0a0e;
+      --modal-bg:    #13131a;
+      --modal-border:#c84b9e;
+      --input-bg:    #0a0a0e;
+      --input-border:#c84b9e;
+      --scrollbar:   #c84b9e;
+      --cell-bg:     #141418;
+      --cell-border: #2a2a38;
+      --dim-opacity: 0.15;
+      --shadow-sm:   0 2px 8px rgba(200,75,158,.2);
+      --shadow-md:   0 4px 20px rgba(200,75,158,.25);
     }
 
     :root[data-theme="corporate"] {
@@ -176,99 +176,37 @@
       --shadow-md:   0 4px 20px rgba(0,0,0,.45);
     }
 
-    /* ── RETRO 8-BIT OVERRIDES ── */
-    :root[data-theme="retro"] body,
-    :root[data-theme="retro"] input,
-    :root[data-theme="retro"] textarea,
-    :root[data-theme="retro"] button,
-    :root[data-theme="retro"] select {
-      font-family: 'Press Start 2P', monospace !important;
+    /* ── GOOSE THEME OVERRIDES ── */
+    :root[data-theme="goose"] .tech-cell {
+      border: 1px solid #2a2a38 !important;
     }
-    :root[data-theme="retro"] * {
-      border-radius: 0 !important;
-      image-rendering: pixelated;
+    :root[data-theme="goose"] .tech-cell:hover {
+      border-color: #c84b9e88 !important;
+      box-shadow: 0 0 12px rgba(200,75,158,.25) !important;
     }
-    :root[data-theme="retro"] .tech-cell {
-      border: 2px solid #00aa2a !important;
-      box-shadow: 4px 4px 0 #000 !important;
-      transition: none !important;
+    :root[data-theme="goose"] .tech-cell.in-playbook {
+      outline: 2px solid var(--pb-color,#e8520a) !important;
+      outline-offset: 2px;
+      box-shadow: 0 0 10px rgba(232,82,10,.3) !important;
     }
-    :root[data-theme="retro"] .tech-cell:hover {
-      transform: none !important;
-      border-color: #00ff41 !important;
-      box-shadow: 4px 4px 0 #00ff41 !important;
+    :root[data-theme="goose"] .tactic-header {
+      border-color: rgba(200,75,158,.4) !important;
     }
-    :root[data-theme="retro"] .tech-cell.in-playbook {
-      outline: 3px solid var(--pb-color,#ffcc00) !important;
-      outline-offset: 0 !important;
-      box-shadow: 0 0 8px var(--pb-color,#ffcc00), 4px 4px 0 #000 !important;
+    :root[data-theme="goose"] .tactic-header:hover {
+      filter: brightness(1.12) !important;
+      border-color: #c84b9e !important;
     }
-    :root[data-theme="retro"] .tactic-header {
-      border: 2px solid #00ff41 !important;
-      box-shadow: 4px 4px 0 #000 !important;
-      transition: none !important;
+    :root[data-theme="goose"] .tool-btn:hover {
+      border-color: #c84b9e !important;
+      color: #e870c0 !important;
+      background: rgba(200,75,158,.1) !important;
     }
-    :root[data-theme="retro"] .tactic-header:hover {
-      filter: none !important;
-      border-color: #ffcc00 !important;
+    :root[data-theme="goose"] .theme-toggle:hover {
+      border-color: #c84b9e !important;
+      box-shadow: 0 0 12px rgba(200,75,158,.3) !important;
     }
-    :root[data-theme="retro"] .tool-btn {
-      border: 2px solid #00ff41 !important;
-      box-shadow: 3px 3px 0 #000 !important;
-      transition: none !important;
-      text-transform: uppercase;
-    }
-    :root[data-theme="retro"] .tool-btn:hover {
-      background: #00ff41 !important;
-      color: #0a0a1e !important;
-      border-color: #00ff41 !important;
-    }
-    :root[data-theme="retro"] .tool-btn:active {
-      box-shadow: 1px 1px 0 #000 !important;
-      transform: translate(2px,2px);
-    }
-    :root[data-theme="retro"] .theme-toggle {
-      border: 2px solid #00ff41 !important;
-      box-shadow: 3px 3px 0 #000 !important;
-      transition: none !important;
-    }
-    :root[data-theme="retro"] .theme-toggle:hover {
-      transform: none !important;
-      background: #00ff41 !important;
-      color: #0a0a1e !important;
-    }
-    :root[data-theme="retro"] .pb-card {
-      border: 2px solid #00aa2a !important;
-      box-shadow: 4px 4px 0 #000 !important;
-      transition: none !important;
-    }
-    :root[data-theme="retro"] .pb-tech-row {
-      border: 1px solid #006618 !important;
-      transition: none !important;
-    }
-    :root[data-theme="retro"] .pb-tech-row:hover {
-      border-color: #00ff41 !important;
-      background: #1a1a40 !important;
-    }
-    :root[data-theme="retro"] .modal-overlay {
-      backdrop-filter: none !important;
-      background: rgba(0,0,0,.85) !important;
-    }
-    :root[data-theme="retro"] .mode-btn {
-      transition: none !important;
-    }
-    :root[data-theme="retro"] ::-webkit-scrollbar-thumb {
-      background: #00ff41 !important;
-      border-radius: 0 !important;
-    }
-    :root[data-theme="retro"] ::-webkit-scrollbar-track {
-      background: #0a0a1e !important;
-    }
-
-    @keyframes retro-blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    @keyframes retro-scanlines {
-      0% { background-position: 0 0; }
-      100% { background-position: 0 4px; }
+    :root[data-theme="goose"] ::-webkit-scrollbar-thumb {
+      background: #c84b9e88 !important;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -370,15 +308,15 @@ const TACTIC_ACCENTS_LIGHT = {
   t5:{ from:"#e0f2fe", to:"#f0f9ff", border:"#7dd3fc", text:"#0369a1" },
   t6:{ from:"#ffe4e6", to:"#fff1f2", border:"#fda4af", text:"#be123c" },
 };
-const TACTIC_ACCENTS_RETRO = {
-  t1:{ from:"#0a1040", to:"#060828", border:"#00aaff", text:"#00ccff" },
-  t2:{ from:"#200840", to:"#140428", border:"#cc00ff", text:"#dd44ff" },
-  t3:{ from:"#2a1800", to:"#1a0e00", border:"#ff8800", text:"#ffaa00" },
-  t4:{ from:"#002a10", to:"#001a08", border:"#00ff41", text:"#33ff66" },
-  t5:{ from:"#002040", to:"#001428", border:"#0088ff", text:"#44aaff" },
-  t6:{ from:"#2a0010", to:"#1a0008", border:"#ff003c", text:"#ff3366" },
+const TACTIC_ACCENTS_GOOSE = {
+  t1:{ from:"#1a1030", to:"#120a20", border:"#9b3aaa", text:"#cc88ee" },
+  t2:{ from:"#2a0e28", to:"#1c0818", border:"#c84b9e", text:"#e870c8" },
+  t3:{ from:"#2a1400", to:"#1c0e00", border:"#c86010", text:"#e8900a" },
+  t4:{ from:"#1a1030", to:"#120a20", border:"#7a3aaa", text:"#b888ee" },
+  t5:{ from:"#0e1428", to:"#080e1c", border:"#3a5ab0", text:"#7aa0e8" },
+  t6:{ from:"#280a18", to:"#1c0610", border:"#c84b6e", text:"#e87098" },
 };
-const DEF_ACCENT_RETRO = { from:"#0e0e30", to:"#08081a", border:"#00ff41", text:"#00ff41" };
+const DEF_ACCENT_GOOSE = { from:"#1e0e2a", to:"#140818", border:"#c84b9e", text:"#e060be" };
 const DEF_ACCENT_DARK  = { from:"#1e1e4f", to:"#12122a", border:"#3e2e7e", text:"#c4b5fd" };
 const DEF_ACCENT_LIGHT = { from:"#ede9fe", to:"#f5f3ff", border:"#a78bfa", text:"#5b21b6" };
 const TACTIC_ACCENTS_CORPORATE = {
@@ -989,13 +927,13 @@ function PlaybookPanel({dark, theme, playbooks, activePlaybookId, pbMode, onSele
   const [dropPos,    setDropPos]    = useState(null);
   const dragPbRef = useRef(null);
 
-  const isRetro     = theme==="retro";
+  const isRetro     = theme==="goose";
   const panelBg     = isRetro ? "#0a0a1e" : dark ? "#0e0e1e" : "#f8f8ff";
-  const panelBorder = isRetro ? "#00aa2a" : dark ? "#1e1e38" : "#e0e0f0";
+  const panelBorder = isRetro ? "#3a1a30" : dark ? "#1e1e38" : "#e0e0f0";
   const headerBg    = isRetro ? "#0a0a1e" : dark ? "#111120" : "#ffffff";
   const cardBg      = isRetro ? "#0e0e2a" : dark ? "#0e0e1e" : "#f8f8ff";
-  const textMain    = isRetro ? "#00ff41" : dark ? "#ccccee" : "#2a2a4a";
-  const textSub     = isRetro ? "#00aa2a" : dark ? "#666688" : "#9090b0";
+  const textMain    = isRetro ? "#f0eeea" : dark ? "#ccccee" : "#2a2a4a";
+  const textSub     = isRetro ? "#c84b9e" : dark ? "#666688" : "#9090b0";
 
   function getOrderedTechs(pb) {
     const lookup = {};
@@ -1040,12 +978,12 @@ function PlaybookPanel({dark, theme, playbooks, activePlaybookId, pbMode, onSele
   function onDragEnd() { setDragId(null); setDragOverId(null); setDropPos(null); dragPbRef.current=null; }
 
   return (
-    <div style={{width:268,flexShrink:0,background:panelBg,borderLeft:isRetro?`2px solid #00ff41`:`1px solid ${panelBorder}`,display:"flex",flexDirection:"column",height:"100%",overflow:"hidden"}}>
+    <div style={{width:268,flexShrink:0,background:panelBg,borderLeft:isRetro?`1px solid #c84b9e`:`1px solid ${panelBorder}`,display:"flex",flexDirection:"column",height:"100%",overflow:"hidden"}}>
       {/* Header */}
       <div style={{padding:"12px 14px 10px",borderBottom:`1px solid ${panelBorder}`,background:headerBg,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
         <div style={{display:"flex",alignItems:"center",gap:7}}>
-          <BookIcon color={isRetro?"#00ff41":"#7c6ff7"} size={14}/>
-          <span style={{fontSize:isRetro?7:12,color:isRetro?"#00ff41":"#7c6ff7",letterSpacing:1,fontWeight:600,textShadow:isRetro?"0 0 8px #00ff41":"none"}}>{isRetro?"★ ":""}USE CASES</span>
+          <BookIcon color={isRetro?"#e870c0":"#7c6ff7"} size={14}/>
+          <span style={{fontSize:isRetro?7:12,color:isRetro?"#e870c0":"#7c6ff7",letterSpacing:1,fontWeight:600,textShadow:isRetro?"0 0 8px rgba(200,75,158,.6)":"none"}}>{isRetro?"★ ":""}USE CASES</span>
         </div>
         <div style={{display:"flex",gap:5}}>
           <button onClick={onAdd} title="New use case" style={{background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:5,width:22,height:22,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
@@ -1267,8 +1205,8 @@ function ResponseGuideOverlay({dark, theme, playbook, matrix, onClose}) {
 
   const totalActions = playbook.techIds.filter(id=>lookup[id]).length;
 
-  const isRetro  = theme==="retro";
-  const retroFont= "'Press Start 2P', monospace";
+  const isRetro  = theme==="goose";
+  const retroFont= "'Inter',system-ui,sans-serif"; // goose uses normal font
 
   // Phase badge colors
   const phaseBadge = isRetro ? {
@@ -1286,25 +1224,25 @@ function ResponseGuideOverlay({dark, theme, playbook, matrix, onClose}) {
     R:{ bg:dark?"#143325":"#dcfce7", text:dark?"#68d391":"#15803d" },
     L:{ bg:dark?"#3b1a3b":"#fce7f3", text:dark?"#d6bcfa":"#a21caf" },
   };
-  const bgMain   = isRetro?"#0a0a1e":dark?"#0e0e18":"#f0f0f8";
+  const bgMain   = isRetro?"#0a0a0e":dark?"#0e0e18":"#f0f0f8";
   const bgCard   = isRetro?"#0e0e2a":dark?"#161628":"#ffffff";
-  const borderC  = isRetro?"#00ff41":dark?"#2e2e50":"#d8d8f0";
-  const textMain = isRetro?"#00ff41":dark?"#e8e8f0":"#1a1a2e";
-  const textSub  = isRetro?"#00aa2a":dark?"#8888aa":"#6060a0";
-  const textDim  = isRetro?"#006618":dark?"#555577":"#a0a0c0";
-  const surfaceBg= isRetro?"#0e0e28":dark?"#1a1a2e":"#f5f5fc";
+  const borderC  = isRetro?"#f0eeea":dark?"#2e2e50":"#d8d8f0";
+  const textMain = isRetro?"#f0eeea":dark?"#e8e8f0":"#1a1a2e";
+  const textSub  = isRetro?"#c84b9e":dark?"#8888aa":"#6060a0";
+  const textDim  = isRetro?"#7a2a5a":dark?"#555577":"#a0a0c0";
+  const surfaceBg= isRetro?"#131318":dark?"#1a1a2e":"#f5f5fc";
 
   return (
     <div style={{position:"fixed",inset:0,background:bgMain,zIndex:2000,display:"flex",flexDirection:"column",fontFamily:isRetro?retroFont:"'Inter',system-ui,sans-serif",overflow:"hidden"}}>
-      {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"repeating-linear-gradient(0deg, rgba(0,255,65,0.03) 0px, rgba(0,255,65,0.03) 1px, transparent 1px, transparent 3px)",mixBlendMode:"overlay"}}/>}
+      {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"radial-gradient(ellipse at top, rgba(200,75,158,0.06) 0%, transparent 70%)"}}/>}
       {/* Header bar */}
-      <div style={{padding:isRetro?"12px 28px":"16px 28px",borderBottom:isRetro?`2px solid #00ff41`:`1px solid ${borderC}`,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0,background:isRetro?"#0a0a1e":dark?"#111120":"#ffffff",boxShadow:isRetro?"0 4px 0 #000":"none"}}>
+      <div style={{padding:isRetro?"12px 28px":"16px 28px",borderBottom:isRetro?`1px solid #c84b9e`:`1px solid ${borderC}`,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0,background:isRetro?"#0a0a0e":dark?"#111120":"#ffffff",boxShadow:isRetro?"none":"none"}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{width:10,height:10,borderRadius:isRetro?0:"50%",background:playbook.color,boxShadow:isRetro?"none":`0 0 8px ${playbook.color}`}}/>
-          <span style={{fontSize:isRetro?9:16,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",fontWeight:700,color:textMain,textShadow:isRetro?"0 0 8px #00ff41":"none"}}>{isRetro?"► ":""}Response Guide</span>
+          <span style={{fontSize:isRetro?9:16,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",fontWeight:700,color:textMain,textShadow:isRetro?"0 0 8px rgba(200,75,158,.6)":"none"}}>{isRetro?"🪿 ":""}Response Guide</span>
           <span style={{fontSize:isRetro?8:12,color:textSub}}>—</span>
           <span style={{fontSize:isRetro?8:14,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",fontWeight:600,color:playbook.color}}>{playbook.name}</span>
-          <span style={{fontSize:isRetro?6:11,color:textDim,background:isRetro?"#0e0e28":dark?"#1e1e38":"#eeeefc",border:isRetro?"1px solid #006618":"none",borderRadius:isRetro?0:10,padding:"2px 10px"}}>{totalActions} actions across {phases.length} phases</span>
+          <span style={{fontSize:isRetro?6:11,color:textDim,background:isRetro?"#131318":dark?"#1e1e38":"#eeeefc",border:isRetro?"1px solid #7a2a5a":"none",borderRadius:isRetro?10:10,padding:"2px 10px"}}>{totalActions} actions across {phases.length} phases</span>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
           {(() => {
@@ -1623,7 +1561,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
             <span style={{
               fontSize:isRetro?7:12, fontVariantNumeric:'tabular-nums',
               color:colColor, fontWeight:700, letterSpacing:.5,
-              textShadow:isRetro?`0 0 5px ${colColor}`:'none',
+              textShadow:'none',
               fontFamily:"'DM Mono',monospace",
             }}>{elapsed}</span>
             <span style={{fontSize:isRetro?5:9,color:textDim}}>in {colLabel.toLowerCase()}</span>
@@ -1650,14 +1588,14 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
         <div className="fade-in">
           {/* ID + category row */}
           <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:6}}>
-            <span style={{fontSize:isRetro?5:10,color:isRetro?'#00aa2a':textDim,letterSpacing:.3,fontFamily:"'DM Mono',monospace"}}>
-              {isRetro?'▸ ':''}{card.techId||'CUSTOM'}
+            <span style={{fontSize:isRetro?5:10,color:isRetro?'#c84b9e':textDim,letterSpacing:.3,fontFamily:"'DM Mono',monospace"}}>
+              {isRetro?'':''}{card.techId||'CUSTOM'}
             </span>
             {card.category && (
               <span style={{
                 fontSize:isRetro?5:9, background:`${cat.color}20`,
                 border:isRetro?`1px solid ${cat.color}`:`1px solid ${cat.color}44`,
-                borderRadius:isRetro?0:8, padding:'1px 6px', color:cat.text,
+                borderRadius:isRetro?8:8, padding:'1px 6px', color:cat.text,
               }}>{cat.label}</span>
             )}
           </div>
@@ -1672,8 +1610,8 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
               placeholder="Assign owner…"
               style={{
                 flex:1, background:'transparent', border:'none',
-                borderBottom:isRetro?'1px solid #006618':`1px solid ${dark?'#2a2a48':'#d0d0e8'}`,
-                color:ownerVal?(isRetro?'#00ff41':textMain):textDim,
+                borderBottom:isRetro?'1px solid #5a2a4a':`1px solid ${dark?'#2a2a48':'#d0d0e8'}`,
+                color:ownerVal?(isRetro?'#f0eeea':textMain):textDim,
                 fontFamily:font, fontSize:isRetro?6:12, outline:'none', padding:'1px 2px',
               }}/>
           </div>
@@ -1687,14 +1625,14 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
             {stageTs          && <span>Entered:  {fmtTs(stageTs)}</span>}
             {card.assignedAt  && <span>Assigned: {fmtTs(card.assignedAt)}</span>}
             {card.startedAt   && colStatus!=='todo' && <span>Started:  {fmtTs(card.startedAt)}</span>}
-            {card.blockedAt   && <span style={{color:isRetro?'#ff4444':dark?'#fc8181':'#c53030'}}>Blocked:  {fmtTs(card.blockedAt)}</span>}
+            {card.blockedAt   && <span style={{color:isRetro?'#e8520a':dark?'#fc8181':'#c53030'}}>Blocked:  {fmtTs(card.blockedAt)}</span>}
             {card.completedAt && <span>Closed:   {fmtTs(card.completedAt)}</span>}
           </div>
 
           {/* Notes */}
           <div style={{marginBottom:8}}>
-            <div style={{fontSize:isRetro?5:9,color:isRetro?'#00aa2a':textDim,letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>
-              {isRetro?'▸ ':''}Notes
+            <div style={{fontSize:isRetro?5:9,color:isRetro?'#c84b9e':textDim,letterSpacing:1,marginBottom:4,textTransform:'uppercase'}}>
+              {isRetro?'':''}Notes
             </div>
             <textarea
               value={notesVal}
@@ -1705,10 +1643,10 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
               rows={2}
               style={{
                 width:'100%', boxSizing:'border-box',
-                background:isRetro?'#06061a':dark?'#0c0c20':'#f8f8ff',
-                border:isRetro?'1px solid #006618':`1px solid ${dark?'#2a2a48':'#d8d8f0'}`,
-                borderRadius:isRetro?0:4,
-                color:notesVal?(isRetro?'#00ff41':textMain):textDim,
+                background:isRetro?'#0a0a0e':dark?'#0c0c20':'#f8f8ff',
+                border:isRetro?'1px solid #5a2a4a':`1px solid ${dark?'#2a2a48':'#d8d8f0'}`,
+                borderRadius:isRetro?4:4,
+                color:notesVal?(isRetro?'#f0eeea':textMain):textDim,
                 fontFamily:font, fontSize:isRetro?6:12,
                 padding:'5px 7px', outline:'none', resize:'vertical',
                 lineHeight:1.5,
@@ -1723,8 +1661,8 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                     <img src={src} alt={`screenshot ${idx+1}`}
                       style={{
                         width:80, height:60, objectFit:'cover',
-                        border:isRetro?'1px solid #00aa2a':`1px solid ${dark?'#2a2a48':'#d8d8f0'}`,
-                        borderRadius:isRetro?0:4, display:'block', cursor:'pointer',
+                        border:isRetro?'1px solid #8a3a6e':`1px solid ${dark?'#2a2a48':'#d8d8f0'}`,
+                        borderRadius:isRetro?4:4, display:'block', cursor:'pointer',
                       }}
                       onClick={()=>window.open(src,'_blank')}
                       title="Click to open full size"
@@ -1738,7 +1676,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                         background:isRetro?'#1a0404':dark?'#2a1010':'#fff',
                         border:isRetro?'1px solid #ff4444':`1px solid ${dark?'#7a2020':'#fda4af'}`,
                         borderRadius:'50%',
-                        color:isRetro?'#ff4444':dark?'#fc8181':'#c53030',
+                        color:isRetro?'#e8520a':dark?'#fc8181':'#c53030',
                         cursor:'pointer', fontSize:10, lineHeight:1,
                         display:'flex', alignItems:'center', justifyContent:'center',
                         padding:0,
@@ -1756,7 +1694,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                 style={{
                   flex:1, background:'transparent',
                   border:isRetro?'1px solid #444':`1px solid ${dark?'#3a3a6a':'#d0d0e8'}`,
-                  borderRadius:isRetro?0:4, color:isRetro?'#666':textSub,
+                  borderRadius:isRetro?4:4, color:isRetro?'#666':textSub,
                   padding:'3px 6px', cursor:'pointer', fontFamily:font, fontSize:isRetro?5:9,
                 }}>
                 ← {colStatus==='inprogress'?'To Do':'In Progress'}
@@ -1767,8 +1705,8 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                 style={{
                   flex:1, background:'transparent',
                   border:isRetro?'1px solid #ff4444':`1px solid ${dark?'#7a2020':'#fda4af'}`,
-                  borderRadius:isRetro?0:4,
-                  color:isRetro?'#ff4444':dark?'#fc8181':'#c53030',
+                  borderRadius:isRetro?4:4,
+                  color:isRetro?'#e8520a':dark?'#fc8181':'#c53030',
                   padding:'3px 6px', cursor:'pointer', fontFamily:font,
                   fontSize:isRetro?5:9, fontWeight:600,
                 }}>
@@ -1781,11 +1719,11 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                   flex:1,
                   background:isRetro?'transparent':dark?'#1a1a38':'#f0f0fc',
                   border:isRetro?`1px solid ${colColor}`:`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
-                  borderRadius:isRetro?0:4,
+                  borderRadius:isRetro?4:4,
                   color:isRetro?colColor:dark?'#a29bfe':'#5b4fd4',
                   padding:'3px 6px', cursor:'pointer', fontFamily:font,
                   fontSize:isRetro?5:9, fontWeight:600,
-                  boxShadow:isRetro?'2px 2px 0 #000':'none',
+                  boxShadow:isRetro?'none':'none',
                 }}>
                 {colStatus==='todo'?'Start →':'Complete ✓'}
               </button>
@@ -1802,7 +1740,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
               style={{
                 flex:1, background:'transparent',
                 border:isRetro?'1px solid #444':`1px solid ${dark?'#3a3a6a':'#d0d0e8'}`,
-                borderRadius:isRetro?0:4, color:isRetro?'#666':textSub,
+                borderRadius:isRetro?4:4, color:isRetro?'#666':textSub,
                 padding:'2px 6px', cursor:'pointer', fontFamily:font, fontSize:isRetro?5:9,
               }}>
               ← {colStatus==='inprogress'?'To Do':'In Progress'}
@@ -1813,8 +1751,8 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
               style={{
                 flex:1, background:'transparent',
                 border:isRetro?'1px solid #ff4444':`1px solid ${dark?'#7a2020':'#fda4af'}`,
-                borderRadius:isRetro?0:4,
-                color:isRetro?'#ff4444':dark?'#fc8181':'#c53030',
+                borderRadius:isRetro?4:4,
+                color:isRetro?'#e8520a':dark?'#fc8181':'#c53030',
                 padding:'2px 6px', cursor:'pointer', fontFamily:font,
                 fontSize:isRetro?5:9, fontWeight:600,
               }}>
@@ -1827,11 +1765,11 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
                 flex:1,
                 background:isRetro?'transparent':dark?'#1a1a38':'#f0f0fc',
                 border:isRetro?`1px solid ${colColor}`:`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
-                borderRadius:isRetro?0:4,
+                borderRadius:isRetro?4:4,
                 color:isRetro?colColor:dark?'#a29bfe':'#5b4fd4',
                 padding:'2px 6px', cursor:'pointer', fontFamily:font,
                 fontSize:isRetro?5:9, fontWeight:600,
-                boxShadow:isRetro?'2px 2px 0 #000':'none',
+                boxShadow:isRetro?'none':'none',
               }}>
               {colStatus==='todo'?'Start →':'Complete ✓'}
             </button>
@@ -1875,42 +1813,42 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
     onClose();
   }
 
-  const bg       = isRetro?'#0a0a1e':dark?'#141428':'#ffffff';
-  const surfBg   = isRetro?'#0e0e28':dark?'#1a1a38':'#f5f5fc';
-  const inBorder = isRetro?'1px solid #00aa2a':`1px solid ${dark?'#2a2a48':'#c0c0da'}`;
+  const bg       = isRetro?'#0a0a0e':dark?'#141428':'#ffffff';
+  const surfBg   = isRetro?'#131318':dark?'#1a1a38':'#f5f5fc';
+  const inBorder = isRetro?'1px solid #8a3a6e':`1px solid ${dark?'#2a2a48':'#c0c0da'}`;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
         background:bg,
-        border:isRetro?'2px solid #00ff41':`1px solid ${dark?'#2e2e5e':'#c8c8e0'}`,
-        borderRadius:isRetro?0:12,
+        border:isRetro?'2px solid #c84b9e':`1px solid ${dark?'#2e2e5e':'#c8c8e0'}`,
+        borderRadius:isRetro?12:12,
         width:520, maxWidth:'92vw', maxHeight:'78vh',
         display:'flex', flexDirection:'column',
         fontFamily:font,
-        boxShadow:isRetro?'6px 6px 0 #000':dark?'0 24px 60px rgba(0,0,0,.6)':'0 24px 60px rgba(0,0,0,.15)',
+        boxShadow:isRetro?'0 0 16px rgba(200,75,158,.3)':dark?'0 24px 60px rgba(0,0,0,.6)':'0 24px 60px rgba(0,0,0,.15)',
       }}>
         {/* Header */}
         <div style={{
           padding:'12px 16px',
-          borderBottom:isRetro?'2px solid #00ff41':`1px solid ${dark?'#2e2e5e':'#d0d0e8'}`,
+          borderBottom:isRetro?'2px solid #c84b9e':`1px solid ${dark?'#2e2e5e':'#d0d0e8'}`,
           display:'flex', alignItems:'center', justifyContent:'space-between', flexShrink:0,
         }}>
-          <span style={{fontSize:isRetro?8:13,fontWeight:700,color:isRetro?'#00ff41':textMain,textShadow:isRetro?'0 0 6px #00ff41':'none'}}>
-            {isRetro?'► ':''}Add Action
+          <span style={{fontSize:isRetro?8:13,fontWeight:700,color:isRetro?'#f0eeea':textMain,textShadow:'none'}}>
+            {isRetro?'🪿 ':''}Add Action
           </span>
           <button onClick={onClose} style={{background:'none',border:'none',color:textDim,cursor:'pointer',fontSize:16}}>×</button>
         </div>
 
         {/* Tabs */}
-        <div style={{display:'flex',borderBottom:isRetro?'1px solid #006618':`1px solid ${dark?'#2e2e5e':'#d0d0e8'}`,flexShrink:0}}>
+        <div style={{display:'flex',borderBottom:isRetro?'1px solid #5a2a4a':`1px solid ${dark?'#2e2e5e':'#d0d0e8'}`,flexShrink:0}}>
           {[{id:'library',label:'From Library'},{id:'custom',label:'Custom Action'}].map(t=>(
             <button key={t.id} onClick={()=>setTab(t.id)} style={{
               flex:1, padding:'8px',
-              background:tab===t.id?(isRetro?'#0e0e28':dark?'#1a1a38':'#ede9fe'):'transparent',
+              background:tab===t.id?(isRetro?'#131318':dark?'#1a1a38':'#ede9fe'):'transparent',
               border:'none',
-              borderBottom:tab===t.id?`2px solid ${isRetro?'#00ff41':dark?'#7c6ff7':'#5b4fd4'}`:'2px solid transparent',
-              color:tab===t.id?(isRetro?'#00ff41':dark?'#a29bfe':'#5b4fd4'):textDim,
+              borderBottom:tab===t.id?`2px solid ${isRetro?'#f0eeea':dark?'#7c6ff7':'#5b4fd4'}`:'2px solid transparent',
+              color:tab===t.id?(isRetro?'#f0eeea':dark?'#a29bfe':'#5b4fd4'):textDim,
               cursor:'pointer', fontFamily:font, fontSize:isRetro?7:11,
             }}>{t.label}</button>
           ))}
@@ -1922,16 +1860,16 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
             <div style={{display:'flex',gap:8,marginBottom:9,flexShrink:0,flexWrap:'wrap'}}>
               <input autoFocus value={search} onChange={e=>setSearch(e.target.value)}
                 placeholder="Search actions…"
-                style={{flex:1,minWidth:120,background:surfBg,border:inBorder,borderRadius:isRetro?0:6,
+                style={{flex:1,minWidth:120,background:surfBg,border:inBorder,borderRadius:isRetro?6:6,
                   color:textMain,padding:'6px 10px',fontFamily:font,fontSize:isRetro?7:11,outline:'none'}}/>
               <select value={phaseFilter} onChange={e=>setPhaseFilter(e.target.value)}
-                style={{background:surfBg,border:inBorder,borderRadius:isRetro?0:6,
+                style={{background:surfBg,border:inBorder,borderRadius:isRetro?6:6,
                   color:textMain,padding:'4px 8px',fontFamily:font,fontSize:isRetro?7:10,outline:'none',cursor:'pointer'}}>
                 <option value="">All Phases</option>
                 {ICER_CODES.map(c=><option key={c} value={c}>{c} — {ICER_LABELS[c]}</option>)}
               </select>
               <select value={catFilter} onChange={e=>setCatFilter(e.target.value)}
-                style={{background:surfBg,border:inBorder,borderRadius:isRetro?0:6,
+                style={{background:surfBg,border:inBorder,borderRadius:isRetro?6:6,
                   color:textMain,padding:'4px 8px',fontFamily:font,fontSize:isRetro?7:10,outline:'none',cursor:'pointer'}}>
                 <option value="">All Categories</option>
                 {categories.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}
@@ -1964,8 +1902,8 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
                           className="pb-tech-row clickable"
                           style={{
                             padding:'6px 8px',marginBottom:2,cursor:'pointer',
-                            border:isRetro?'1px solid #006618':'1px solid transparent',
-                            borderRadius:isRetro?0:4,
+                            border:isRetro?'1px solid #5a2a4a':'1px solid transparent',
+                            borderRadius:isRetro?4:4,
                             display:'flex',alignItems:'flex-start',gap:8,
                           }}>
                           <div style={{flex:1}}>
@@ -1977,7 +1915,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
                               fontSize:isRetro?5:8, flexShrink:0, marginTop:2,
                               color:cat.text, background:`${cat.color}22`,
                               border:`1px solid ${cat.color}55`,
-                              borderRadius:isRetro?0:8, padding:'1px 6px',
+                              borderRadius:isRetro?8:8, padding:'1px 6px',
                             }}>{cat.label}</span>
                           )}
                         </div>
@@ -1999,7 +1937,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
                     <button key={code} onClick={()=>setCustomPhase(code)} style={{
                       background:on?ph.bg:'transparent',
                       border:isRetro?`1px solid ${on?ph.border:'#444'}`:`1px solid ${on?ph.border:dark?'#3a3a6a':'#d0d0e8'}`,
-                      borderRadius:isRetro?0:4, color:on?ph.text:textDim,
+                      borderRadius:isRetro?4:4, color:on?ph.text:textDim,
                       padding:'5px 14px', cursor:'pointer', fontFamily:font,
                       fontSize:isRetro?6:10, fontWeight:on?700:400,
                     }}>{code}</button>
@@ -2014,7 +1952,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
                 placeholder="Describe the action…"
                 style={{
                   width:'100%',background:surfBg,border:inBorder,
-                  borderRadius:isRetro?0:6,color:textMain,
+                  borderRadius:isRetro?6:6,color:textMain,
                   padding:'8px 10px',fontFamily:font,fontSize:isRetro?7:11,
                   outline:'none',boxSizing:'border-box',
                 }}/>
@@ -2022,12 +1960,12 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
             <button onClick={addCustom} style={{
               width:'100%',
               background:isRetro?'transparent':'linear-gradient(135deg,#6c5ce7,#a29bfe)',
-              border:isRetro?'2px solid #00ff41':'none',
+              border:isRetro?'2px solid #c84b9e':'none',
               borderRadius:isRetro?0:7,
-              color:isRetro?'#00ff41':'#fff',
+              color:isRetro?'#e870c0':'#fff',
               padding:'10px', cursor:'pointer', fontFamily:font,
               fontSize:isRetro?7:12, fontWeight:600,
-              boxShadow:isRetro?'3px 3px 0 #000':'none',
+              boxShadow:isRetro?'0 0 12px rgba(200,75,158,.3)':'none',
             }}>+ Add to To Do</button>
           </div>
         )}
@@ -2040,8 +1978,8 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
 // IncidentView
 // ─────────────────────────────────────────────────────────────────
 function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, onTimerStop }) {
-  const isRetro  = theme==='retro';
-  const font     = isRetro?"'Press Start 2P',monospace":"'Inter',system-ui,sans-serif";
+  const isRetro  = theme==='goose';
+  const font     = "'Inter',system-ui,sans-serif";
 
   // Stable initial incident ID
   const initRef = React.useRef(null);
@@ -2085,22 +2023,22 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
   // ── Theme colours ──
   // Read CSS vars so IncidentView respects the active theme (including Corporate)
   const getV = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-  const bg        = isRetro?'#0a0a1e':getV('--bg')        || (dark?'#0e0e18':'#f0f0f8');
-  const headerBg  = isRetro?'#06061a':getV('--header-bg')  || (dark?'#0a0a20':'#ffffff');
-  const sidebarBg = isRetro?'#06061a':getV('--bg2')        || (dark?'#0a0a1e':'#f8f8ff');
-  const border    = isRetro?'#00aa2a':getV('--border')     || (dark?'#2e2e50':'#d8d8f0');
-  const border2   = isRetro?'#006618':getV('--border2')    || (dark?'#1e1e38':'#ebebf5');
-  const textMain  = isRetro?'#00ff41':getV('--text')       || (dark?'#e8e8f0':'#1a1a2e');
-  const textSub   = isRetro?'#00aa2a':getV('--text3')      || (dark?'#8888aa':'#6060a0');
-  const textDim   = isRetro?'#006618':getV('--text4')      || (dark?'#555577':'#a0a0c0');
-  const cardBg    = isRetro?'#0e0e2a':getV('--cell-bg')    || (dark?'#141630':'#ffffff');
+  const bg        = isRetro?'#0a0a0e':getV('--bg')        || (dark?'#0e0e18':'#f0f0f8');
+  const headerBg  = isRetro?'#0a0a0e':getV('--header-bg')  || (dark?'#0a0a20':'#ffffff');
+  const sidebarBg = isRetro?'#0a0a0e':getV('--bg2')        || (dark?'#0a0a1e':'#f8f8ff');
+  const border    = isRetro?'#c84b9e':getV('--border')     || (dark?'#2e2e50':'#d8d8f0');
+  const border2   = isRetro?'#7a2a5a':getV('--border2')    || (dark?'#1e1e38':'#ebebf5');
+  const textMain  = isRetro?'#f0eeea':getV('--text')       || (dark?'#e8e8f0':'#1a1a2e');
+  const textSub   = isRetro?'#c84b9e':getV('--text3')      || (dark?'#8888aa':'#6060a0');
+  const textDim   = isRetro?'#7a2a5a':getV('--text4')      || (dark?'#555577':'#a0a0c0');
+  const cardBg    = isRetro?'#141418':getV('--cell-bg')    || (dark?'#141630':'#ffffff');
 
   const PHASE_COLORS = isRetro ? {
     I: { bg:'#001a40', text:'#00ccff', border:'#00aaff' },
     C: { bg:'#2a1800', text:'#ffaa00', border:'#ff8800' },
     E: { bg:'#2a0010', text:'#ff3366', border:'#ff003c' },
-    R: { bg:'#002a10', text:'#33ff66', border:'#00ff41' },
-    AD:{ bg:'#1a1a00', text:'#ffcc00', border:'#ffcc00' },
+    R: { bg:'#0a1e18', text:'#50c880', border:'#2a8050' },
+    AD:{ bg:'#1e100a', text:'#e8900a', border:'#a85010' },
   } : {
     I: { bg:dark?'#1a365d':'#dbeafe', text:dark?'#63b3ed':'#1d4ed8', border:dark?'#3a6a9a':'#93c5fd' },
     C: { bg:dark?'#4a2e08':'#ffedd5', text:dark?'#f6ad55':'#c2410c', border:dark?'#7a5020':'#fdba74' },
@@ -2111,9 +2049,9 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
 
   const COLS = [
     { status:'todo',        label:'TO DO',         color:isRetro?'#00aaff':dark?'#63b3ed':'#2b6cb0', colBg:isRetro?'#07071a':dark?'#0d0d22':'#f5f5fc' },
-    { status:'inprogress',  label:'IN PROGRESS',   color:isRetro?'#ffcc00':dark?'#f6ad55':'#c2410c', colBg:isRetro?'#120e00':dark?'#12100a':'#fffbf5' },
-    { status:'blocked',     label:'BLOCKER / HOLD', color:isRetro?'#ff4444':dark?'#fc8181':'#c53030', colBg:isRetro?'#1a0404':dark?'#160808':'#fff5f5' },
-    { status:'completed',   label:'COMPLETED',     color:isRetro?'#33ff66':dark?'#68d391':'#15803d', colBg:isRetro?'#061206':dark?'#0a140a':'#f0fdf4' },
+    { status:'inprogress',  label:'IN PROGRESS',   color:isRetro?'#e8520a':dark?'#f6ad55':'#c2410c', colBg:isRetro?'#120e00':dark?'#12100a':'#fffbf5' },
+    { status:'blocked',     label:'BLOCKER / HOLD', color:isRetro?'#e8520a':dark?'#fc8181':'#c53030', colBg:isRetro?'#1a0404':dark?'#160808':'#fff5f5' },
+    { status:'completed',   label:'COMPLETED',     color:isRetro?'#80d0a0':dark?'#68d391':'#15803d', colBg:isRetro?'#061206':dark?'#0a140a':'#f0fdf4' },
   ];
 
   // ── Incident management ──
@@ -2282,12 +2220,12 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
 
   // ── Btn shared style ──
   const btn = (hi) => ({
-    background:isRetro?'#0a0a1e':dark?'#1a1a3a':'#f0f0f8',
-    border:isRetro?`2px solid ${hi?'#ffcc00':'#00ff41'}`:`1px solid ${hi?(dark?'#6c5ce7':'#a78bfa'):border}`,
-    borderRadius:isRetro?0:6, color:isRetro?(hi?'#ffcc00':'#00ff41'):(hi?(dark?'#a29bfe':'#5b4fd4'):textMain),
+    background:isRetro?'#0a0a0e':dark?'#1a1a3a':'#f0f0f8',
+    border:isRetro?`1px solid ${hi?'#e8520a':'#c84b9e'}`:`1px solid ${hi?(dark?'#6c5ce7':'#a78bfa'):border}`,
+    borderRadius:isRetro?6:6, color:isRetro?(hi?'#e8520a':'#e870c0'):(hi?(dark?'#a29bfe':'#5b4fd4'):textMain),
     padding:'5px 12px', cursor:'pointer', fontFamily:font,
     fontSize:isRetro?7:11, display:'flex', alignItems:'center', gap:5,
-    boxShadow:isRetro?'3px 3px 0 #000':'none',
+    boxShadow:isRetro?'0 0 12px rgba(200,75,158,.3)':'none',
   });
 
   return (
@@ -2295,15 +2233,14 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
       position:'fixed', inset:0, zIndex:3000,
       background:bg, fontFamily:font, display:'flex', flexDirection:'column', color:textMain,
     }}>
-      {/* Retro scanlines */}
+      {/* Goose ambient glow */}
       {isRetro&&<div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:9999,
-        background:'repeating-linear-gradient(0deg,rgba(0,255,65,.03) 0px,rgba(0,255,65,.03) 1px,transparent 1px,transparent 3px)',
-        mixBlendMode:'overlay'}}/>}
+        background:'radial-gradient(ellipse at top, rgba(200,75,158,0.06) 0%, transparent 70%)'}}/>}
 
       {/* ── TOP BAR ── */}
       <div style={{
         background:headerBg, flexShrink:0,
-        borderBottom:isRetro?'2px solid #00ff41':`1px solid ${border}`,
+        borderBottom:isRetro?'2px solid #c84b9e':`1px solid ${border}`,
         padding:'10px 18px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap',
         boxShadow:isRetro?'0 4px 0 #000':'none',
       }}>
@@ -2315,9 +2252,9 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
           <span style={{
             fontSize:isRetro?9:15, fontWeight:700,
             fontFamily:isRetro?font:"'Space Grotesk',sans-serif",
-            color:isRetro?'#00ff41':textMain,
-            textShadow:isRetro?'0 0 10px #00ff41':'none', letterSpacing:isRetro?1:0,
-          }}>{isRetro?'⚡ ':''}INCIDENT VIEW</span>
+            color:isRetro?'#f0eeea':textMain,
+            textShadow:isRetro?'0 0 10px rgba(200,75,158,.6)':'none', letterSpacing:0,
+          }}>{isRetro?'🪿 ':''}INCIDENT VIEW</span>
 
           <ClockBar timerStart={timerStart} onTimerStart={onTimerStart} onTimerStop={onTimerStop} compact={false} />
 
@@ -2339,8 +2276,8 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                 style={{
                   background:'transparent',
                   border:'none',
-                  borderBottom:`1px solid ${isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4'}`,
-                  color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',
+                  borderBottom:`1px solid ${isRetro?'#e8520a':dark?'#a29bfe':'#5b4fd4'}`,
+                  color:isRetro?'#e8520a':dark?'#a29bfe':'#5b4fd4',
                   fontFamily:font, fontSize:isRetro?8:13, fontWeight:600,
                   outline:'none', padding:'1px 2px', minWidth:160,
                 }}
@@ -2349,8 +2286,8 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
               <span
                 onClick={()=>{setEditingIncId('topbar');setEditIncName(activeInc.name);}}
                 title="Click to rename"
-                style={{fontSize:isRetro?8:13,color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',fontWeight:600,cursor:'text',borderBottom:'1px dashed transparent',transition:'border-color .15s'}}
-                onMouseEnter={e=>e.currentTarget.style.borderBottomColor=isRetro?'#ffcc00':dark?'#a29bfe55':'#5b4fd455'}
+                style={{fontSize:isRetro?8:13,color:isRetro?'#e8520a':dark?'#a29bfe':'#5b4fd4',fontWeight:600,cursor:'text',borderBottom:'1px dashed transparent',transition:'border-color .15s'}}
+                onMouseEnter={e=>e.currentTarget.style.borderBottomColor=isRetro?'#e8520a':dark?'#a29bfe55':'#5b4fd455'}
                 onMouseLeave={e=>e.currentTarget.style.borderBottomColor='transparent'}>
                 {activeInc.name}
               </span>
@@ -2366,15 +2303,15 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
           <div style={{display:'flex',gap:6}}>
             {[
               {l:'TODO',    n:todoCards.length,    c:isRetro?'#00aaff':dark?'#63b3ed':'#2b6cb0'},
-              {l:'IN PROG', n:ipCards.length,      c:isRetro?'#ffcc00':dark?'#f6ad55':'#c2410c'},
-              {l:'HOLD',    n:blockedCards.length,  c:isRetro?'#ff4444':dark?'#fc8181':'#c53030'},
-              {l:'DONE',    n:doneCards.length,    c:isRetro?'#33ff66':dark?'#68d391':'#15803d'},
+              {l:'IN PROG', n:ipCards.length,      c:isRetro?'#e8520a':dark?'#f6ad55':'#c2410c'},
+              {l:'HOLD',    n:blockedCards.length,  c:isRetro?'#e8520a':dark?'#fc8181':'#c53030'},
+              {l:'DONE',    n:doneCards.length,    c:isRetro?'#80d0a0':dark?'#68d391':'#15803d'},
             ].map(s=>(
               <span key={s.l} style={{
                 fontSize:isRetro?5:9, color:s.c, fontWeight:700,
-                background:isRetro?'#0e0e28':dark?'#1a1a38':'#f0f0fc',
+                background:isRetro?'#131318':dark?'#1a1a38':'#f0f0fc',
                 border:isRetro?`1px solid ${s.c}`:`1px solid ${dark?'#2a2a4a':'#d0d0e8'}`,
-                borderRadius:isRetro?0:10, padding:'2px 8px',
+                borderRadius:isRetro?10:10, padding:'2px 8px',
               }}>{s.l}:{s.n}</span>
             ))}
           </div>
@@ -2390,9 +2327,9 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
             </span>
             <select value="" onChange={e=>{if(e.target.value)loadPlaybook(e.target.value);}}
               style={{
-                background:isRetro?'#0a0a1e':dark?'#1a1a3a':'#f0f0f8',
-                border:isRetro?'2px solid #00ff41':`1px solid ${border}`,
-                borderRadius:isRetro?0:5, color:isRetro?'#00ff41':textMain,
+                background:isRetro?'#0a0a0e':dark?'#1a1a3a':'#f0f0f8',
+                border:isRetro?'2px solid #c84b9e':`1px solid ${border}`,
+                borderRadius:isRetro?0:5, color:isRetro?'#f0eeea':textMain,
                 padding:'4px 8px', fontFamily:font, fontSize:isRetro?6:10, cursor:'pointer', outline:'none',
               }}>
               <option value="">Load Playbook…</option>
@@ -2414,31 +2351,31 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
           <div style={{
             width:230, flexShrink:0,
             background:sidebarBg,
-            borderRight:isRetro?'2px solid #00ff41':`1px solid ${border}`,
+            borderRight:isRetro?'2px solid #c84b9e':`1px solid ${border}`,
             display:'flex', flexDirection:'column', overflow:'hidden',
           }}>
             {/* Sidebar header */}
             <div style={{
               padding:'9px 11px', flexShrink:0,
-              borderBottom:isRetro?'1px solid #00aa2a':`1px solid ${border}`,
+              borderBottom:isRetro?'1px solid #8a3a6e':`1px solid ${border}`,
               display:'flex', alignItems:'center', justifyContent:'space-between',
             }}>
-              <span style={{fontSize:isRetro?7:11,fontWeight:600,color:isRetro?'#00ff41':textMain,
-                textShadow:isRetro?'0 0 6px #00ff41':'none'}}>
-                {isRetro?'⚡ ':''}INCIDENTS
+              <span style={{fontSize:isRetro?7:11,fontWeight:600,color:isRetro?'#f0eeea':textMain,
+                textShadow:isRetro?'0 0 6px rgba(200,75,158,.5)':'none'}}>
+                {isRetro?'🪿 ':''}INCIDENTS
               </span>
               <div style={{display:'flex',gap:4}}>
                 <button onClick={createIncident} title="New incident" style={{
-                  background:isRetro?'#0a0a1e':dark?'#1a1a3a':'#ede9fe',
-                  border:isRetro?'2px solid #00ff41':`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
-                  borderRadius:isRetro?0:4, color:isRetro?'#00ff41':'#7c6ff7',
+                  background:isRetro?'#0a0a0e':dark?'#1a1a3a':'#ede9fe',
+                  border:isRetro?'2px solid #c84b9e':`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
+                  borderRadius:4, color:isRetro?'#e870c0':'#7c6ff7',
                   width:22,height:22,cursor:'pointer',fontFamily:font,
                   display:'flex',alignItems:'center',justifyContent:'center',fontSize:14,
                 }}>+</button>
                 <button onClick={()=>setSidebarOpen(false)} style={{
-                  background:isRetro?'#0a0a1e':dark?'#1a1a3a':'#ede9fe',
-                  border:isRetro?'1px solid #00aa2a':`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
-                  borderRadius:isRetro?0:4, color:isRetro?'#00aa2a':'#7c6ff7',
+                  background:isRetro?'#0a0a0e':dark?'#1a1a3a':'#ede9fe',
+                  border:isRetro?'1px solid #8a3a6e':`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
+                  borderRadius:isRetro?4:4, color:isRetro?'#c84b9e':'#7c6ff7',
                   width:22,height:22,cursor:'pointer',fontSize:12,
                   display:'flex',alignItems:'center',justifyContent:'center',
                 }}>‹</button>
@@ -2458,11 +2395,11 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                     style={{
                       background:isAct?(isRetro?'#111130':dark?'#1a1a38':'#ede9fe'):'transparent',
                       border:isAct
-                        ?(isRetro?'2px solid #00ff41':`1px solid ${dark?'#4a4a8a':'#a78bfa'}`)
+                        ?(isRetro?'2px solid #c84b9e':`1px solid ${dark?'#4a4a8a':'#a78bfa'}`)
                         :(isRetro?'1px solid #003308':`1px solid ${dark?'#1e1e38':'#e0e0f0'}`),
-                      borderRadius:isRetro?0:6, padding:'10px', marginBottom:6,
+                      borderRadius:isRetro?6:6, padding:'10px', marginBottom:6,
                       cursor:'pointer', position:'relative',
-                      boxShadow:isAct&&isRetro?'3px 3px 0 #00ff41':'none',
+                      boxShadow:isAct&&isRetro?`0 0 12px rgba(200,75,158,.4)`:'none',
                     }}>
                     {/* Name row */}
                     <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:4,marginBottom:4}}>
@@ -2481,7 +2418,7 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                           onClick={e=>e.stopPropagation()}
                           style={{
                             flex:1,background:'transparent',border:'none',
-                            borderBottom:isRetro?'1px solid #00ff41':`1px solid ${dark?'#4a4a8a':'#a78bfa'}`,
+                            borderBottom:isRetro?'1px solid #c84b9e':`1px solid ${dark?'#4a4a8a':'#a78bfa'}`,
                             color:textMain,fontFamily:font,fontSize:isRetro?7:11,outline:'none',padding:'1px 0',
                           }}/>
                       ) : (
@@ -2489,8 +2426,8 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                           onDoubleClick={e=>{e.stopPropagation();setEditingIncId(inc.id);setEditIncName(inc.name);}}
                           title="Double-click to rename"
                           style={{fontSize:isRetro?7:12,fontWeight:600,lineHeight:1.5,wordBreak:'break-word',flex:1,
-                            color:isAct?(isRetro?'#00ff41':dark?'#c4b5fd':'#5b4fd4'):textMain}}>
-                          {isAct&&isRetro?'► ':''}{inc.name}
+                            color:isAct?(isRetro?'#f0eeea':dark?'#c4b5fd':'#5b4fd4'):textMain}}>
+                          {isAct&&isRetro?'🪿 ':''}{inc.name}
                         </span>
                       )}
                       <button onClick={e=>{e.stopPropagation();deleteIncident(inc.id);}}
@@ -2511,9 +2448,9 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                       <div style={{marginBottom:4}}>
                         <span style={{
                           fontSize:isRetro?5:8,
-                          background:isRetro?'#0e0e28':dark?'#1a1a38':'#ede9fe',
+                          background:isRetro?'#131318':dark?'#1a1a38':'#ede9fe',
                           border:isRetro?'1px solid #4444aa':`1px solid ${dark?'#3a3a6a':'#c4b5fd'}`,
-                          borderRadius:isRetro?0:8, padding:'1px 6px',
+                          borderRadius:isRetro?8:8, padding:'1px 6px',
                           color:isRetro?'#8888ff':dark?'#a29bfe':'#5b4fd4',
                         }}>
                           {(matrix.playbooks||[]).find(p=>p.id===inc.playbookId)?.name||'Playbook'}
@@ -2535,12 +2472,12 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
           <div onClick={()=>setSidebarOpen(true)} style={{
             width:28, flexShrink:0, cursor:'pointer',
             background:sidebarBg,
-            borderRight:isRetro?'2px solid #00ff41':`1px solid ${border}`,
+            borderRight:isRetro?'2px solid #c84b9e':`1px solid ${border}`,
             display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:8,
           }}>
-            <span style={{fontSize:isRetro?5:9,color:isRetro?'#00ff41':'#7c6ff7',
+            <span style={{fontSize:isRetro?5:9,color:isRetro?'#e870c0':'#7c6ff7',
               writingMode:'vertical-rl',transform:'rotate(180deg)',letterSpacing:2,opacity:.8}}>INCIDENTS</span>
-            <span style={{fontSize:12,color:isRetro?'#00ff41':'#7c6ff7'}}>›</span>
+            <span style={{fontSize:12,color:isRetro?'#e870c0':'#7c6ff7'}}>›</span>
           </div>
         )}
 
@@ -2555,14 +2492,14 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                 flex:'0 0 calc(33.333% - 8px)', minWidth:290,
                 background:col.colBg,
                 border:isRetro?`2px solid ${col.color}55`:`1px solid ${border}`,
-                borderRadius:isRetro?0:10,
+                borderRadius:isRetro?10:10,
                 display:'flex', flexDirection:'column', overflow:'hidden',
-                boxShadow:isRetro?'4px 4px 0 #000':dark?'0 2px 12px rgba(0,0,0,.3)':'0 2px 8px rgba(0,0,0,.06)',
+                boxShadow:isRetro?'0 0 12px rgba(200,75,158,.25)':dark?'0 2px 12px rgba(0,0,0,.3)':'0 2px 8px rgba(0,0,0,.06)',
               }}>
                 {/* Column header */}
                 <div style={{
                   padding:'10px 14px', flexShrink:0,
-                  background:isRetro?'#0a0a1e':dark?'#0e0e20':'#f0f0fc',
+                  background:isRetro?'#0a0a0e':dark?'#0e0e20':'#f0f0fc',
                   borderBottom:isRetro?`2px solid ${col.color}`:`1px solid ${border}`,
                   display:'flex', alignItems:'center', justifyContent:'space-between',
                   boxShadow:isRetro?'0 3px 0 #000':'none',
@@ -2577,9 +2514,9 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                   </div>
                   <span style={{
                     fontSize:isRetro?7:10, fontWeight:700, color:col.color,
-                    background:isRetro?'#0e0e28':dark?'#1a1a38':'#eeeefc',
+                    background:isRetro?'#131318':dark?'#1a1a38':'#eeeefc',
                     border:isRetro?`1px solid ${col.color}`:`1px solid ${dark?'#2a2a4a':'#d0d0e8'}`,
-                    borderRadius:isRetro?0:10, padding:'2px 8px',
+                    borderRadius:isRetro?10:10, padding:'2px 8px',
                   }}>{colCards.length}</span>
                 </div>
 
@@ -2642,12 +2579,12 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
 
                 {/* Add action button — To Do only */}
                 {col.status==='todo'&&(
-                  <div style={{padding:'8px 10px',borderTop:isRetro?'1px solid #006618':`1px solid ${border}`,flexShrink:0}}>
+                  <div style={{padding:'8px 10px',borderTop:isRetro?'1px solid #5a2a4a':`1px solid ${border}`,flexShrink:0}}>
                     <button onClick={()=>setShowAdd(true)} style={{
                       width:'100%', background:'transparent',
-                      border:isRetro?'1px dashed #00ff41':`1px dashed ${dark?'#3a3a6a':'#c4b5fd'}`,
-                      borderRadius:isRetro?0:6,
-                      color:isRetro?'#00ff41':dark?'#7c6ff7':'#5b4fd4',
+                      border:isRetro?'1px dashed #c84b9e':`1px dashed ${dark?'#3a3a6a':'#c4b5fd'}`,
+                      borderRadius:isRetro?6:6,
+                      color:isRetro?'#f0eeea':dark?'#7c6ff7':'#5b4fd4',
                       padding:'8px', cursor:'pointer', fontFamily:font,
                       fontSize:isRetro?7:11, letterSpacing:.5,
                     }}>+ Add Action</button>
@@ -2718,8 +2655,8 @@ function App({initialMatrix, initialName}) {
   const activePb     = (matrix.playbooks||[]).find(p=>p.id===activePlaybook)||null;
   const selectedTech = selected ? matrix.tactics.find(t=>t.id===selected.tacticId)?.techniques.find(te=>te.id===selected.techId) : null;
 
-  const TACTIC_ACCENTS = theme==="retro" ? TACTIC_ACCENTS_RETRO : theme==="corporate" ? TACTIC_ACCENTS_CORPORATE : dark ? TACTIC_ACCENTS_DARK : TACTIC_ACCENTS_LIGHT;
-  const DEF_ACCENT     = theme==="retro" ? DEF_ACCENT_RETRO : theme==="corporate" ? DEF_ACCENT_CORPORATE : dark ? DEF_ACCENT_DARK : DEF_ACCENT_LIGHT;
+  const TACTIC_ACCENTS = theme==="goose" ? TACTIC_ACCENTS_GOOSE : theme==="corporate" ? TACTIC_ACCENTS_CORPORATE : dark ? TACTIC_ACCENTS_DARK : TACTIC_ACCENTS_LIGHT;
+  const DEF_ACCENT     = theme==="goose" ? DEF_ACCENT_GOOSE : theme==="corporate" ? DEF_ACCENT_CORPORATE : dark ? DEF_ACCENT_DARK : DEF_ACCENT_LIGHT;
 
   // ── Playbook fns ──
   function selectPlaybook(pbId) { setActivePlaybook(pbId); setPbMode("view"); setSelected(null); }
@@ -2845,12 +2782,12 @@ function App({initialMatrix, initialName}) {
       });
     });
   }, [theme]);
-  const isRetro = theme==="retro";
-  const retroFont = "'Press Start 2P', monospace";
+  const isRetro = theme==="goose";
+  const retroFont = "'Inter',system-ui,sans-serif"; // goose uses normal font
   const bg        = themeColors.bg       || (dark?"#0e0e18":"#f0f0f8");
   const headerBg  = themeColors.headerBg || (dark?"#111120":"#ffffff");
   const barBg     = themeColors.bg2      || (dark?"#0c0c1a":"#e8e8f4");
-  const hintBg    = isRetro?"#0a0a1e":dark?"#0a0a12":"#f0f0fa";
+  const hintBg    = isRetro?"#0a0a0e":dark?"#0a0a12":"#f0f0fa";
   const border    = themeColors.border   || (dark?"#1e1e38":"#d8d8f0");
   const border2   = themeColors.border2  || (dark?"#252545":"#c8c8e8");
   const textMain  = themeColors.text     || (dark?"#e8e8f0":"#1a1a2e");
@@ -2863,18 +2800,18 @@ function App({initialMatrix, initialName}) {
 
   return (
     <div style={{height:"100vh",display:"flex",flexDirection:"column",background:bg,fontFamily:isRetro?retroFont:"'Inter',system-ui,sans-serif",color:textMain,position:"relative"}}>
-      {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"repeating-linear-gradient(0deg, rgba(0,255,65,0.03) 0px, rgba(0,255,65,0.03) 1px, transparent 1px, transparent 3px)",mixBlendMode:"overlay"}}/>}
+      {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"radial-gradient(ellipse at top, rgba(200,75,158,0.06) 0%, transparent 70%)"}}/>}
 
       {/* ── HEADER ── */}
-      <header style={{background:headerBg,borderBottom:isRetro?`2px solid #00ff41`:`1px solid ${border}`,padding:isRetro?"10px 22px":"13px 22px",display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",flexShrink:0,boxShadow:isRetro?"0 4px 0 #000":dark?"none":"0 1px 8px rgba(0,0,0,.06)"}}>
+      <header style={{background:headerBg,borderBottom:isRetro?`1px solid #c84b9e`:`1px solid ${border}`,padding:isRetro?"10px 22px":"13px 22px",display:"flex",alignItems:"center",gap:14,flexWrap:"wrap",flexShrink:0,boxShadow:isRetro?"none":dark?"none":"0 1px 8px rgba(0,0,0,.06)"}}>
         <div style={{flex:1,minWidth:220}}>
           {editingName ? (
             <input value={matrixName} onChange={e=>setMatrixName(e.target.value)} onBlur={()=>setEditingName(false)} onKeyDown={e=>e.key==="Enter"&&setEditingName(false)} autoFocus
               style={{fontSize:18,fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,background:"transparent",border:"none",borderBottom:"2px solid #7c6ff7",color:textMain,outline:"none",padding:"2px 0",minWidth:280}}/>
           ) : (
             <h1 onClick={()=>setEditingName(true)} title="Click to rename"
-              style={{margin:0,fontSize:isRetro?12:18,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",fontWeight:700,color:isRetro?"#00ff41":textMain,cursor:"text",letterSpacing:isRetro?1:.3,textShadow:isRetro?"0 0 10px #00ff41":"none"}}>
-              {isRetro?"► ":""}{matrixName}{isRetro?" ◄":""}
+              style={{margin:0,fontSize:isRetro?12:18,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",fontWeight:700,color:isRetro?"#f0eeea":textMain,cursor:"text",letterSpacing:isRetro?1:.3,textShadow:isRetro?"0 0 10px rgba(200,75,158,.5)":"none"}}>
+              {isRetro?"🪿 ":""}{matrixName}{isRetro?" ◄":""}
             </h1>
           )}
           <div style={{fontSize:isRetro?7:12,color:textDim,marginTop:4,display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
@@ -2906,21 +2843,21 @@ function App({initialMatrix, initialName}) {
           <ClockBar timerStart={timerStart} onTimerStart={startTimer} onTimerStop={stopTimer} compact={true} />
           {/* Theme toggle */}
           {(()=>{
-            const themes = ["dark","light","tactical","midnight","corporate","retro"];
-            const labels = {dark:"Dark",light:"Light",tactical:"Tactical",midnight:"Midnight",corporate:"Corporate",retro:"8-Bit"};
+            const themes = ["dark","light","tactical","midnight","corporate","goose"];
+            const labels = {dark:"Dark",light:"Light",tactical:"Tactical",midnight:"Midnight",corporate:"Corporate",goose:"Goose"};
             const nextTheme = themes[(themes.indexOf(theme)+1)%themes.length];
             return (
               <button className="theme-toggle" onClick={()=>setTheme(nextTheme)}
                 title={`Theme: ${labels[theme]} → ${labels[nextTheme]}`}
-                style={{background:theme==="retro"?"#0a0a1e":dark?"#1a1a3a":"#ede9fe",border:theme==="retro"?"2px solid #00ff41":`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:7,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:5,padding:"0 10px"}}>
+                style={{background:theme==="goose"?"#0a0a0e":dark?"#1a1a3a":"#ede9fe",border:theme==="goose"?"1px solid #c84b9e":`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:7,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:5,padding:"0 10px"}}>
                 {theme==="dark"      ? <MoonIcon color="#a29bfe" size={15}/>
                  : theme==="light"     ? <SunIcon  color="#f6ad55" size={15}/>
                  : theme==="tactical"  ? <span style={{fontSize:14,lineHeight:1}}>🛡️</span>
                  : theme==="midnight"  ? <span style={{fontSize:14,lineHeight:1}}>🌌</span>
                  : theme==="corporate" ? <span style={{fontSize:14,lineHeight:1}}>💼</span>
-                 : theme==="retro"     ? <span style={{fontSize:14,lineHeight:1}}>👾</span>
+                 : theme==="goose"     ? <span style={{fontSize:14,lineHeight:1}}>🪿</span>
                  : <MoonIcon color="#a29bfe" size={15}/>}
-                <span style={{fontSize:theme==="retro"?7:10,color:theme==="retro"?"#00ff41":dark?"#888":"#666",letterSpacing:theme==="retro"?1:.5}}>{labels[theme]}</span>
+                <span style={{fontSize:theme==="goose"?10:10,color:theme==="goose"?"#e870c0":dark?"#888":"#666",letterSpacing:theme==="goose"?1:.5}}>{labels[theme]}</span>
               </button>
             );
           })()}
@@ -2932,9 +2869,9 @@ function App({initialMatrix, initialName}) {
             {label:"Export JSON ↓",  fn:exportSnapshot, hi:true},
           ].map(btn=>(
             <button key={btn.label} className="tool-btn" onClick={btn.fn} style={{
-              background:isRetro?"#0a0a1e":btn.hi?(dark?"#1a1040":"#ede9fe"):(dark?"#0e0e20":"#f5f5fc"),
-              color:isRetro?(btn.hi?"#ffcc00":"#00ff41"):btn.hi?(dark?"#a29bfe":"#5b4fd4"):(dark?"#888":"#6060a0"),
-              border:isRetro?`2px solid ${btn.hi?"#ffcc00":"#00ff41"}`:`1px solid ${btn.hi?(dark?"#6c5ce7":"#a78bfa"):(dark?"#252545":"#d0d0e8")}`,
+              background:isRetro?"#0a0a0e":btn.hi?(dark?"#1a1040":"#ede9fe"):(dark?"#0e0e20":"#f5f5fc"),
+              color:isRetro?(btn.hi?"#e8520a":"#e870c0"):btn.hi?(dark?"#a29bfe":"#5b4fd4"):(dark?"#888":"#6060a0"),
+              border:isRetro?`1px solid ${btn.hi?"#e8520a":"#c84b9e"}`:`1px solid ${btn.hi?(dark?"#6c5ce7":"#a78bfa"):(dark?"#252545":"#d0d0e8")}`,
               borderRadius:6,padding:isRetro?"5px 10px":"6px 12px",cursor:"pointer",fontSize:isRetro?7:11,letterSpacing:isRetro?0:.5,fontFamily:"inherit",
             }}>{btn.label}</button>
           ))}
@@ -2942,8 +2879,8 @@ function App({initialMatrix, initialName}) {
       </header>
 
       {/* ── CATEGORY FILTER BAR ── */}
-      <div style={{background:barBg,borderBottom:isRetro?`2px solid #00aa2a`:`1px solid ${border}`,padding:"7px 22px",display:"flex",gap:5,flexWrap:"wrap",alignItems:"center",flexShrink:0}}>
-        <span style={{fontSize:isRetro?7:10,color:isRetro?"#00ff41":textDim,letterSpacing:1,marginRight:4}}>CATEGORY:</span>
+      <div style={{background:barBg,borderBottom:isRetro?`1px solid #8a3a6e`:`1px solid ${border}`,padding:"7px 22px",display:"flex",gap:5,flexWrap:"wrap",alignItems:"center",flexShrink:0}}>
+        <span style={{fontSize:isRetro?7:10,color:isRetro?"#f0eeea":textDim,letterSpacing:1,marginRight:4}}>CATEGORY:</span>
         <button onClick={()=>setFilterCat(null)}
           disabled={filterCat===null}
           title="Clear category filter"
@@ -2984,24 +2921,24 @@ function App({initialMatrix, initialName}) {
           style={{
             marginLeft:"auto",
             display:"flex",alignItems:"center",gap:5,
-            background:isRetro?"#0a0a1e":dark?"#1a1040":"#ede9fe",
-            border:isRetro?"2px solid #00ff41":`1px solid ${dark?"#6c5ce7":"#a78bfa"}`,
+            background:isRetro?"#0a0a0e":dark?"#1a1040":"#ede9fe",
+            border:isRetro?"2px solid #c84b9e":`1px solid ${dark?"#6c5ce7":"#a78bfa"}`,
             borderRadius:isRetro?0:20,
             padding:isRetro?"4px 10px":"3px 12px",
             cursor:"pointer",fontFamily:"inherit",
-            color:isRetro?"#00ff41":dark?"#a29bfe":"#5b4fd4",
+            color:isRetro?"#f0eeea":dark?"#a29bfe":"#5b4fd4",
             fontSize:isRetro?7:11,fontWeight:600,
             letterSpacing:isRetro?1:.5,
             boxShadow:isRetro?"3px 3px 0 #000":"none",
             flexShrink:0,
           }}>
-          {isRetro?"⚡ ":""}Incident View
+          {isRetro?"🪿 ":""}Incident View
         </button>
       </div>
 
       {/* ── HINT BAR ── */}
-      <div style={{background:isRetro?"#0a0a1e":hintBg,borderBottom:isRetro?`1px solid #006618`:`1px solid ${border}`,padding:"5px 22px",display:"flex",gap:20,alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",flexShrink:0}}>
-        <span style={{fontSize:isRetro?6:11,color:isRetro?"#00aa2a":textDim,display:"flex",alignItems:"center",gap:5}}>
+      <div style={{background:isRetro?"#0a0a0e":hintBg,borderBottom:isRetro?`1px solid #5a2a4a`:`1px solid ${border}`,padding:"5px 22px",display:"flex",gap:20,alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",flexShrink:0}}>
+        <span style={{fontSize:isRetro?6:11,color:isRetro?"#c84b9e":textDim,display:"flex",alignItems:"center",gap:5}}>
           {activePb&&pbMode==="view"&&<><EyeIcon color={activePb.color+"aa"} size={9}/><span style={{color:activePb.color+"bb"}}>View — highlighted actions open their link on click</span></>}
           {activePb&&pbMode==="edit"&&<><div className="rec-dot" style={{width:5,height:5,borderRadius:"50%",background:activePb.color,flexShrink:0}}/><span style={{color:activePb.color+"bb"}}>Edit — click any action to add/remove from <strong style={{color:activePb.color}}>{activePb.name}</strong></span></>}
           {!activePb&&<><LinkIcon color={textDim} size={9}/> Phase/action with link → opens URL · No link → click to edit</>}
@@ -3097,7 +3034,7 @@ function App({initialMatrix, initialName}) {
                           onMouseLeave={()=>setHoveredCell(null)}
                         >
                           {/* ID row */}
-                          <div style={{fontSize:isRetro?6:10,color:isRetro?"#00aa2a":dark?"#3a3a58":"#c0c0d8",marginBottom:3,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <div style={{fontSize:isRetro?6:10,color:isRetro?"#c84b9e":dark?"#3a3a58":"#c0c0d8",marginBottom:3,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                             <span>{isRetro?"▸ ":""}{tech.id}</span>
                             <div style={{display:"flex",alignItems:"center",gap:3}}>
                               {memberPbs.map(p=><div key={p.id} style={{width:5,height:5,borderRadius:"50%",background:p.color}} title={p.name}/>)}
@@ -3111,7 +3048,7 @@ function App({initialMatrix, initialName}) {
                           </div>
                           {/* Category badge */}
                           {tech.category&&(
-                            <div style={{display:"inline-flex",alignItems:"center",gap:4,marginTop:6,background:`${cat.color}20`,border:isRetro?`1px solid ${cat.color}`:`1px solid ${cat.color}55`,borderRadius:isRetro?0:10,padding:isRetro?"2px 5px":"2px 7px"}}>
+                            <div style={{display:"inline-flex",alignItems:"center",gap:4,marginTop:6,background:`${cat.color}20`,border:isRetro?`1px solid ${cat.color}`:`1px solid ${cat.color}55`,borderRadius:isRetro?10:10,padding:isRetro?"2px 5px":"2px 7px"}}>
                               <div style={{width:isRetro?4:5,height:isRetro?4:5,borderRadius:isRetro?0:"50%",background:cat.text}}/>
                               <span style={{fontSize:isRetro?6:10,color:cat.text,letterSpacing:.3}}>{cat.label}</span>
                             </div>
@@ -3206,11 +3143,11 @@ function App({initialMatrix, initialName}) {
           />
         ) : (
           <div onClick={()=>setPanelOpen(true)} title="Open use cases panel"
-            style={{width:32,flexShrink:0,background:isRetro?"#0a0a1e":dark?"#0e0e1e":"#f8f8ff",borderLeft:isRetro?`2px solid #00ff41`:`1px solid ${dark?"#1e1e38":"#d8d8f0"}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:10,transition:isRetro?"none":"background .15s"}}
-            onMouseEnter={e=>e.currentTarget.style.background=isRetro?"#0e0e28":dark?"#141430":"#eeeefc"}
-            onMouseLeave={e=>e.currentTarget.style.background=isRetro?"#0a0a1e":dark?"#0e0e1e":"#f8f8ff"}>
-            <BookIcon color={isRetro?"#00ff41":"#7c6ff7"} size={14}/>
-            <span style={{fontSize:isRetro?6:10,color:isRetro?"#00ff41":"#7c6ff7",letterSpacing:2,textTransform:"uppercase",writingMode:"vertical-rl",transform:"rotate(180deg)",opacity:.8,whiteSpace:"nowrap"}}>Use Cases</span>
+            style={{width:32,flexShrink:0,background:isRetro?"#0a0a0e":dark?"#0e0e1e":"#f8f8ff",borderLeft:isRetro?`1px solid #c84b9e`:`1px solid ${dark?"#1e1e38":"#d8d8f0"}`,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",cursor:"pointer",gap:10,transition:isRetro?"none":"background .15s"}}
+            onMouseEnter={e=>e.currentTarget.style.background=isRetro?"#131318":dark?"#141430":"#eeeefc"}
+            onMouseLeave={e=>e.currentTarget.style.background=isRetro?"#0a0a0e":dark?"#0e0e1e":"#f8f8ff"}>
+            <BookIcon color={isRetro?"#e870c0":"#7c6ff7"} size={14}/>
+            <span style={{fontSize:isRetro?6:10,color:isRetro?"#e870c0":"#7c6ff7",letterSpacing:2,textTransform:"uppercase",writingMode:"vertical-rl",transform:"rotate(180deg)",opacity:.8,whiteSpace:"nowrap"}}>Use Cases</span>
             {(matrix.playbooks||[]).length>0&&(
               <span style={{fontSize:9,color:"#a29bfe",background:dark?"#1a1a3a":"#ede9fe",border:`1px solid ${dark?"#3a3a6a":"#c4b5fd"}`,borderRadius:8,padding:"2px 5px",textAlign:"center"}}>
                 {(matrix.playbooks||[]).length}
