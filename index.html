@@ -2087,6 +2087,20 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
     setIncidents(p=>[...p, inc]);
     setActiveId(id);
   }
+
+  function resetAll() {
+    if (!window.confirm('Reset all incidents? This will permanently wipe all cards, notes, owners, and timestamps. This cannot be undone.')) return;
+    const freshId = uid();
+    const fresh = [{ id: freshId, name:'INC-001 New Incident', createdAt: Date.now(), playbookId: null, cards: [] }];
+    setIncidents(fresh);
+    setActiveId(freshId);
+    stopTimer();
+    try {
+      localStorage.removeItem(LS_INC);
+      localStorage.removeItem(LS_AID);
+      localStorage.removeItem(LS_TIMER);
+    } catch(e) {}
+  }
   function deleteIncident(id) {
     setIncidents(p=>{
       const next = p.filter(i=>i.id!==id);
@@ -2365,6 +2379,16 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
           </div>
         )}
 
+        <button onClick={resetAll} style={{
+          ...btn(false),
+          borderColor: isRetro?'#e8520a':dark?'#7a2020':'#fda4af',
+          color: isRetro?'#e8520a':dark?'#fc8181':'#c53030',
+        }}
+          onMouseEnter={e=>{e.currentTarget.style.background='rgba(239,68,68,0.12)';e.currentTarget.style.borderColor='#ef4444';e.currentTarget.style.color='#ef4444';}}
+          onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.borderColor=isRetro?'#e8520a':dark?'#7a2020':'#fda4af';e.currentTarget.style.color=isRetro?'#e8520a':dark?'#fc8181':'#c53030';}}
+          title="Wipe all incidents and start fresh">
+          ↺ Reset All
+        </button>
         <button onClick={exportIncident} style={btn(true)}>Export JSON ↓</button>
       </div>
 
