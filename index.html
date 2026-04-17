@@ -148,6 +148,34 @@
       --shadow-md:   0 0 12px rgba(0,255,65,.3);
     }
 
+    :root[data-theme="corporate"] {
+      --bg:          #f4f6f9;
+      --bg2:         #eaecf0;
+      --bg3:         #dde1e8;
+      --surface:     #ffffff;
+      --surface2:    #f8f9fb;
+      --border:      #d0d5de;
+      --border2:     #bcc3cf;
+      --text:        #1a2233;
+      --text2:       #3d4f6b;
+      --text3:       #6b7a95;
+      --text4:       #a0abbe;
+      --accent:      #1a56db;
+      --accent2:     #3b78f5;
+      --danger:      #c0392b;
+      --header-bg:   #ffffff;
+      --modal-bg:    #ffffff;
+      --modal-border:#d0d5de;
+      --input-bg:    #f8f9fb;
+      --input-border:#c8cdd8;
+      --scrollbar:   #c0c7d4;
+      --cell-bg:     #ffffff;
+      --cell-border: #dde1e8;
+      --dim-opacity: 0.25;
+      --shadow-sm:   0 1px 4px rgba(0,0,0,.08);
+      --shadow-md:   0 4px 16px rgba(0,0,0,.10);
+    }
+
     /* ── RETRO 8-BIT OVERRIDES ── */
     :root[data-theme="retro"] body,
     :root[data-theme="retro"] input,
@@ -353,6 +381,59 @@ const TACTIC_ACCENTS_RETRO = {
 const DEF_ACCENT_RETRO = { from:"#0e0e30", to:"#08081a", border:"#00ff41", text:"#00ff41" };
 const DEF_ACCENT_DARK  = { from:"#1e1e4f", to:"#12122a", border:"#3e2e7e", text:"#c4b5fd" };
 const DEF_ACCENT_LIGHT = { from:"#ede9fe", to:"#f5f3ff", border:"#a78bfa", text:"#5b21b6" };
+const TACTIC_ACCENTS_CORPORATE = {
+  t1:{ from:"#e8f0fb", to:"#f0f5fd", border:"#b8cef5", text:"#1a56db" },
+  t2:{ from:"#f0ebfc", to:"#f7f3fe", border:"#cdb8f5", text:"#5b21b6" },
+  t3:{ from:"#fef3e2", to:"#fffaf0", border:"#f5d48a", text:"#92580a" },
+  t4:{ from:"#e6f7ee", to:"#f0fbf4", border:"#8ed4b0", text:"#166534" },
+  t5:{ from:"#e0f2fe", to:"#f0f9ff", border:"#93c5fd", text:"#0369a1" },
+  t6:{ from:"#fde8e8", to:"#fff5f5", border:"#f5b8b8", text:"#be123c" },
+};
+const DEF_ACCENT_CORPORATE = { from:"#e8f0fb", to:"#f0f5fd", border:"#b8cef5", text:"#1a56db" };
+
+// ── Live UTC clock + incident elapsed timer ──
+function ClockBar({ startMs, compact }) {
+  const [utcTime, setUtcTime] = React.useState('');
+  const [elapsed, setElapsed] = React.useState('––:––:––');
+  React.useEffect(() => {
+    function tick() {
+      const now = new Date();
+      const p = n => String(n).padStart(2,'0');
+      setUtcTime(p(now.getUTCHours())+':'+p(now.getUTCMinutes())+':'+p(now.getUTCSeconds())+' UTC');
+      if (startMs) {
+        const diff = Math.max(0, Math.floor((Date.now() - startMs) / 1000));
+        setElapsed(p(Math.floor(diff/3600))+':'+p(Math.floor((diff%3600)/60))+':'+p(diff%60));
+      } else {
+        setElapsed('––:––:––');
+      }
+    }
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [startMs]);
+  return (
+    <div style={{
+      display:'flex', alignItems:'center', gap: compact?10:20,
+      background:'rgba(0,0,0,0.18)',
+      border:'1px solid rgba(255,255,255,0.12)',
+      borderRadius: compact?6:8,
+      padding: compact?'3px 12px':'5px 18px',
+      fontFamily:"'DM Mono',monospace",
+      flexShrink:0,
+    }}>
+      <div style={{display:'flex',alignItems:'center',gap:5}}>
+        <span style={{fontSize:compact?8:9,color:'rgba(255,255,255,0.45)',letterSpacing:1.5,textTransform:'uppercase'}}>ELAPSED</span>
+        <span style={{fontSize:compact?12:15,color:'#f0c040',fontWeight:600,letterSpacing:2,fontVariantNumeric:'tabular-nums',textShadow:'0 0 8px rgba(240,192,64,0.4)'}}>{elapsed}</span>
+        {startMs && <span style={{width:6,height:6,borderRadius:'50%',background:'#ef4444',flexShrink:0,display:'inline-block'}} className="rec-dot"/>}
+      </div>
+      <div style={{width:1,height:compact?16:22,background:'rgba(255,255,255,0.15)',flexShrink:0}}/>
+      <div style={{display:'flex',alignItems:'center',gap:5}}>
+        <span style={{fontSize:compact?8:9,color:'rgba(255,255,255,0.45)',letterSpacing:1.5,textTransform:'uppercase'}}>UTC</span>
+        <span style={{fontSize:compact?12:15,color:'rgba(255,255,255,0.9)',fontWeight:600,letterSpacing:2,fontVariantNumeric:'tabular-nums'}}>{utcTime}</span>
+      </div>
+    </div>
+  );
+}
 
 function uid() { return Math.random().toString(36).slice(2,8); }
 function openLink(url) { if(url) window.open(url,"_blank","noopener,noreferrer"); }
@@ -2133,6 +2214,8 @@ function IncidentView({ matrix, theme, dark, onClose }) {
             textShadow:isRetro?'0 0 10px #00ff41':'none', letterSpacing:isRetro?1:0,
           }}>{isRetro?'⚡ ':''}INCIDENT VIEW</span>
 
+          <ClockBar startMs={activeInc?.createdAt} compact={false} />
+
           {activeInc&&<>
             <span style={{color:textDim,fontSize:isRetro?7:12}}>—</span>
             <span style={{fontSize:isRetro?8:13,color:isRetro?'#ffcc00':dark?'#a29bfe':'#5b4fd4',fontWeight:600}}>
@@ -2480,7 +2563,7 @@ function App({initialMatrix, initialName}) {
   const [showIncident,  setShowIncident]  = useState(false);
   const fileRef = useRef();
 
-  const dark = theme !== "light";
+  const dark = theme !== "light" && theme !== "corporate";
 
   // Apply theme to html element
   useEffect(()=>{ document.documentElement.setAttribute('data-theme', theme); }, [theme]);
@@ -2497,8 +2580,8 @@ function App({initialMatrix, initialName}) {
   const activePb     = (matrix.playbooks||[]).find(p=>p.id===activePlaybook)||null;
   const selectedTech = selected ? matrix.tactics.find(t=>t.id===selected.tacticId)?.techniques.find(te=>te.id===selected.techId) : null;
 
-  const TACTIC_ACCENTS = theme==="retro" ? TACTIC_ACCENTS_RETRO : dark ? TACTIC_ACCENTS_DARK : TACTIC_ACCENTS_LIGHT;
-  const DEF_ACCENT     = theme==="retro" ? DEF_ACCENT_RETRO : dark ? DEF_ACCENT_DARK      : DEF_ACCENT_LIGHT;
+  const TACTIC_ACCENTS = theme==="retro" ? TACTIC_ACCENTS_RETRO : theme==="corporate" ? TACTIC_ACCENTS_CORPORATE : dark ? TACTIC_ACCENTS_DARK : TACTIC_ACCENTS_LIGHT;
+  const DEF_ACCENT     = theme==="retro" ? DEF_ACCENT_RETRO : theme==="corporate" ? DEF_ACCENT_CORPORATE : dark ? DEF_ACCENT_DARK : DEF_ACCENT_LIGHT;
 
   // ── Playbook fns ──
   function selectPlaybook(pbId) { setActivePlaybook(pbId); setPbMode("view"); setSelected(null); }
@@ -2682,10 +2765,11 @@ function App({initialMatrix, initialName}) {
         </div>
 
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center"}}>
+          <ClockBar compact={true} />
           {/* Theme toggle */}
           {(()=>{
-            const themes = ["dark","light","tactical","midnight","retro"];
-            const labels = {dark:"Dark",light:"Light",tactical:"Tactical",midnight:"Midnight",retro:"8-Bit"};
+            const themes = ["dark","light","tactical","midnight","corporate","retro"];
+            const labels = {dark:"Dark",light:"Light",tactical:"Tactical",midnight:"Midnight",corporate:"Corporate",retro:"8-Bit"};
             const nextTheme = themes[(themes.indexOf(theme)+1)%themes.length];
             return (
               <button className="theme-toggle" onClick={()=>setTheme(nextTheme)}
