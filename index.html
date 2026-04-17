@@ -8,7 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
     /* ── THEME TOKENS ── */
     :root[data-theme="dark"] {
@@ -273,7 +273,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { height: 100%; }
-    body { background: var(--bg); font-family: 'DM Mono', monospace; color: var(--text); overflow: hidden; transition: background .25s, color .25s; }
+    body { background: var(--bg); font-family: 'Inter', system-ui, sans-serif; color: var(--text); overflow: hidden; transition: background .25s, color .25s; }
 
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg2); }
@@ -480,10 +480,10 @@ function exportHTML(matrix, name) {
 // ── Theme-aware shared styles (functions so they re-derive on theme change) ──
 function getS(dark) {
   return {
-    primary: { background:"linear-gradient(135deg,#6c5ce7,#a29bfe)",color:"#fff",border:"none",borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'DM Mono',monospace",letterSpacing:.5 },
-    ghost:   { background:"transparent",color:dark?"#888":"#555",border:`1px solid ${dark?"#3a3a60":"#c0c0da"}`,borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'DM Mono',monospace" },
-    input:   { width:"100%",background:dark?"#0c0c1e":"#f5f5fc",border:`1px solid ${dark?"#252545":"#c0c0da"}`,borderRadius:6,color:dark?"#e8e8f0":"#1a1a2e",padding:"8px 10px",fontSize:13,fontFamily:"'DM Mono',monospace",boxSizing:"border-box",outline:"none",display:"block" },
-    mbox:    { background:dark?"#141428":"#ffffff",border:`1px solid ${dark?"#2e2e5e":"#c8c8e0"}`,borderRadius:14,padding:32,width:460,maxWidth:"92vw",fontFamily:"'DM Mono',monospace",boxShadow:dark?"0 24px 60px rgba(0,0,0,.6)":"0 24px 60px rgba(0,0,0,.15)" },
+    primary: { background:"linear-gradient(135deg,#6c5ce7,#a29bfe)",color:"#fff",border:"none",borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'Inter',sans-serif",letterSpacing:.3 },
+    ghost:   { background:"transparent",color:dark?"#888":"#555",border:`1px solid ${dark?"#3a3a60":"#c0c0da"}`,borderRadius:7,padding:"8px 20px",cursor:"pointer",fontSize:12,fontFamily:"'Inter',sans-serif" },
+    input:   { width:"100%",background:dark?"#0c0c1e":"#f5f5fc",border:`1px solid ${dark?"#252545":"#c0c0da"}`,borderRadius:6,color:dark?"#e8e8f0":"#1a1a2e",padding:"8px 10px",fontSize:13,fontFamily:"'Inter',sans-serif",boxSizing:"border-box",outline:"none",display:"block" },
+    mbox:    { background:dark?"#141428":"#ffffff",border:`1px solid ${dark?"#2e2e5e":"#c8c8e0"}`,borderRadius:14,padding:32,width:460,maxWidth:"92vw",fontFamily:"'Inter',sans-serif",boxShadow:dark?"0 24px 60px rgba(0,0,0,.6)":"0 24px 60px rgba(0,0,0,.15)" },
     ml:      { fontSize:10,color:dark?"#555":"#a0a0c0",letterSpacing:3,textTransform:"uppercase",marginBottom:10 },
     ml2:     { fontSize:10,color:dark?"#666":"#9090b0",letterSpacing:2,marginBottom:6 },
     note:    { fontSize:10,color:dark?"#444":"#b0b0cc",marginBottom:16 },
@@ -517,7 +517,7 @@ function SectionBlock({sec, dark}) {
 
   return (
     <details style={{marginBottom:3}}>
-      <summary style={{fontSize:9,color:dark?"#7c6ff7":"#5b4fd4",cursor:"pointer",letterSpacing:.5,listStyle:"none",display:"flex",alignItems:"center",gap:4,userSelect:"none",padding:"2px 0"}}>
+      <summary style={{fontSize:11,color:dark?"#7c6ff7":"#5b4fd4",cursor:"pointer",letterSpacing:.3,listStyle:"none",display:"flex",alignItems:"center",gap:4,userSelect:"none",padding:"2px 0"}}>
         <svg width="7" height="7" viewBox="0 0 10 10" fill={dark?"#7c6ff7":"#5b4fd4"} style={{flexShrink:0,transition:"transform .15s"}}><polygon points="0,0 10,5 0,10"/></svg>
         {sec.title||"Notes"}
         {sec.url&&(
@@ -551,7 +551,7 @@ function SectionBlock({sec, dark}) {
             }
           </button>
         )}
-        <div style={{padding:"6px 8px",paddingRight:sec.body?"52px":"8px",background:dark?"#0c0c1e88":"#f0f0f888",fontSize:10,color:dark?"#a0a0c0":"#5050a0",lineHeight:1.6,whiteSpace:"pre-wrap",wordBreak:"break-word",minHeight:28}}>
+        <div style={{padding:"6px 8px",paddingRight:sec.body?"52px":"8px",background:dark?"#0c0c1e88":"#f0f0f888",fontSize:12,color:dark?"#a0a0c0":"#5050a0",lineHeight:1.6,whiteSpace:"pre-wrap",wordBreak:"break-word",minHeight:28}}>
           {sec.body?sec.body:<span style={{opacity:.4,fontStyle:"italic"}}>empty</span>}
         </div>
       </div>
@@ -1091,7 +1091,7 @@ function PlaybookPanel({dark, theme, playbooks, activePlaybookId, pbMode, onSele
                       style={{width:"100%",background:"transparent",border:"none",borderBottom:`1px solid ${pb.color}`,color:textMain,fontSize:12,outline:"none",fontFamily:"inherit",padding:"1px 0"}}/>
                   ) : (
                     <span onDoubleClick={e=>{e.stopPropagation();setEditingId(pb.id);setEditName(pb.name);}} title="Double-click to rename"
-                      style={{fontSize:12,color:isActive?textMain:textSub,fontWeight:isActive?600:400,lineHeight:1.2,display:"block"}}>
+                      style={{fontSize:13,color:isActive?textMain:textSub,fontWeight:isActive?600:400,lineHeight:1.2,display:"block"}}>
                       {pb.name}
                     </span>
                   )}
@@ -1214,7 +1214,7 @@ function PlaybookPanel({dark, theme, playbooks, activePlaybookId, pbMode, onSele
                             <div key={te.id} className={`pb-tech-row${clickable?" clickable":""}`} onClick={()=>clickable&&openLink(techUrl)}
                               style={{display:"flex",alignItems:"center",gap:6,padding:"4px 10px",margin:"0 4px"}}>
                               <div style={{width:4,height:4,borderRadius:"50%",background:pb.color,flexShrink:0,opacity:.7}}/>
-                              <span style={{fontSize:11,color:clickable?textMain:textSub,flex:1,lineHeight:1.3}}>{te.name}</span>
+                              <span style={{fontSize:12,color:clickable?textMain:textSub,flex:1,lineHeight:1.3}}>{te.name}</span>
                               {clickable?<LinkIcon color={pb.color} size={9}/>:<span style={{fontSize:9,color:textSub,opacity:.6}}>{te.id}</span>}
                             </div>
                           );
@@ -1295,7 +1295,7 @@ function ResponseGuideOverlay({dark, theme, playbook, matrix, onClose}) {
   const surfaceBg= isRetro?"#0e0e28":dark?"#1a1a2e":"#f5f5fc";
 
   return (
-    <div style={{position:"fixed",inset:0,background:bgMain,zIndex:2000,display:"flex",flexDirection:"column",fontFamily:isRetro?retroFont:"'DM Mono',monospace",overflow:"hidden"}}>
+    <div style={{position:"fixed",inset:0,background:bgMain,zIndex:2000,display:"flex",flexDirection:"column",fontFamily:isRetro?retroFont:"'Inter',system-ui,sans-serif",overflow:"hidden"}}>
       {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"repeating-linear-gradient(0deg, rgba(0,255,65,0.03) 0px, rgba(0,255,65,0.03) 1px, transparent 1px, transparent 3px)",mixBlendMode:"overlay"}}/>}
       {/* Header bar */}
       <div style={{padding:isRetro?"12px 28px":"16px 28px",borderBottom:isRetro?`2px solid #00ff41`:`1px solid ${borderC}`,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0,background:isRetro?"#0a0a1e":dark?"#111120":"#ffffff",boxShadow:isRetro?"0 4px 0 #000":"none"}}>
@@ -1590,7 +1590,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
     }}>
       {/* Top row — ID + remove */}
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:4}}>
-        <span style={{fontSize:isRetro?5:8,color:isRetro?'#00aa2a':textDim,letterSpacing:.5}}>
+        <span style={{fontSize:isRetro?5:10,color:isRetro?'#00aa2a':textDim,letterSpacing:.3}}>
           {isRetro?'▸ ':''}{card.techId||'CUSTOM'}
         </span>
         <button onClick={()=>onRemove(card.id)}
@@ -1601,7 +1601,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
       </div>
 
       {/* Action name */}
-      <div style={{fontSize:isRetro?7:11,fontWeight:600,color:textMain,lineHeight:isRetro?1.7:1.4,marginBottom:5}}>
+      <div style={{fontSize:isRetro?7:13,fontWeight:600,color:textMain,lineHeight:isRetro?1.7:1.5,marginBottom:5}}>
         {card.techName}
       </div>
 
@@ -1628,7 +1628,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
             flex:1, background:'transparent', border:'none',
             borderBottom:isRetro?'1px solid #006618':`1px solid ${dark?'#2a2a48':'#d0d0e8'}`,
             color:ownerVal?(isRetro?'#00ff41':textMain):textDim,
-            fontFamily:font, fontSize:isRetro?6:10, outline:'none', padding:'1px 2px',
+            fontFamily:font, fontSize:isRetro?6:12, outline:'none', padding:'1px 2px',
           }}/>
       </div>
 
@@ -1636,7 +1636,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
       <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:4}}>
         <span style={{fontSize:isRetro?6:10}}>⏱</span>
         <span style={{
-          fontSize:isRetro?7:11, fontVariantNumeric:'tabular-nums',
+          fontSize:isRetro?7:13, fontVariantNumeric:'tabular-nums',
           color:colColor, fontWeight:700, letterSpacing:1,
           textShadow:isRetro?`0 0 5px ${colColor}`:'none',
         }}>{elapsed}</span>
@@ -1645,7 +1645,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
 
       {/* Stage entry + captured timestamps */}
       <div style={{
-        fontSize:isRetro?5:8, color:textDim,
+        fontSize:isRetro?5:10, color:textDim,
         borderTop:`1px solid ${border2}`, paddingTop:4, marginTop:4,
         display:'flex', flexDirection:'column', gap:2,
       }}>
@@ -1674,7 +1674,7 @@ function KanbanCard({ card, colStatus, colColor, colLabel, phaseColor, now, dark
             border:isRetro?'1px solid #006618':`1px solid ${dark?'#2a2a48':'#d8d8f0'}`,
             borderRadius:isRetro?0:4,
             color:notesVal?(isRetro?'#00ff41':textMain):textDim,
-            fontFamily:font, fontSize:isRetro?6:10,
+            fontFamily:font, fontSize:isRetro?6:12,
             padding:'5px 7px', outline:'none', resize:'vertical',
             lineHeight:1.5,
           }}/>
@@ -1894,7 +1894,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
                           }}>
                           <div style={{flex:1}}>
                             <div style={{fontSize:isRetro?5:8,color:textDim,marginBottom:1}}>{te.id}</div>
-                            <div style={{fontSize:isRetro?7:11,color:textMain,lineHeight:1.4}}>{te.name}</div>
+                            <div style={{fontSize:isRetro?7:12,color:textMain,lineHeight:1.4}}>{te.name}</div>
                           </div>
                           {te.category&&(
                             <span style={{
@@ -1965,7 +1965,7 @@ function IncidentAddModal({ allIcerTechs, activeInc, dark, isRetro, font, textMa
 // ─────────────────────────────────────────────────────────────────
 function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, onTimerStop }) {
   const isRetro  = theme==='retro';
-  const font     = isRetro?"'Press Start 2P',monospace":"'DM Mono',monospace";
+  const font     = isRetro?"'Press Start 2P',monospace":"'Inter',system-ui,sans-serif";
 
   // Stable initial incident ID
   const initRef = React.useRef(null);
@@ -2412,7 +2412,7 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                         <span
                           onDoubleClick={e=>{e.stopPropagation();setEditingIncId(inc.id);setEditIncName(inc.name);}}
                           title="Double-click to rename"
-                          style={{fontSize:isRetro?7:11,fontWeight:600,lineHeight:1.5,wordBreak:'break-word',flex:1,
+                          style={{fontSize:isRetro?7:12,fontWeight:600,lineHeight:1.5,wordBreak:'break-word',flex:1,
                             color:isAct?(isRetro?'#00ff41':dark?'#c4b5fd':'#5b4fd4'):textMain}}>
                           {isAct&&isRetro?'► ':''}{inc.name}
                         </span>
@@ -2494,7 +2494,7 @@ function IncidentView({ matrix, theme, dark, onClose, timerStart, onTimerStart, 
                   <div style={{display:'flex',alignItems:'center',gap:7}}>
                     {isRetro&&<span style={{color:col.color,fontSize:10}}>▐</span>}
                     <span style={{
-                      fontSize:isRetro?8:11, fontWeight:700, letterSpacing:isRetro?1:2,
+                      fontSize:isRetro?8:12, fontWeight:700, letterSpacing:isRetro?1:1,
                       color:col.color, textShadow:isRetro?`0 0 8px ${col.color}`:'none',
                     }}>{col.label}</span>
                     {isRetro&&<span style={{color:col.color,fontSize:10}}>▌</span>}
@@ -2786,7 +2786,7 @@ function App({initialMatrix, initialName}) {
   const S = getS(dark);
 
   return (
-    <div style={{height:"100vh",display:"flex",flexDirection:"column",background:bg,fontFamily:isRetro?retroFont:"'DM Mono',monospace",color:textMain,position:"relative"}}>
+    <div style={{height:"100vh",display:"flex",flexDirection:"column",background:bg,fontFamily:isRetro?retroFont:"'Inter',system-ui,sans-serif",color:textMain,position:"relative"}}>
       {isRetro && <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:9999,background:"repeating-linear-gradient(0deg, rgba(0,255,65,0.03) 0px, rgba(0,255,65,0.03) 1px, transparent 1px, transparent 3px)",mixBlendMode:"overlay"}}/>}
 
       {/* ── HEADER ── */}
@@ -2801,7 +2801,7 @@ function App({initialMatrix, initialName}) {
               {isRetro?"► ":""}{matrixName}{isRetro?" ◄":""}
             </h1>
           )}
-          <div style={{fontSize:isRetro?7:11,color:textDim,marginTop:4,display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
+          <div style={{fontSize:isRetro?7:12,color:textDim,marginTop:4,display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
             <span>{categorizedTechs}/{totalTechs} categorized</span>
             <span style={{opacity:.4}}>·</span>
             <span>{matrix.tactics.length} phases</span>
@@ -2867,7 +2867,7 @@ function App({initialMatrix, initialName}) {
 
       {/* ── CATEGORY FILTER BAR ── */}
       <div style={{background:barBg,borderBottom:isRetro?`2px solid #00aa2a`:`1px solid ${border}`,padding:"7px 22px",display:"flex",gap:5,flexWrap:"wrap",alignItems:"center",flexShrink:0}}>
-        <span style={{fontSize:isRetro?7:10,color:isRetro?"#00ff41":textDim,letterSpacing:2,marginRight:4}}>CATEGORY:</span>
+        <span style={{fontSize:isRetro?7:10,color:isRetro?"#00ff41":textDim,letterSpacing:1,marginRight:4}}>CATEGORY:</span>
         <button onClick={()=>setFilterCat(null)}
           disabled={filterCat===null}
           title="Clear category filter"
@@ -2884,7 +2884,7 @@ function App({initialMatrix, initialName}) {
               <button onClick={()=>setFilterCat(on?null:cat.id)}
                 style={{display:"flex",alignItems:"center",gap:5,background:on?cat.bg:"transparent",border:`1px solid ${on?cat.color:dark?"#2a2a48":"#d0d0e8"}`,borderRadius:20,padding:isCustom?"3px 22px 3px 10px":"3px 10px",cursor:"pointer",fontFamily:"inherit",transition:"all .15s"}}>
                 <div style={{width:6,height:6,borderRadius:"50%",background:on?cat.text:dark?"#4a4a70":"#b0b0cc",flexShrink:0}}/>
-                <span style={{fontSize:11,color:on?cat.text:textSub}}>{cat.label}</span>
+                <span style={{fontSize:12,color:on?cat.text:textSub}}>{cat.label}</span>
               </button>
               {isCustom&&(
                 <button onClick={e=>{e.stopPropagation();deleteCategory(cat.id);}}
@@ -2925,7 +2925,7 @@ function App({initialMatrix, initialName}) {
 
       {/* ── HINT BAR ── */}
       <div style={{background:isRetro?"#0a0a1e":hintBg,borderBottom:isRetro?`1px solid #006618`:`1px solid ${border}`,padding:"5px 22px",display:"flex",gap:20,alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",flexShrink:0}}>
-        <span style={{fontSize:isRetro?6:10,color:isRetro?"#00aa2a":textDim,display:"flex",alignItems:"center",gap:5}}>
+        <span style={{fontSize:isRetro?6:11,color:isRetro?"#00aa2a":textDim,display:"flex",alignItems:"center",gap:5}}>
           {activePb&&pbMode==="view"&&<><EyeIcon color={activePb.color+"aa"} size={9}/><span style={{color:activePb.color+"bb"}}>View — highlighted actions open their link on click</span></>}
           {activePb&&pbMode==="edit"&&<><div className="rec-dot" style={{width:5,height:5,borderRadius:"50%",background:activePb.color,flexShrink:0}}/><span style={{color:activePb.color+"bb"}}>Edit — click any action to add/remove from <strong style={{color:activePb.color}}>{activePb.name}</strong></span></>}
           {!activePb&&<><LinkIcon color={textDim} size={9}/> Phase/action with link → opens URL · No link → click to edit</>}
@@ -2961,7 +2961,7 @@ function App({initialMatrix, initialName}) {
                     style={{background:isRetro?accent.from:`linear-gradient(150deg,${accent.from},${accent.to})`,borderRadius:10,padding:"12px 14px",marginBottom:8,border:isRetro?`2px solid ${accent.border}`:`1px solid ${tactic.url?accent.text+"66":accent.border}`,position:"relative",boxShadow:isRetro?`4px 4px 0 #000`:dark?(tactic.url?`0 4px 24px ${accent.text}22`:`0 4px 18px ${accent.border}22`):(tactic.url?`0 4px 16px ${accent.text}33`:`0 2px 8px ${accent.border}22`)}}>
                     <div style={{fontSize:isRetro?6:9,color:accent.text,opacity:.6,letterSpacing:isRetro?1:3,marginBottom:4,textTransform:"uppercase"}}>{isRetro?"★ ":""}Phase {idx+1}</div>
                     <div style={{fontSize:isRetro?8:13,fontWeight:700,color:accent.text,fontFamily:isRetro?retroFont:"'Space Grotesk',sans-serif",lineHeight:isRetro?1.5:1.25,paddingRight:18,textShadow:isRetro?`0 0 6px ${accent.text}`:"none"}}>{tactic.name}</div>
-                    <div style={{fontSize:isRetro?6:10,color:dark?"#44446088":"#88889088",marginTop:4,display:"flex",alignItems:"center",gap:5}}>
+                    <div style={{fontSize:isRetro?6:11,color:dark?"#44446088":"#88889088",marginTop:4,display:"flex",alignItems:"center",gap:5}}>
                       <span>{filterCat!==null?`${techs.length}/${tactic.techniques.length}`:tactic.techniques.length} actions</span>
                       {tactic.url&&<span style={{display:"flex",alignItems:"center",gap:3,color:accent.text,opacity:.6}}>· <LinkIcon color={accent.text} size={9}/></span>}
                     </div>
@@ -3021,7 +3021,7 @@ function App({initialMatrix, initialName}) {
                           onMouseLeave={()=>setHoveredCell(null)}
                         >
                           {/* ID row */}
-                          <div style={{fontSize:isRetro?6:9,color:isRetro?"#00aa2a":dark?"#3a3a58":"#c0c0d8",marginBottom:3,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <div style={{fontSize:isRetro?6:10,color:isRetro?"#00aa2a":dark?"#3a3a58":"#c0c0d8",marginBottom:3,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                             <span>{isRetro?"▸ ":""}{tech.id}</span>
                             <div style={{display:"flex",alignItems:"center",gap:3}}>
                               {memberPbs.map(p=><div key={p.id} style={{width:5,height:5,borderRadius:"50%",background:p.color}} title={p.name}/>)}
@@ -3030,14 +3030,14 @@ function App({initialMatrix, initialName}) {
                             </div>
                           </div>
                           {/* Name */}
-                          <div style={{fontSize:isRetro?7:12,fontWeight:500,color:inPb?(isRetro?"#ffcc00":textMain):(tech.category?cat.text:(hasLink?(dark?"#b0b0d8":"#4040a0"):(dark?"#9090b8":"#5050a0"))),lineHeight:isRetro?1.6:1.35}}>
+                          <div style={{fontSize:isRetro?7:13,fontWeight:500,color:inPb?(isRetro?"#ffcc00":textMain):(tech.category?cat.text:(hasLink?(dark?"#b0b0d8":"#4040a0"):(dark?"#9090b8":"#5050a0"))),lineHeight:isRetro?1.6:1.35}}>
                             {tech.name}
                           </div>
                           {/* Category badge */}
                           {tech.category&&(
                             <div style={{display:"inline-flex",alignItems:"center",gap:4,marginTop:6,background:`${cat.color}20`,border:isRetro?`1px solid ${cat.color}`:`1px solid ${cat.color}55`,borderRadius:isRetro?0:10,padding:isRetro?"2px 5px":"2px 7px"}}>
                               <div style={{width:isRetro?4:5,height:isRetro?4:5,borderRadius:isRetro?0:"50%",background:cat.text}}/>
-                              <span style={{fontSize:isRetro?6:9,color:cat.text,letterSpacing:.5}}>{cat.label}</span>
+                              <span style={{fontSize:isRetro?6:10,color:cat.text,letterSpacing:.3}}>{cat.label}</span>
                             </div>
                           )}
                           {/* Expandable sections — shown when card is clicked */}
@@ -3180,7 +3180,7 @@ async function loadData() {
   const root = document.getElementById("root");
 
   // Show a loading state
-  root.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#0e0e18;font-family:DM Mono,monospace;color:#444460;font-size:13px;letter-spacing:1px;">Loading IR Navigator…</div>';
+  root.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#0e0e18;font-family:Inter,system-ui,sans-serif;color:#444460;font-size:14px;letter-spacing:0;">Loading IR Navigator…</div>';
 
   try {
     // Derive base URL robustly — works whether the page is at /repo/ or /repo/index.html
@@ -3242,7 +3242,7 @@ async function loadData() {
 
   } catch(err) {
     const msg = err.message || String(err);
-    root.innerHTML = `<div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0e0e18;font-family:DM Mono,monospace;gap:10px;padding:40px;text-align:center;">
+    root.innerHTML = `<div style="height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0e0e18;font-family:Inter,system-ui,sans-serif;gap:10px;padding:40px;text-align:center;">
       <div style="color:#e94560;font-size:15px;font-weight:600;">Failed to load IR Navigator</div>
       <div style="color:#888;font-size:12px;max-width:560px;">${msg}</div>
       <div style="color:#555;font-size:10px;margin-top:6px;">Page URL: ${window.location.href}</div>
